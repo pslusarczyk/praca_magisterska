@@ -1,0 +1,19 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Skrypty\Teren.cs">
+    <Files>
+      <File FileName="Assets\Skrypty\Poziom.cs" Line="24" Column="35" />
+      <File FileName="Assets\Editor\PoziomEditor.cs" Line="59" Column="19" />
+      <File FileName="Assets\Biblioteki\FortuneVoronoi\Vector.cs" Line="18" Column="23" />
+      <File FileName="Assets\Skrypty\Wezel.cs" Line="21" Column="22" />
+      <File FileName="Assets\Biblioteki\PerlinNoise.cs" Line="14" Column="12" />
+      <File FileName="Assets\Skrypty\Teren.cs" Line="21" Column="18" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="C:\UnityProjekty\Magisterka\Assets\Editor\PoziomEditor.cs" line="140" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
