@@ -1,10 +1,7 @@
 using UnityEditor;
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using System;
 using BenTools.Mathematics;
-using BenTools.Data;
 using PerlinTools;
 
 [CustomEditor(typeof(Poziom))]
@@ -16,7 +13,8 @@ public class PoziomEditor : Editor
 		get {return _poziom ?? (_poziom = (Poziom)target);}
 		set {_poziom = value;}
 	}
-	
+
+    [SerializeField]
 	private System.Random _random;
 	private System.Random Random{
 		get {return _random ?? (_random = new System.Random(Poziom.ziarno));}
@@ -64,7 +62,7 @@ public class PoziomEditor : Editor
 	private void UsunWezly()
 	{
 		var wezlyDoUsuniecia = new List<GameObject>();
-		foreach(Transform d in Poziom.gameObject.transform){
+		foreach(Transform d in Poziom.transform){
 			if(d.gameObject.CompareTag("Wezel"))
 			wezlyDoUsuniecia.Add(d.gameObject);
 		}
@@ -78,17 +76,17 @@ public class PoziomEditor : Editor
 	{		
 		UsunWezly();
 		
-		Poziom._wezly = new GameObject[Poziom._rozmiarX, Poziom._rozmiarZ];
+		Poziom._wezly = new Wezel[Poziom._rozmiarX, Poziom._rozmiarZ];
 		for(int x=0; x<Poziom._rozmiarX; ++x)
 			for(int z=0; z<Poziom._rozmiarZ; ++z)
 				{
 				float rozpietosc = Poziom._rozpietosc;
-				GameObject wezel = (GameObject)Instantiate(Resources.Load("Wezel"), new Vector3(x*rozpietosc, 0f, z*rozpietosc), Quaternion.identity);
-				wezel.transform.parent = Poziom.transform;
-				wezel.GetComponent<Wezel>().pierwotnaPozycja = wezel.transform.position;
-				Poziom._wezly[x,z] = wezel;
+				GameObject wezelObject = (GameObject)Instantiate(Resources.Load("Wezel"), Poziom.transform.position + new Vector3(x*rozpietosc, 0f, z*rozpietosc), Quaternion.identity);
+				wezelObject.transform.parent = Poziom.transform;
+				wezelObject.GetComponent<Wezel>().pierwotnaPozycja = wezelObject.transform.position;
+				Poziom._wezly[x,z] = wezelObject.GetComponent<Wezel>();
 				if(x<=1 || z<=1 || x>=Poziom._rozmiarX-2 || z>=Poziom._rozmiarZ-2)
-					wezel.GetComponent<Wezel>().czySkrajny = true;
+					wezelObject.GetComponent<Wezel>().czySkrajny = true;
 				}
 		Poziom._etap = Etap.ZaburzanieWezlow;
 	}	
@@ -97,8 +95,8 @@ public class PoziomEditor : Editor
 	{
 		ZresetujUstawienieWezlow();
 		float limitPrzesuniecia = Poziom._rozpietosc * .8f;
-		foreach(GameObject w in Poziom._wezly){
-			if(pozostawSkrajne && w.GetComponent<Wezel>().czySkrajny == true)
+		foreach(Wezel w in Poziom._wezly){
+			if(pozostawSkrajne && w.czySkrajny == true)
 				continue;
 			Vector3 transpozycja = new Vector3(
 												limitPrzesuniecia - 2*(float)Random.NextDouble()*limitPrzesuniecia, 
@@ -111,14 +109,15 @@ public class PoziomEditor : Editor
 
 	private void ZresetujUstawienieWezlow()
 	{
-		foreach(GameObject w in Poziom._wezly){
-			w.transform.position = w.GetComponent<Wezel>().pierwotnaPozycja;
+		foreach(Wezel w in Poziom._wezly){
+			w.transform.position = w.pierwotnaPozycja;
 		}
+
 	}
 	
 	private IEnumerable<Vector> WezlyNaWektory(){
-		foreach(GameObject w in Poziom._wezly){
-			yield return new Vector(w.GetComponent<Wezel>(), w.transform.position.x, w.transform.position.z);	
+		foreach(Wezel w in Poziom._wezly){
+			yield return new Vector(w, w.transform.position.x, w.transform.position.z);	
 		}
 	}
 	
@@ -134,6 +133,7 @@ public class PoziomEditor : Editor
 			
 		}
 		Poziom._etap = Etap.TworzenieMapyWysokosci;
+		SceneView.RepaintAll();
 	}
 	
 	private void GenerujMapeWysokosci(){

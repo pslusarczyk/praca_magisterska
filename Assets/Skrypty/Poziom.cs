@@ -5,7 +5,7 @@ using BenTools.Mathematics;
 using System;
 
 [ExecuteInEditMode]
-[System.Serializable]
+[Serializable]
 public class Poziom : MonoBehaviour {
 	
 	public bool _pokazWoronoja = true;
@@ -28,7 +28,7 @@ public class Poziom : MonoBehaviour {
 	[HideInInspector]
 	public Etap _etap = Etap.GenerowanieWezlow;
 	
-	public GameObject[,] _wezly;
+	public Wezel[,] _wezly;
 	
 	public HashSet<VoronoiEdge> _krawedzieWoronoja;
 	
