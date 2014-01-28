@@ -2,8 +2,10 @@
 ## Paweł – Unity
 #################
 
-library/metadata/
+Library/metadata/
 Temp/
+*.dll
+*.dll.mdb
 
 #################
 ## Eclipse
