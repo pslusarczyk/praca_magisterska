@@ -45,7 +45,7 @@ namespace Assets.Editor
 
             if (Poziom._etap >= Etap.ZaburzanieWezlow && GUILayout.Button("Zaburz wezly"))
             {
-                ZaburzWezly();
+                ZaburzWezly(true);
                 Poziom._etap = Etap.TworzenieDiagramuWoronoja;
             }
 
@@ -102,7 +102,7 @@ namespace Assets.Editor
             Poziom._etap = Etap.ZaburzanieWezlow;
         }
 
-        public void ZaburzWezly(bool pozostawSkrajne = true)
+        public void ZaburzWezly(bool pozostawSkrajne)
         {
             ZresetujUstawienieWezlow();
             float limitPrzesuniecia = Poziom._rozpietosc*.8f;

@@ -1,14 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Skrypty\Poziom.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Editor\TerenEditor.cs">
     <Files>
-      <File FileName="Assets\Skrypty\Poziom.cs" Line="31" Column="25" />
-      <File FileName="Assets\Editor\PoziomEditor.cs" Line="116" Column="4" />
+      <File FileName="Assets\Editor\PoziomEditor.cs" Line="22" Column="10" />
+      <File FileName="Assets\Skrypty\Poziom.cs" Line="1" Column="1" />
+      <File FileName="Assets\Editor\TerenEditor.cs" Line="39" Column="34" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\UnityProjekty\magisterka_git\praca_magisterska\Assets\Editor\PoziomEditor.cs" line="114" />
+      <Breakpoint file="C:\Users\pawel.slusarczyk\Documents\GitHub\praca_magisterska\Assets\Editor\TerenEditor.cs" line="39" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
