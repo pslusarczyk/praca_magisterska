@@ -1,51 +1,54 @@
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using System;
-using System.Linq;
+using UnityEngine;
 
-public class Para<T1, T2>{
-	public T1 pierwszy;
-	public T2 drugi;
-	
-	public Para(T1 t1, T2 t2){
-		pierwszy = t1;
-		drugi = t2;
-	}
-}
+namespace Assets.Skrypty
+{
+    public class Para<T1, T2>
+    {
+        public T2 drugi;
+        public T1 pierwszy;
 
-public class Wezel : MonoBehaviour {
-	
-	public bool czySkrajny = false;
-	public bool _pokazSciany = false;
-	public Vector3 pierwotnaPozycja;
-	public float _wysokosc;
-	
-	public IList<Para<Vector3, Vector3> > _scianyKomorki = new List<Para<Vector3,Vector3> >();
-	
-	
-	public void OnDrawGizmos(){
-		Gizmos.color = Color.magenta;
-		if(_pokazSciany)
-			foreach(Para<Vector3, Vector3> s in _scianyKomorki)
-			{
-				Gizmos.DrawLine(s.pierwszy, s.drugi);
-				Gizmos.color = Gizmos.color * .75f;
-			}
-	}
-	
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-	
-	public void GenerujKsztaltKomorki(){
-		/*
+        public Para(T1 t1, T2 t2)
+        {
+            pierwszy = t1;
+            drugi = t2;
+        }
+    }
+
+    public class Wezel : MonoBehaviour
+    {
+        public bool _pokazSciany = false;
+
+        public IList<Para<Vector3, Vector3>> _scianyKomorki = new List<Para<Vector3, Vector3>>();
+        public float _wysokosc;
+        public bool czySkrajny = false;
+        public Vector3 pierwotnaPozycja;
+
+
+        public void OnDrawGizmos()
+        {
+            Gizmos.color = Color.magenta;
+            if (_pokazSciany)
+                foreach (var s in _scianyKomorki)
+                {
+                    Gizmos.DrawLine(s.pierwszy, s.drugi);
+                    Gizmos.color = Gizmos.color*.75f;
+                }
+        }
+
+        // Use this for initialization
+        private void Start()
+        {
+        }
+
+        // Update is called once per frame
+        private void Update()
+        {
+        }
+
+        public void GenerujKsztaltKomorki()
+        {
+            /*
 		MeshFilter meshFilter = GetComponent<MeshFilter>();
 		if (meshFilter==null){
 		    Debug.LogError("MeshFilter not found!");
@@ -82,5 +85,6 @@ public class Wezel : MonoBehaviour {
 		mesh.RecalculateBounds();
 		mesh.Optimize();	
 		*/
-	}
+        }
+    }
 }
