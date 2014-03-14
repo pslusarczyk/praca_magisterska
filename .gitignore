@@ -1,9 +1,9 @@
-#################
+﻿#################
 ## Paweł – Unity
 #################
 
-Library/
-Temp/
+Produkcja/Library/
+Produkcja/Temp/
 *.dll
 *.dll.mdb
 
