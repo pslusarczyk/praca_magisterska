@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using Assets.Biblioteki.PerlinNoise;
 using Assets.Skrypty;
 using BenTools.Mathematics;
-using PerlinTools;
 using UnityEditor;
 using UnityEngine;
 using Random = System.Random;
@@ -153,7 +153,7 @@ namespace Assets.Editor
         private void GenerujMapeWysokosci()
         {
             float skalaWysokosci = 4f;
-            float[][] mapa = PerlinNoise.GeneratePerlinNoise(Poziom._rozmiarX, Poziom._rozmiarZ, 2);
+            float[][] mapa = PerlinTools.GeneratePerlinNoise(Poziom._rozmiarX, Poziom._rozmiarZ, 2);
             for (int x = 0; x < Poziom._wezly.GetLength(0); ++x)
                 for (int z = 0; z < Poziom._wezly.GetLength(1); ++z)
                 {

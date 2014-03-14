@@ -1,24 +1,24 @@
-using System.Collections.Generic;
+using System;
+using Assets.Biblioteki.PerlinNoise;
 using Assets.Skrypty;
-using BenTools.Mathematics;
-using PerlinTools;
 using UnityEditor;
 using UnityEngine;
 using Random = System.Random;
 
 namespace Assets.Editor
 {
-    [CustomEditor(typeof (Teren))]
+    [CustomEditor(typeof(Teren))]
     public class TerenEditor : UnityEditor.Editor
     {
-        private Teren _Teren;
+        private Teren _terrain;
 
-        [SerializeField] private Random _random;
+        [SerializeField]
+        private Random _random;
 
         private Teren Teren
         {
-            get { return _Teren ?? (_Teren = (Teren) target); }
-            set { _Teren = value; }
+            get { return _terrain ?? (_terrain = (Teren)target); }
+            set { _terrain = value; }
         }
 
         private Random Random
@@ -33,35 +33,48 @@ namespace Assets.Editor
 
             if (GUILayout.Button("Generuj"))
             {
-                var terrainData = new TerrainData {heightmapResolution = 64};
+                var terrainData = new TerrainData { heightmapResolution = 65, size = new Vector3(50f, 20f, 50f) };
+                
+                int xSize = terrainData.heightmapHeight;
+                int zSize = terrainData.heightmapWidth;
 
-                const float noiseScale = 1f;
-                var heights = terrainData.GetHeights(0, 0, terrainData.heightmapWidth, 
-                                                    terrainData.heightmapHeight);
+                const float noiseScale = 1.5f;
 
-                float[][] noise = PerlinNoise.GeneratePerlinNoise(
-                        terrainData.heightmapWidth, terrainData.heightmapHeight, 8);
-                for (var y = 0; y < terrainData.heightmapHeight; y++)
+                var heights = terrainData.GetHeights(0, 0, xSize, zSize);
+
+                float[][] noise = PerlinTools.GeneratePerlinNoise(xSize, zSize, 8);
+
+
+                for (var x = 0; x < terrainData.heightmapHeight; x++)
                 {
-                    for (var x = 0; x < terrainData.heightmapWidth; x++)
+                    for (var z = 0; z < terrainData.heightmapWidth; z++)
                     {
-                        var a0 = heights[x, y];
-
-                        a0 += noise[x][y] * noiseScale;
-
-                        heights[x, y] = a0;
-
+                        heights[x, z] = noise[x][z] * noiseScale;
                     }
                 }
                 terrainData.SetHeights(0, 0, heights);
 
+
+                var tekstura = Resources.Load<Texture2D>(
+                                    "prototype_textures/Textures/proto_blue");
+                if (tekstura != null)
+                {
+                    var sp = new SplatPrototype[1];
+                    sp[0] = new SplatPrototype{texture = tekstura};
+                    terrainData.splatPrototypes = sp;
+                    var alphamaps = new float[xSize, zSize, sp.Length];
+                    for(int ax = 0; ax < xSize; ++ax)
+                        for(int az = 0; az < zSize; ++az)
+                            for (int tex = 0; tex < sp.Length; ++tex)
+                                alphamaps[ax, az, tex] = Math.Abs(Mathf.Sin(ax*1.2f + az*1.3f));
+                    terrainData.SetAlphamaps(0, 0, alphamaps);
+                }
+
                 GameObject terrain = Terrain.CreateTerrainGameObject(terrainData);
-                terrain.renderer.material.mainTexture = Resources.Load<Texture2D>(
-                    "prototype_textures/Textures/proto_blue.tga");
             }
 
             /*
-            _Teren.terr = Terrain.activeTerrain;
+            _Terrain.terr = Terrain.activeTerrain;
             hmWidth = terr.terrainData.heightmapWidth;
             hmHeight = terr.terrainData.heightmapHeight;
             Terrain.activeTerrain.heightmapMaximumLOD = 0;
@@ -76,7 +89,7 @@ namespace Assets.Editor
             //for (int j=0; j<hmHeight; j++){
             //heights[i,j] = (Mathf.Sin(i/10f)/100f + Mathf.Cos((i+j)/10f) / 100f) + 0.5f;
 
-            float[][] mapa = PerlinNoise.GeneratePerlinNoise(hmWidth, hmHeight, 4);
+            float[][] mapa = PerlinTools.GeneratePerlinNoise(hmWidth, hmHeight, 4);
             for (int x = 0; x < hmWidth; ++x)
                 for (int z = 0; z < hmHeight; ++z)
                 {
@@ -91,7 +104,7 @@ namespace Assets.Editor
         }
 
 
-        
+
 
     }
 }

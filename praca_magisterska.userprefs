@@ -4,12 +4,13 @@
     <Files>
       <File FileName="Assets\Editor\PoziomEditor.cs" Line="1" Column="1" />
       <File FileName="Assets\Skrypty\Poziom.cs" Line="1" Column="1" />
-      <File FileName="Assets\Editor\TerenEditor.cs" Line="53" Column="22" />
+      <File FileName="Assets\Editor\TerenEditor.cs" Line="65" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\UnityProjekty\magisterka_git\praca_magisterska\Assets\Editor\PoziomEditor.cs" line="114" />
+      <Breakpoint file="C:\Users\pawel.slusarczyk\Documents\GitHub\praca_magisterska\Assets\Editor\TerenEditor.cs" line="58" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

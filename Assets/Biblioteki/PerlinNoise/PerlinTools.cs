@@ -4,14 +4,12 @@
  **/
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Text;
 
-namespace PerlinTools
+namespace Assets.Biblioteki.PerlinNoise
 {
-    public class PerlinNoise
+    public class PerlinTools
     {
         #region Feilds
         static Random random = new Random();
@@ -311,18 +309,18 @@ namespace PerlinTools
 	        return image;
         }
         
-        public static void DemoGradientMap()
+        public static void DemoGradientMap(int i)
         {
             int width = 256;
             int height = 256;
             int octaveCount = 8;
 
-            Color gradientStart = Color.FromArgb(255, 0, 0);
-            Color gradientEnd = Color.FromArgb(255, 0, 255);
+            Color gradientStart = Color.FromArgb(0, 0, 0);
+            Color gradientEnd = Color.FromArgb(255, 255, 255);
 
             float[][] perlinNoise = GeneratePerlinNoise(width, height, octaveCount);
             Color[][] perlinImage = MapGradient(gradientStart, gradientEnd, perlinNoise);
-            SaveImage(perlinImage, "perlin_noise.png");
+            SaveImage(perlinImage, "perlin_noise_" + i + ".png");
         }
 
         public static float[][] AdjustLevels(float[][] image, float low, float high)
