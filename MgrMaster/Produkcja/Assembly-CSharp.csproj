@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{83A20838-EB77-D550-5835-96943625AE8A}</ProjectGuid>
+	<ProjectGuid>{FB0809E4-77CE-0461-65D3-A78993EF56B3}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp-Editor</AssemblyName>
+	<AssemblyName>Assembly-CSharp</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,34 +46,22 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Editor\PoziomEditor.cs" />
-     <Compile Include="Assets\Editor\TerenEditor.cs" />
+     <Compile Include="Assets\Biblioteki\FortuneVoronoi\AssemblyInfo.cs" />
+     <Compile Include="Assets\Biblioteki\FortuneVoronoi\FortuneVoronoi.cs" />
+     <Compile Include="Assets\Biblioteki\FortuneVoronoi\HashSet.cs" />
+     <Compile Include="Assets\Biblioteki\FortuneVoronoi\PriorityQueue.cs" />
+     <Compile Include="Assets\Biblioteki\FortuneVoronoi\ToolBox.cs" />
+     <Compile Include="Assets\Biblioteki\FortuneVoronoi\Vector.cs" />
+     <Compile Include="Assets\Biblioteki\PerlinNoise\PerlinTools.cs" />
+     <Compile Include="Assets\Skrypty\Narzedzia\Etap.cs" />
+     <Compile Include="Assets\Skrypty\Poziom.cs" />
+     <Compile Include="Assets\Skrypty\Teren.cs" />
+     <Compile Include="Assets\Skrypty\Terenoedytor.cs" />
+     <Compile Include="Assets\Skrypty\Wezel.cs" />
      <None Include="Assets\Resources\prototype_textures\readme.txt" />
  <Reference Include="System.Drawing">
  <HintPath>Assets\Biblioteki\FortuneVoronoi\System.Drawing.dll</HintPath>
  </Reference>
- <Reference Include="UnityEditor.Graphs">
- <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.iOS.Extensions">
- <HintPath>C:\Program Files (x86)\Unity\Editor\Data\PlaybackEngines\iPhonePlayer\EditorExtensions\UnityEditor.iOS.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.WP8.Extensions">
- <HintPath>C:\Program Files (x86)\Unity\Editor\Data\PlaybackEngines\WP8Support\EditorExtensions\UnityEditor.WP8.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.Metro.Extensions">
- <HintPath>C:\Program Files (x86)\Unity\Editor\Data\PlaybackEngines\MetroSupport\EditorExtensions\UnityEditor.Metro.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.BB10.Extensions">
- <HintPath>C:\Program Files (x86)\Unity\Editor\Data\PlaybackEngines\BB10Player\EditorExtensions\UnityEditor.BB10.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.Android.Extensions">
- <HintPath>C:\Program Files (x86)\Unity\Editor\Data\PlaybackEngines\AndroidPlayer\EditorExtensions\UnityEditor.Android.Extensions.dll</HintPath>
- </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-vs.csproj">
-      <Project>{AB75D8E7-D5B6-B589-018C-46F783382318}</Project>      <Name>Assembly-CSharp-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
