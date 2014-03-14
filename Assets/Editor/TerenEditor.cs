@@ -33,26 +33,31 @@ namespace Assets.Editor
 
             if (GUILayout.Button("Generuj"))
             {
-                var terrainData = new TerrainData();
-               
-                const float noiseScale = 100f;
-                var maps = terrainData.GetHeights(0, 0, terrainData.heightmapWidth, 
+                var terrainData = new TerrainData {heightmapResolution = 64};
+
+                const float noiseScale = 1f;
+                var heights = terrainData.GetHeights(0, 0, terrainData.heightmapWidth, 
                                                     terrainData.heightmapHeight);
+
+                float[][] noise = PerlinNoise.GeneratePerlinNoise(
+                        terrainData.heightmapWidth, terrainData.heightmapHeight, 8);
                 for (var y = 0; y < terrainData.heightmapHeight; y++)
                 {
                     for (var x = 0; x < terrainData.heightmapWidth; x++)
                     {
-                        var a0 = maps[x, y];
+                        var a0 = heights[x, y];
 
-                        a0 += (float)Random.NextDouble() * noiseScale;
+                        a0 += noise[x][y] * noiseScale;
 
-                        maps[x, y] = a0;
+                        heights[x, y] = a0;
+
                     }
                 }
-
-                terrainData.SetHeights(0, 0, maps);
+                terrainData.SetHeights(0, 0, heights);
 
                 GameObject terrain = Terrain.CreateTerrainGameObject(terrainData);
+                terrain.renderer.material.mainTexture = Resources.Load<Texture2D>(
+                    "prototype_textures/Textures/proto_blue.tga");
             }
 
             /*
