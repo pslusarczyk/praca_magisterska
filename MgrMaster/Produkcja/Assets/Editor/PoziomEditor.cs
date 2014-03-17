@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using Assets.Biblioteki.FortuneVoronoi;
-using Assets.Biblioteki.PerlinNoise;
 using Assets.Skrypty;
-using BenTools.Mathematics;
+using ZewnetrzneBiblioteki.FortuneVoronoi;
 using UnityEditor;
 using UnityEngine;
+using ZewnetrzneBiblioteki.PerlinNoise;
 using Random = System.Random;
 
 namespace Assets.Editor

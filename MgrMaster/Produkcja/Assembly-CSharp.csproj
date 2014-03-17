@@ -35,9 +35,6 @@
     <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Should">
-      <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.XML" />
     <Reference Include="System.Core" />
@@ -50,22 +47,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Biblioteki\FortuneVoronoi\AssemblyInfo.cs" />
-    <Compile Include="Assets\Biblioteki\FortuneVoronoi\FortuneVoronoi.cs" />
-    <Compile Include="Assets\Biblioteki\FortuneVoronoi\HashSet.cs" />
-    <Compile Include="Assets\Biblioteki\FortuneVoronoi\PriorityQueue.cs" />
-    <Compile Include="Assets\Biblioteki\FortuneVoronoi\ToolBox.cs" />
-    <Compile Include="Assets\Biblioteki\FortuneVoronoi\Vector.cs" />
-    <Compile Include="Assets\Biblioteki\PerlinNoise\PerlinTools.cs" />
     <Compile Include="Assets\Skrypty\Narzedzia\Etap.cs" />
     <Compile Include="Assets\Skrypty\Poziom.cs" />
     <Compile Include="Assets\Skrypty\Teren.cs" />
     <Compile Include="Assets\Skrypty\Terenoedytor.cs" />
     <Compile Include="Assets\Skrypty\Wezel.cs" />
     <None Include="Assets\Resources\prototype_textures\readme.txt" />
-    <Reference Include="System.Drawing">
-      <HintPath>Assets\Biblioteki\FortuneVoronoi\System.Drawing.dll</HintPath>
-    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\ZewnetrzneBiblioteki.csproj">
+      <Project>{3ede1b0c-224a-4090-bba1-93e4455b6a28}</Project>
+      <Name>ZewnetrzneBiblioteki</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

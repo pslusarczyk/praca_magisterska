@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testy", "Testy\Testy.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogikaGeneracji", "LogikaGeneracji\LogikaGeneracji.csproj", "{C1AB377F-749B-411C-A09D-691490F67B48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZewnetrzneBiblioteki", "ClassLibrary1\ZewnetrzneBiblioteki.csproj", "{3EDE1B0C-224A-4090-BBA1-93E4455B6A28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{C1AB377F-749B-411C-A09D-691490F67B48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1AB377F-749B-411C-A09D-691490F67B48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1AB377F-749B-411C-A09D-691490F67B48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EDE1B0C-224A-4090-BBA1-93E4455B6A28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EDE1B0C-224A-4090-BBA1-93E4455B6A28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EDE1B0C-224A-4090-BBA1-93E4455B6A28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EDE1B0C-224A-4090-BBA1-93E4455B6A28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

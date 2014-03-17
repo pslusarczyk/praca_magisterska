@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Functions for generating Perlin noise. To run the demos, put "grass.png" 
  * and "sand.png" in the executable folder.
  **/
@@ -7,7 +7,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace Assets.Biblioteki.PerlinNoise
+namespace ZewnetrzneBiblioteki.PerlinNoise
 {
     public class PerlinTools
     {

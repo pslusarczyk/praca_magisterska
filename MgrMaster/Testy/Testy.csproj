@@ -49,6 +49,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\ZewnetrzneBiblioteki.csproj">
+      <Project>{3EDE1B0C-224A-4090-BBA1-93E4455B6A28}</Project>
+      <Name>ZewnetrzneBiblioteki</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LogikaGeneracji\LogikaGeneracji.csproj">
       <Project>{C1AB377F-749B-411C-A09D-691490F67B48}</Project>
       <Name>LogikaGeneracji</Name>

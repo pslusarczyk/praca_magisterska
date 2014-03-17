@@ -49,9 +49,6 @@
      <Compile Include="Assets\Editor\PoziomEditor.cs" />
      <Compile Include="Assets\Editor\TerenEditor.cs" />
      <None Include="Assets\Resources\prototype_textures\readme.txt" />
- <Reference Include="System.Drawing">
- <HintPath>Assets\Biblioteki\FortuneVoronoi\System.Drawing.dll</HintPath>
- </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
  </Reference>

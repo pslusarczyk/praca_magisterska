@@ -1,8 +1,8 @@
 using System;
-using Assets.Biblioteki.PerlinNoise;
 using Assets.Skrypty;
 using UnityEditor;
 using UnityEngine;
+using ZewnetrzneBiblioteki.PerlinNoise;
 using Random = System.Random;
 
 namespace Assets.Editor

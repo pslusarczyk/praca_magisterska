@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
-using System.IO;
-using System.Text;
 using System.Drawing;
 
-namespace BenTools.Mathematics
+namespace ZewnetrzneBiblioteki.FortuneVoronoi
 {
 	public abstract class MathTools
 	{

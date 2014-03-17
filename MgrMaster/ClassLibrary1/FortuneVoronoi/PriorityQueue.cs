@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace BenTools.Data
+namespace ZewnetrzneBiblioteki.FortuneVoronoi
 {
 	public interface IPriorityQueue : ICollection, ICloneable, IList
 	{

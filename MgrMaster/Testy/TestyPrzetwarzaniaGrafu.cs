@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Biblioteki.FortuneVoronoi;
-using BenTools.Mathematics;
 using LogikaGeneracji;
 using NUnit.Framework;
 using Should;
+using ZewnetrzneBiblioteki.FortuneVoronoi;
 
 namespace Testy
 {
@@ -54,7 +53,7 @@ namespace Testy
         {
             var siatka = PrzykladowaSiatka();
             var krawedzieWoronoja = Fortune.ComputeVoronoiGraph(siatka).Edges;
-            var komorki = PrzetwarzaczGrafu.UtworzKomorki();
+            var komorki = PrzetwarzaczGrafu.UtworzKomorki(krawedzieWoronoja);
         }
 
 

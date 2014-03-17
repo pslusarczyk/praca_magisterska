@@ -1,28 +1,28 @@
 using System;
 using System.Collections.Generic;
 
-namespace BenTools.Data
+namespace ZewnetrzneBiblioteki.FortuneVoronoi
 {
 	/// <summary>
 	/// Set für effizienten Zugriff auf Objekte. Objete werden als Key abgelegt, value ist nur ein dummy-Objekt.
 	/// </summary>
 	[Serializable]
-	public class HashSet<T> : IEnumerable<T>, ICollection<T>
+	public class FortuneHashSet<T> : IEnumerable<T>, ICollection<T>
 	{
 		Dictionary<T, object> Core;
 		static readonly object Dummy = new object();
 
-		public HashSet(IEnumerable<T> source)
+		public FortuneHashSet(IEnumerable<T> source)
 			: this()
 		{
 			AddRange(source);
 		}
 
-		public HashSet(IEqualityComparer<T> eqComp)
+		public FortuneHashSet(IEqualityComparer<T> eqComp)
 		{
 			Core = new Dictionary<T, object>(eqComp);
 		}
-		public HashSet()
+		public FortuneHashSet()
 		{
 			Core = new Dictionary<T, object>();
 		}

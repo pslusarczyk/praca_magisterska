@@ -1,8 +1,7 @@
 using System;
-using Assets.Biblioteki.FortuneVoronoi;
-using BenTools.Data;
-using BenTools.Mathematics;
+using System.Collections.Generic;
 using UnityEngine;
+using ZewnetrzneBiblioteki.FortuneVoronoi;
 
 namespace Assets.Skrypty
 {

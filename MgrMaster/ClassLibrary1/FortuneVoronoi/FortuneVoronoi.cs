@@ -1,14 +1,12 @@
 using System;
 using System.Collections;
-using BenTools.Data;
-using BenTools.Mathematics;
 
-namespace Assets.Biblioteki.FortuneVoronoi
+namespace ZewnetrzneBiblioteki.FortuneVoronoi
 {
 	public class VoronoiGraph
 	{
-		public HashSet<Vector> Vertizes = new HashSet<Vector>();
-		public HashSet<VoronoiEdge> Edges = new HashSet<VoronoiEdge>();
+		public System.Collections.Generic.HashSet<Vector> Vertizes = new System.Collections.Generic.HashSet<Vector>();
+		public System.Collections.Generic.HashSet<VoronoiEdge> Edges = new System.Collections.Generic.HashSet<VoronoiEdge>();
 	}
 	public class VoronoiEdge
 	{

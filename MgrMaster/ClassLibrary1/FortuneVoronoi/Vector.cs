@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
-using BenTools.Data;
 
-namespace BenTools.Mathematics
+namespace ZewnetrzneBiblioteki.FortuneVoronoi
 {
     /// <summary>
     /// A vector class, implementing all interesting features of vectors
