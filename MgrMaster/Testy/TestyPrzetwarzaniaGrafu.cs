@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Biblioteki.FortuneVoronoi;
 using BenTools.Mathematics;
+using LogikaGeneracji;
 using NUnit.Framework;
 using Should;
 
@@ -53,7 +54,7 @@ namespace Testy
         {
             var siatka = PrzykladowaSiatka();
             var krawedzieWoronoja = Fortune.ComputeVoronoiGraph(siatka).Edges;
-            //var komorki = PrzetwarzaczGrafu.UtworzKomorki();
+            var komorki = PrzetwarzaczGrafu.UtworzKomorki();
         }
 
 
@@ -63,9 +64,5 @@ namespace Testy
                 for(float z=0; z<rozmiar; ++z)
                     yield return new Vector(x, z);
         }
-    }
-
-    public class PrzetwarzaczGrafu
-    {
     }
 }
