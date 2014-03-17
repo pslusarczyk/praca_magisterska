@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using BenTools.Data;
+using BenTools.Mathematics;
 
-namespace BenTools.Mathematics
+namespace Assets.Biblioteki.FortuneVoronoi
 {
 	public class VoronoiGraph
 	{

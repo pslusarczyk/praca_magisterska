@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Assets.Biblioteki.FortuneVoronoi;
 using Assets.Biblioteki.PerlinNoise;
 using Assets.Skrypty;
 using BenTools.Mathematics;
@@ -131,13 +132,14 @@ namespace Assets.Editor
         {
             foreach (Wezel w in Poziom._wezly)
             {
-                yield return new Vector(w, w.transform.position.x, w.transform.position.z);
+                yield return new Vector(/*w, */w.transform.position.x, w.transform.position.z);
             }
         }
 
         private void StworzDiagramWoronoja()
         {
-            Poziom._krawedzieWoronoja = Fortune.ComputeVoronoiGraph(WezlyNaWektory()).Edges;
+          
+            /*Poziom._krawedzieWoronoja = Fortune.ComputeVoronoiGraph(WezlyNaWektory()).Edges;
             foreach (VoronoiEdge k in Poziom._krawedzieWoronoja)
             {
                 Wezel lewy = k.LeftData._wezel;
@@ -147,7 +149,7 @@ namespace Assets.Editor
                 prawy._scianyKomorki.Add(new Para<Vector3, Vector3>(k.VVertexA.ToVector3(), k.VVertexB.ToVector3()));
             }
             Poziom._etap = Etap.TworzenieMapyWysokosci;
-            SceneView.RepaintAll();
+            SceneView.RepaintAll();*/
         }
 
         private void GenerujMapeWysokosci()
