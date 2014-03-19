@@ -48,6 +48,7 @@
     <Compile Include="NarzedziaPrzetwarzaniaFortunea.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PrzetwarzaczFortunea.cs" />
+    <Compile Include="PrzetwarzaczMapy.cs" />
     <Compile Include="Rog.cs" />
   </ItemGroup>
   <ItemGroup>
