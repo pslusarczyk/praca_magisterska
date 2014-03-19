@@ -92,19 +92,18 @@ namespace Testy
             saPowtorzenia.ShouldBeTrue();
         }
 
-        [Ignore]
         [Test]
-        public void KomorkiMajaPoCoNajmniejTrzyRogi()
+        public void KomorkiMajaPoCoNajmniejDwaRogi()
+            // w praktyce na nieregularnej siatce powinny co najmniej po 3 rogi
         {
             _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
             foreach (IKomorka komorka in _przetwarzacz.Komorki)
             {
-                komorka.Rogi.Count().ShouldBeInRange(3, Int32.MaxValue);
+                komorka.Rogi.Count().ShouldBeInRange(2, Int32.MaxValue);
             }
                         
         }
 
-        [Ignore]
         [Test]
         public void RogiŁącząPoCoNajmniejDwieKomórki()
         // (w praktyce przy nieregularnej siatce róg o skończonej pozycji łączy zawsze 3 komórki)
@@ -114,6 +113,25 @@ namespace Testy
                 rog.Komorki.Count().ShouldBeInRange(2, Int32.MaxValue);
         }
 
+        [Test]
+        public void KomórkiMająPoCoNajmniejDwiePrzyległe()
+        {
+            _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
+            foreach (var komorka in _przetwarzacz.Komorki)
+            {
+                komorka.PrzylegleKomorki.Count().ShouldBeInRange(2, Int32.MaxValue);
+            }
+        }
+
+        [Test]
+        public void RogiMająPoCoNajmniejDwóchBliskich()
+        {
+            _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
+            foreach (var rog in _przetwarzacz.Rogi)
+            {
+                rog.BliskieRogi.Count().ShouldBeInRange(2, Int32.MaxValue);
+            }
+        }
 
         private IEnumerable PrzykladowaSiatka(int rozmiar = 3)
         {
