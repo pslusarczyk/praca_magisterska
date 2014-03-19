@@ -4,13 +4,22 @@ using ZewnetrzneBiblioteki.FortuneVoronoi;
 
 namespace LogikaGeneracji
 {
-   public class PrzetwarzaczGrafu
+   public class PrzetwarzaczFortunea
    {
       private Dictionary<Vector, IKomorka> _komorkiZVectorami;
       private Dictionary<Vector, IRog> _rogiZVectorami;
       public List<Dwukrawedz> Dwukrawedzie { get; private set; }
       public HashSet<IKomorka> Komorki { get; private set; }
       public HashSet<IRog> Rogi { get; private set; }
+      public List<IPunkt> Punkty
+      {
+         get
+         {
+            return new List<IPunkt>(
+               Rogi.Select(r => r as IPunkt))
+               .Union(Komorki.Select(k => k as IPunkt)).ToList();
+         } 
+      }
 
 
       public List<Dwukrawedz> Przetwarzaj(HashSet<VoronoiEdge> krawedzieWoronoja)

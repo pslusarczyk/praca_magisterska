@@ -19,14 +19,17 @@ namespace LogikaGeneracji
         {
             Pozycja = NarzedziaPrzetwarzaniaFortunea.VectorNaVector3(wektorFortunea);
             Rogi = new List<IRog>();
-            Sasiedzi = new List<IPunkt>();
             PrzylegleKomorki = new List<IKomorka>();
+        }
+
+        public IEnumerable<IPunkt> Sasiedzi
+        {
+           get { return Rogi.Select(k => k as IPunkt).Union(PrzylegleKomorki.Select(r => r as IPunkt)); }
         }
 
         public Vector3 Pozycja { get; set; }
 
         public IList<IKomorka> PrzylegleKomorki { get; set; }
-        public IList<IPunkt> Sasiedzi { get; set; }
         public IPunkt NajnizszySasiad { get; set; }
         public IList<IRog> Rogi { get; set; }
         public void DodajRogi(IRog pierwszy, IRog drugi)

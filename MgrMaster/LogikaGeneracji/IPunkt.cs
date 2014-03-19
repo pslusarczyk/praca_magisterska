@@ -5,7 +5,7 @@ namespace LogikaGeneracji
 {
     public interface IPunkt
     {
-        IList<IPunkt> Sasiedzi { get; set; }
+        IEnumerable<IPunkt> Sasiedzi { get;}
         IPunkt NajnizszySasiad { get; set; }
         Vector3 Pozycja { get; set; }
     }
