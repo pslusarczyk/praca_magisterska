@@ -3,13 +3,24 @@ using System.Linq;
 
 namespace LogikaGeneracji
 {
-   public class MapaProsta
+   public interface IZbiorPunktow
    {
+      IEnumerable<IPunkt> Punkty { get; }
+   }
+
+   public class MapaProsta : IZbiorPunktow
+   {
+      public bool ZakonczonoTworzenie { get; set; }
       public List<Dwukrawedz> Dwukrawedzie { get; set; }
       public HashSet<IKomorka> Komorki { get; set; }
       public HashSet<IRog> Rogi { get; set; }
 
-      public List<IPunkt> Punkty
+      public MapaProsta()
+      {
+         ZakonczonoTworzenie = false;
+      }
+
+      public IEnumerable<IPunkt> Punkty
       {
          get
          {

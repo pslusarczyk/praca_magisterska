@@ -23,6 +23,7 @@ namespace LogikaGeneracji
          MapaProsta.Dwukrawedzie = krawedzieWoronoja.Select(woro => UtworzDwukrawedz(woro)).ToList();
          UstawKomorkomPrzylegle();
          UstawRogomBliskich();
+         MapaProsta.ZakonczonoTworzenie = true;
          return MapaProsta.Dwukrawedzie;
       }
 

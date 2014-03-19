@@ -24,6 +24,7 @@ namespace LogikaGeneracji
       public IEnumerable<IPunkt> Sasiedzi
       {
          get { return Rogi.Select(k => k as IPunkt).Union(PrzylegleKomorki.Select(r => r as IPunkt)); }
+         set { throw new System.NotImplementedException("Ta w³aœciwoœæ w danej implementacji jest wyliczana"); }
       }
 
       public Vector3 Pozycja { get; set; }
