@@ -8,18 +8,11 @@ namespace LogikaGeneracji
    {
       private Dictionary<Vector, IKomorka> _komorkiZVectorami;
       private Dictionary<Vector, IRog> _rogiZVectorami;
-      public List<Dwukrawedz> Dwukrawedzie { get; private set; }
-      public HashSet<IKomorka> Komorki { get; private set; }
-      public HashSet<IRog> Rogi { get; private set; }
+      private readonly MapaProsta _mapaProsta = new MapaProsta();
 
-      public List<IPunkt> Punkty
+      public MapaProsta MapaProsta
       {
-         get
-         {
-            return new List<IPunkt>(
-               Rogi.Select(r => r as IPunkt))
-               .Union(Komorki.Select(k => k as IPunkt)).ToList();
-         }
+         get { return _mapaProsta; }
       }
 
 
@@ -27,10 +20,10 @@ namespace LogikaGeneracji
       {
          _komorkiZVectorami = new Dictionary<Vector, IKomorka>();
          _rogiZVectorami = new Dictionary<Vector, IRog>();
-         Dwukrawedzie = krawedzieWoronoja.Select(woro => UtworzDwukrawedz(woro)).ToList();
+         MapaProsta.Dwukrawedzie = krawedzieWoronoja.Select(woro => UtworzDwukrawedz(woro)).ToList();
          UstawKomorkomPrzylegle();
          UstawRogomBliskich();
-         return Dwukrawedzie;
+         return MapaProsta.Dwukrawedzie;
       }
 
       private Dwukrawedz UtworzDwukrawedz(VoronoiEdge woro)
@@ -40,8 +33,8 @@ namespace LogikaGeneracji
          UstawSkladoweDwukrawedzi(woro, dwukrawedz);
          PolaczKomorkiIRogiZDwukrawedzi(dwukrawedz);
 
-         Komorki = new HashSet<IKomorka>(_komorkiZVectorami.Values);
-         Rogi = new HashSet<IRog>(_rogiZVectorami.Values);
+         MapaProsta.Komorki = new HashSet<IKomorka>(_komorkiZVectorami.Values);
+         MapaProsta.Rogi = new HashSet<IRog>(_rogiZVectorami.Values);
 
          return dwukrawedz;
       }
@@ -75,7 +68,7 @@ namespace LogikaGeneracji
 
       private void UstawKomorkomPrzylegle()
       {
-         foreach (Dwukrawedz dwukrawedz in Dwukrawedzie)
+         foreach (Dwukrawedz dwukrawedz in MapaProsta.Dwukrawedzie)
          {
             if (!dwukrawedz.Lewa.PrzylegleKomorki.Contains(dwukrawedz.Prawa))
                dwukrawedz.Lewa.PrzylegleKomorki.Add(dwukrawedz.Prawa);
@@ -86,7 +79,7 @@ namespace LogikaGeneracji
 
       private void UstawRogomBliskich()
       {
-         foreach (Dwukrawedz dwukrawedz in Dwukrawedzie)
+         foreach (Dwukrawedz dwukrawedz in MapaProsta.Dwukrawedzie)
          {
             if (!dwukrawedz.Pierwszy.BliskieRogi.Contains(dwukrawedz.Drugi))
                dwukrawedz.Pierwszy.BliskieRogi.Add(dwukrawedz.Drugi);

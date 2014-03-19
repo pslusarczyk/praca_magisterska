@@ -48,7 +48,7 @@ namespace Testy
       public void KazdyPunktMaPoCoNajmniejTrzechSasiadow()
       {
          _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
-         foreach (IPunkt punkt in _przetwarzacz.Punkty)
+         foreach (IPunkt punkt in _przetwarzacz.MapaProsta.Punkty)
          {
             punkt.Sasiedzi.Count().ShouldBeInRange(3, Int32.MaxValue);
          }
@@ -58,11 +58,11 @@ namespace Testy
       public void KazdyPunktMaTyluSasiadowIleMaSasiednichKomorekIRogow()
       {
          _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
-         foreach (IKomorka komorka in _przetwarzacz.Komorki)
+         foreach (IKomorka komorka in _przetwarzacz.MapaProsta.Komorki)
          {
             komorka.Sasiedzi.Count().ShouldEqual(komorka.PrzylegleKomorki.Count + komorka.Rogi.Count);
          }
-         foreach (IRog rog in _przetwarzacz.Rogi)
+         foreach (IRog rog in _przetwarzacz.MapaProsta.Rogi)
          {
             rog.Sasiedzi.Count().ShouldEqual(rog.BliskieRogi.Count + rog.Komorki.Count);
          }
@@ -73,7 +73,7 @@ namespace Testy
          // w praktyce na nieregularnej siatce powinny co najmniej po 3 rogi
       {
          _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
-         foreach (IKomorka komorka in _przetwarzacz.Komorki)
+         foreach (IKomorka komorka in _przetwarzacz.MapaProsta.Komorki)
          {
             komorka.Rogi.Count().ShouldBeInRange(2, Int32.MaxValue);
          }
@@ -83,7 +83,7 @@ namespace Testy
       public void KomórkiMająPoCoNajmniejDwiePrzyległe()
       {
          _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
-         foreach (IKomorka komorka in _przetwarzacz.Komorki)
+         foreach (IKomorka komorka in _przetwarzacz.MapaProsta.Komorki)
          {
             komorka.PrzylegleKomorki.Count().ShouldBeInRange(2, Int32.MaxValue);
          }
@@ -106,7 +106,7 @@ namespace Testy
       public void RogiMająPoCoNajmniejDwóchBliskich()
       {
          _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
-         foreach (IRog rog in _przetwarzacz.Rogi)
+         foreach (IRog rog in _przetwarzacz.MapaProsta.Rogi)
          {
             rog.BliskieRogi.Count().ShouldBeInRange(2, Int32.MaxValue);
          }
@@ -117,7 +117,7 @@ namespace Testy
          // (w praktyce przy nieregularnej siatce róg o skończonej pozycji łączy zawsze 3 komórki)
       {
          _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
-         foreach (IRog rog in _przetwarzacz.Rogi)
+         foreach (IRog rog in _przetwarzacz.MapaProsta.Rogi)
             rog.Komorki.Count().ShouldBeInRange(2, Int32.MaxValue);
       }
 
@@ -147,7 +147,7 @@ namespace Testy
       {
          _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
          var punkty = new List<IPunkt>();
-         foreach (Dwukrawedz dwu in _przetwarzacz.Dwukrawedzie)
+         foreach (Dwukrawedz dwu in _przetwarzacz.MapaProsta.Dwukrawedzie)
          {
             punkty.Add(dwu.Lewa);
             punkty.Add(dwu.Prawa);

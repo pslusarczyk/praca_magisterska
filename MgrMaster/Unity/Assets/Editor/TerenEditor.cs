@@ -8,7 +8,7 @@ using Random = System.Random;
 namespace Assets.Editor
 {
     [CustomEditor(typeof(Teren))]
-    public class TerenEditor :UnityEditor.Editorr
+    public class TerenEditor : UnityEditor.Editor
     {
         private Teren _terrain;
 
