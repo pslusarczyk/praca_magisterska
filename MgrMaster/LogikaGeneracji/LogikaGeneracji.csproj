@@ -39,15 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPunkt.cs" />
+    <Compile Include="Komorka.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PrzetwarzaczGrafu.cs" />
+    <Compile Include="Rog.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\ZewnetrzneBiblioteki.csproj">
+    <ProjectReference Include="..\ZewnetrzneBiblioteki\ZewnetrzneBiblioteki.csproj">
       <Project>{3EDE1B0C-224A-4090-BBA1-93E4455B6A28}</Project>
       <Name>ZewnetrzneBiblioteki</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Produkcja\Assembly-CSharp.csproj">
+    <ProjectReference Include="..\Unity\Assembly-CSharp.csproj">
       <Project>{FB0809E4-77CE-0461-65D3-A78993EF56B3}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>

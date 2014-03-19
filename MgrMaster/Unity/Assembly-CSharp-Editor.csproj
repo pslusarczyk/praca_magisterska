@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FB0809E4-77CE-0461-65D3-A78993EF56B3}</ProjectGuid>
+    <ProjectGuid>{38B92343-75A9-52C8-65D6-A831B005A6A6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>
     </RootNamespace>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>Assets</BaseDirectory>
@@ -47,17 +47,36 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Skrypty\Narzedzia\Etap.cs" />
-    <Compile Include="Assets\Skrypty\Poziom.cs" />
-    <Compile Include="Assets\Skrypty\Teren.cs" />
-    <Compile Include="Assets\Skrypty\Terenoedytor.cs" />
-    <Compile Include="Assets\Skrypty\Wezel.cs" />
+    <Compile Include="Assets\Editor\PoziomEditor.cs" />
+    <Compile Include="Assets\Editor\TerenEditor.cs" />
     <None Include="Assets\Resources\prototype_textures\readme.txt" />
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions">
+      <HintPath>C:\Program Files (x86)\Unity\Editor\Data\PlaybackEngines\iPhonePlayer\EditorExtensions\UnityEditor.iOS.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WP8.Extensions">
+      <HintPath>C:\Program Files (x86)\Unity\Editor\Data\PlaybackEngines\WP8Support\EditorExtensions\UnityEditor.WP8.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Metro.Extensions">
+      <HintPath>C:\Program Files (x86)\Unity\Editor\Data\PlaybackEngines\MetroSupport\EditorExtensions\UnityEditor.Metro.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.BB10.Extensions">
+      <HintPath>C:\Program Files (x86)\Unity\Editor\Data\PlaybackEngines\BB10Player\EditorExtensions\UnityEditor.BB10.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Android.Extensions">
+      <HintPath>C:\Program Files (x86)\Unity\Editor\Data\PlaybackEngines\AndroidPlayer\EditorExtensions\UnityEditor.Android.Extensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\ZewnetrzneBiblioteki.csproj">
-      <Project>{3ede1b0c-224a-4090-bba1-93e4455b6a28}</Project>
+    <ProjectReference Include="..\ZewnetrzneBiblioteki\ZewnetrzneBiblioteki.csproj">
+      <Project>{3EDE1B0C-224A-4090-BBA1-93E4455B6A28}</Project>
       <Name>ZewnetrzneBiblioteki</Name>
+    </ProjectReference>
+    <ProjectReference Include="Assembly-CSharp.csproj">
+      <Project>{FB0809E4-77CE-0461-65D3-A78993EF56B3}</Project>
+      <Name>Assembly-CSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

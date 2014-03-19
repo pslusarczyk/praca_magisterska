@@ -53,7 +53,9 @@ namespace Testy
         {
             var siatka = PrzykladowaSiatka();
             var krawedzieWoronoja = Fortune.ComputeVoronoiGraph(siatka).Edges;
-            var komorki = PrzetwarzaczGrafu.UtworzKomorki(krawedzieWoronoja);
+            var dwukrawedzie = PrzetwarzaczGrafu.NaDwukrawedzie(krawedzieWoronoja);
+            //var komorki = PrzetwarzaczGrafu.UtworzKomorki(krawedzieWoronoja);
+
         }
 
 
