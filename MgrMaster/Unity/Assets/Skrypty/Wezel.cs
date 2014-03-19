@@ -1,54 +1,54 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Skrypty
 {
-    public class Para<T1, T2>
-    {
-        public T2 drugi;
-        public T1 pierwszy;
+   public class Para<T1, T2>
+   {
+      public T2 drugi;
+      public T1 pierwszy;
 
-        public Para(T1 t1, T2 t2)
-        {
-            pierwszy = t1;
-            drugi = t2;
-        }
-    }
+      public Para(T1 t1, T2 t2)
+      {
+         pierwszy = t1;
+         drugi = t2;
+      }
+   }
 
-    public class Wezel : MonoBehaviour
-    {
-        public bool _pokazSciany = false;
+   public class Wezel : MonoBehaviour
+   {
+      public bool _pokazSciany = false;
 
-        public IList<Para<Vector3, Vector3>> _scianyKomorki = new List<Para<Vector3, Vector3>>();
-        public float _wysokosc;
-        public bool czySkrajny = false;
-        public Vector3 pierwotnaPozycja;
+      public IList<Para<Vector3, Vector3>> _scianyKomorki = new List<Para<Vector3, Vector3>>();
+      public float _wysokosc;
+      public bool czySkrajny = false;
+      public Vector3 pierwotnaPozycja;
 
 
-        public void OnDrawGizmos()
-        {
-            Gizmos.color = Color.magenta;
-            if (_pokazSciany)
-                foreach (var s in _scianyKomorki)
-                {
-                    Gizmos.DrawLine(s.pierwszy, s.drugi);
-                    Gizmos.color = Gizmos.color*.75f;
-                }
-        }
+      public void OnDrawGizmos()
+      {
+         Gizmos.color = Color.magenta;
+         if (_pokazSciany)
+            foreach (var s in _scianyKomorki)
+            {
+               Gizmos.DrawLine(s.pierwszy, s.drugi);
+               Gizmos.color = Gizmos.color*.75f;
+            }
+      }
 
-        // Use this for initialization
-        private void Start()
-        {
-        }
+      // Use this for initialization
+      private void Start()
+      {
+      }
 
-        // Update is called once per frame
-        private void Update()
-        {
-        }
+      // Update is called once per frame
+      private void Update()
+      {
+      }
 
-        public void GenerujKsztaltKomorki()
-        {
-            /*
+      public void GenerujKsztaltKomorki()
+      {
+         /*
 		MeshFilter meshFilter = GetComponent<MeshFilter>();
 		if (meshFilter==null){
 		    Debug.LogError("MeshFilter not found!");
@@ -85,6 +85,6 @@ namespace Assets.Skrypty
 		mesh.RecalculateBounds();
 		mesh.Optimize();	
 		*/
-        }
-    }
+      }
+   }
 }

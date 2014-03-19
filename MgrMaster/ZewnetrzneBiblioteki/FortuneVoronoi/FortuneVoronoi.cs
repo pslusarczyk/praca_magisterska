@@ -235,12 +235,9 @@ namespace ZewnetrzneBiblioteki.FortuneVoronoi
 				{
 					SubRoot = new VEdgeNode(VE,false);
 					SubRoot.Left = new VDataNode(VE.LeftData);
-					SubRoot.Right = new VDataNode(VE.RightData);
-				}
-				else
-				{
-					SubRoot = new VEdgeNode(VE,true);
-					SubRoot.Left = new VDataNode(VE.RightData);
+					SubRoot.Right = new VDataNode(VE.RightDat/// <summary>
+      ///    Will return the new root (unchanged except in start-up)
+      /// </summary>.RightData);
 					SubRoot.Right = new VDataNode(VE.LeftData);
 				}
 				CircleCheckList = new VDataNode[] {(VDataNode)SubRoot.Left,(VDataNode)SubRoot.Right};
@@ -499,23 +496,21 @@ namespace ZewnetrzneBiblioteki.FortuneVoronoi
 				return (x1+x2)/2;
 			double xs1 = 0.5/(2*a1-2*a2)*(4*a1*x1-4*a2*x2+2*Math.Sqrt(-8*a1*x1*a2*x2-2*a1*y1+2*a1*y2+4*a1*a2*x2*x2+2*a2*y1+4*a2*a1*x1*x1-2*a2*y2));
 			double xs2 = 0.5/(2*a1-2*a2)*(4*a1*x1-4*a2*x2-2*Math.Sqrt(-8*a1*x1*a2*x2-2*a1*y1+2*a1*y2+4*a1*a2*x2*x2+2*a2*y1+4*a2*a1*x1*x1-2*a2*y2));
-			xs1=Math.Round(xs1,10);
-			xs2=Math.Round(xs2,10);
-			if(xs1>xs2)
-			{
-				double h = xs1;
-				xs1=xs2;
-				xs2=h;
-			}
-			if(y1>=y2)
-				return xs2;
-			return xs1;
-		}
-		internal static Vector CircumCircleCenter(Vector A, Vector B, Vector C)
-		{
-			if(A==B || B==C || A==C)
-				throw new Exception("Need three different points!");
-			double tx = (A[0] + C[0])/2;
+			xs1=Math.R
+
+      #region IComparable Members
+
+      public int CompareTo(object obj)
+      {
+         if (!(obj is VEvent))
+            throw new ArgumentException("obj not VEvent!");
+         int i = Y.CompareTo(((VEvent) obj).Y);
+         if (i != 0)
+            return i;
+         return X.CompareTo(((VEvent) obj).X);
+      }
+
+      #endregionou   ] + C[0])/2;
 			double ty = (A[1] + C[1])/2;
 
 			double vx = (B[0] + C[0])/2;

@@ -11,6 +11,7 @@ namespace LogikaGeneracji
       public List<Dwukrawedz> Dwukrawedzie { get; private set; }
       public HashSet<IKomorka> Komorki { get; private set; }
       public HashSet<IRog> Rogi { get; private set; }
+
       public List<IPunkt> Punkty
       {
          get
@@ -18,7 +19,7 @@ namespace LogikaGeneracji
             return new List<IPunkt>(
                Rogi.Select(r => r as IPunkt))
                .Union(Komorki.Select(k => k as IPunkt)).ToList();
-         } 
+         }
       }
 
 
@@ -91,7 +92,6 @@ namespace LogikaGeneracji
                dwukrawedz.Pierwszy.BliskieRogi.Add(dwukrawedz.Drugi);
             if (!dwukrawedz.Drugi.BliskieRogi.Contains(dwukrawedz.Pierwszy))
                dwukrawedz.Drugi.BliskieRogi.Add(dwukrawedz.Pierwszy);
-
          }
       }
    }
