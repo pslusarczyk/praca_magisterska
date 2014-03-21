@@ -9,11 +9,11 @@ using UnityEngine;
 namespace Testy
 {
    [TestFixture]
-   public class TestyMapyWysokosci
+   public class TestyMapyGeograficznej
    {
       private class Punkt : IPunkt
       {
-         public IEnumerable<IPunkt> Sasiedzi { get; set; }
+         public IEnumerable<IPunkt> SasiedniePunkty { get; set; }
          public Vector3 Pozycja { get; set; }
       }
 
@@ -26,22 +26,22 @@ namespace Testy
       }
 
       [Test]
-      public void NowaMapaWysokościPosiadaPunktyZWysokościąZero()
+      public void NowaMapaGeograficznaPosiadaPunktyZWysokościąZero()
       {
-         MapaWysokosci mapaWysokosci = PrzetwarzaczZbioruPunktow.NaMapeWysokosci(_mockZbioruPunktow);
-         foreach (IPunktMapyWysokosci pmp in mapaWysokosci.Punkty)
+         MapaGeograficzna mapaGeograficzna = PrzetwarzaczZbioruPunktow.NaMapeGeograficzna(_mockZbioruPunktow);
+         foreach (IPunktGeograficzny pg in mapaGeograficzna.Punkty)
          {
-            pmp.Wysokosc.ShouldEqual(0);
+            pg.Wysokosc.ShouldEqual(0);
          }
       }
 
       private IZbiorPunktow MockPrzykladowegoZbioruPunktowZSasiedztwem()
       {
-         var punkt1 = new PunktMapyWysokosci();
-         var punkt2 = new PunktMapyWysokosci();
-         punkt1.Sasiedzi = new List<PunktMapyWysokosci>{punkt2};
-         punkt2.Sasiedzi = new List<PunktMapyWysokosci>{punkt1};
-         var punkty = new List<IPunktMapyWysokosci> {punkt1, punkt2};
+         var punkt1 = new PunktGeograficzny();
+         var punkt2 = new PunktGeograficzny();
+         punkt1.SasiedniePunkty = new List<PunktGeograficzny>{punkt2};
+         punkt2.SasiedniePunkty = new List<PunktGeograficzny>{punkt1};
+         var punkty = new List<IPunktGeograficzny> {punkt1, punkt2};
 
          var mock = new Mock<IZbiorPunktow>();
          mock.Setup(zp => zp.Punkty).Returns(punkty);

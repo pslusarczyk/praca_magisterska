@@ -50,7 +50,7 @@ namespace Testy
          _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
          foreach (IPunkt punkt in _przetwarzacz.MapaProsta.Punkty)
          {
-            punkt.Sasiedzi.Count().ShouldBeInRange(3, Int32.MaxValue);
+            punkt.SasiedniePunkty.Count().ShouldBeInRange(3, Int32.MaxValue);
          }
       }
 
@@ -60,11 +60,11 @@ namespace Testy
          _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
          foreach (IKomorka komorka in _przetwarzacz.MapaProsta.Komorki)
          {
-            komorka.Sasiedzi.Count().ShouldEqual(komorka.PrzylegleKomorki.Count + komorka.Rogi.Count);
+            komorka.SasiedniePunkty.Count().ShouldEqual(komorka.PrzylegleKomorki.Count + komorka.Rogi.Count);
          }
          foreach (IRog rog in _przetwarzacz.MapaProsta.Rogi)
          {
-            rog.Sasiedzi.Count().ShouldEqual(rog.BliskieRogi.Count + rog.Komorki.Count);
+            rog.SasiedniePunkty.Count().ShouldEqual(rog.BliskieRogi.Count + rog.Komorki.Count);
          }
       }
 

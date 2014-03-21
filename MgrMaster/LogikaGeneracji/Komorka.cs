@@ -21,7 +21,7 @@ namespace LogikaGeneracji
          PrzylegleKomorki = new List<IKomorka>();
       }
 
-      public IEnumerable<IPunkt> Sasiedzi
+      public IEnumerable<IPunkt> SasiedniePunkty
       {
          get { return Rogi.Select(k => k as IPunkt).Union(PrzylegleKomorki.Select(r => r as IPunkt)); }
          set { throw new System.NotImplementedException("Ta w³aœciwoœæ w danej implementacji jest wyliczana"); }

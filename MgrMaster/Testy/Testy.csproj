@@ -54,7 +54,7 @@
   <ItemGroup>
     <Compile Include="TestyPrzetwarzaniaFortunea.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestyMapyWysokosci.cs" />
+    <Compile Include="TestyMapyGeograficznej.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZewnetrzneBiblioteki\ZewnetrzneBiblioteki.csproj">

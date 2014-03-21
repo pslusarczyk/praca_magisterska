@@ -5,11 +5,11 @@ namespace LogikaGeneracji
 {
    public interface IPunkt
    {
-      IEnumerable<IPunkt> Sasiedzi { get; set; }
+      IEnumerable<IPunkt> SasiedniePunkty { get; set; }
       Vector3 Pozycja { get; set; }
    }
 
-   public interface IPunktMapyWysokosci : IPunkt
+   public interface IPunktGeograficzny : IPunkt
    {
       float Wysokosc { get; set; }
       IPunkt NajnizszySasiad { get; set; }

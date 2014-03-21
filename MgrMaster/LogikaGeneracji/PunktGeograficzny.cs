@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace LogikaGeneracji
 {
-   public class PunktMapyWysokosci : IPunktMapyWysokosci
+   public class PunktGeograficzny : IPunktGeograficzny
    {
-      public IEnumerable<IPunkt> Sasiedzi { get; set; }
+      public IEnumerable<IPunkt> SasiedniePunkty { get; set; }
       public IPunkt NajnizszySasiad { get; set; }
       public Vector3 Pozycja { get; set; }
       public float Wysokosc { get; set; }
