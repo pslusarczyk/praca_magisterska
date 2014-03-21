@@ -43,11 +43,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IModyfikatorWysokosci.cs" />
     <Compile Include="IPunkt.cs" />
     <Compile Include="Komorka.cs" />
     <Compile Include="MapaProsta.cs" />
     <Compile Include="MapaGeograficzna.cs" />
     <Compile Include="NarzedziaPrzetwarzaniaFortunea.cs" />
+    <Compile Include="NaWysokosciAdekwatneDoPozycji.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PrzetwarzaczFortunea.cs" />
     <Compile Include="PrzetwarzaczZbioruPunktow.cs" />

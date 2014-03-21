@@ -14,6 +14,6 @@ namespace LogikaGeneracji
       IPunkt Punkt { get; set; }
       IEnumerable<IPunktGeograficzny> Sasiedzi { get; set; }
       float Wysokosc { get; set; }
-      IPunktGeograficzny NajnizszySasiad { get; set; }
+      IPunktGeograficzny Nastepnik { get; set; }
    }
 }

@@ -8,6 +8,11 @@ namespace LogikaGeneracji
       public IPunkt Punkt { get; set; }
       public IEnumerable<IPunktGeograficzny> Sasiedzi { get; set; }
       public float Wysokosc { get; set; }
-      public IPunktGeograficzny NajnizszySasiad { get; set; }
+      public IPunktGeograficzny Nastepnik { get; set; }
+
+      public PunktGeograficzny()
+      {
+         Sasiedzi = new List<IPunktGeograficzny>();
+      }
    }
 }
