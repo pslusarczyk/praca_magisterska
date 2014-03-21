@@ -5,13 +5,15 @@ namespace LogikaGeneracji
 {
    public interface IPunkt
    {
-      IEnumerable<IPunkt> SasiedniePunkty { get; set; }
+      IEnumerable<IPunkt> Sasiedzi { get; set; }
       Vector3 Pozycja { get; set; }
    }
 
-   public interface IPunktGeograficzny : IPunkt
+   public interface IPunktGeograficzny
    {
+      IPunkt Punkt { get; set; }
+      IEnumerable<IPunktGeograficzny> Sasiedzi { get; set; }
       float Wysokosc { get; set; }
-      IPunkt NajnizszySasiad { get; set; }
+      IPunktGeograficzny NajnizszySasiad { get; set; }
    }
 }

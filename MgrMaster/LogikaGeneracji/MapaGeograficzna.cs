@@ -4,11 +4,11 @@ namespace LogikaGeneracji
 {
    public class MapaGeograficzna : IZbiorPunktowGeograficznych
    {
-      public IEnumerable<IPunktGeograficzny> Punkty { get; set; }
+      public IEnumerable<IPunktGeograficzny> PunktyGeograficzne { get; set; }
    }
 
    public interface IZbiorPunktowGeograficznych
    {
-      IEnumerable<IPunktGeograficzny> Punkty { get; set; } 
+      IEnumerable<IPunktGeograficzny> PunktyGeograficzne { get; set; } 
    }
 }

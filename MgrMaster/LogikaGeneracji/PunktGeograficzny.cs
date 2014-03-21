@@ -5,9 +5,9 @@ namespace LogikaGeneracji
 {
    public class PunktGeograficzny : IPunktGeograficzny
    {
-      public IEnumerable<IPunkt> SasiedniePunkty { get; set; }
-      public IPunkt NajnizszySasiad { get; set; }
-      public Vector3 Pozycja { get; set; }
+      public IPunkt Punkt { get; set; }
+      public IEnumerable<IPunktGeograficzny> Sasiedzi { get; set; }
       public float Wysokosc { get; set; }
+      public IPunktGeograficzny NajnizszySasiad { get; set; }
    }
 }
