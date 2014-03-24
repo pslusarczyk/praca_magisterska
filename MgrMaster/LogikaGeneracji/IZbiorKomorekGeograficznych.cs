@@ -5,6 +5,5 @@ namespace LogikaGeneracji
    public interface IZbiorKomorekGeograficznych
    {
       IEnumerable<IKomorkaGeograficzna> KomorkiGeograficzne { get; set; }
-      void UstawKomorkomSasiedztwa();
    }
 }

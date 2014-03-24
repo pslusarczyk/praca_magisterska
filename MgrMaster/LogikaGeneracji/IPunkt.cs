@@ -9,11 +9,11 @@ namespace LogikaGeneracji
       Vector3 Pozycja { get; set; }
    }
 
-   public interface IPunktGeograficzny
+   public interface IPunktTopologiczny
    {
       IPunkt Punkt { get; set; }
-      IEnumerable<IPunktGeograficzny> Sasiedzi { get; set; }
+      IEnumerable<IPunktTopologiczny> Sasiedzi { get; set; }
       float Wysokosc { get; set; }
-      IPunktGeograficzny Nastepnik { get; set; }
+      IPunktTopologiczny Nastepnik { get; set; }
    }
 }

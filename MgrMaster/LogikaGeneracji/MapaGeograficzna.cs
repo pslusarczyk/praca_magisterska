@@ -3,26 +3,28 @@ using System.Linq;
 
 namespace LogikaGeneracji
 {
-   public interface IZbiorPunktowGeograficznych
+   public interface IZbiorPunktowTopologicznych
    {
-      IEnumerable<IPunktGeograficzny> PunktyGeograficzne { get; set; }
+      IEnumerable<IPunktTopologiczny> PunktyTopologiczne { get; set; }
+      IEnumerable<IKomorkaGeograficzna> KomorkiGeograficzne { get; set; } 
       void UstawPunktomSasiedztwa();
       void ZastosujModyfikatorWysokosci(IModyfikatorWysokosci modyfikator);
+      void ZastosujRozdzielaczWodyIL¹du(IRozdzielaczWodyIL¹du rozdzielacz);
    }
 
-   public class MapaGeograficzna : IZbiorPunktowGeograficznych, IZbiorKomorekGeograficznych
+   public class MapaGeograficzna : IZbiorPunktowTopologicznych, IZbiorKomorekGeograficznych
    {
-      public IEnumerable<IPunktGeograficzny> PunktyGeograficzne { get; set; }
+      public IEnumerable<IPunktTopologiczny> PunktyTopologiczne { get; set; }
       public IEnumerable<IKomorkaGeograficzna> KomorkiGeograficzne { get; set; }
       public IZbiorPunktow MapaProsta { get; set; }
 
       public void UstawPunktomSasiedztwa()
       {
-         foreach (var punktGeograficzny in PunktyGeograficzne)
+         foreach (var punktGeograficzny in PunktyTopologiczne)
          {
-            IPunktGeograficzny geograficzny = punktGeograficzny; // Linq utworzy³ dla bezpieczeñstwa
-            punktGeograficzny.Sasiedzi = PunktyGeograficzne.Where(
-               s => geograficzny.Punkt.Sasiedzi.Contains(s.Punkt));
+            IPunktTopologiczny topologiczny = punktGeograficzny; // Linq utworzy³ dla bezpieczeñstwa
+            punktGeograficzny.Sasiedzi = PunktyTopologiczne.Where(
+               s => topologiczny.Punkt.Sasiedzi.Contains(s.Punkt));
          }
       }
 
@@ -31,9 +33,9 @@ namespace LogikaGeneracji
          modyfikator.ModyfikujMape(this); // todo zale¿noœæ cykliczna – trzeba coœ z tym robiæ?
       }
 
-      public void UstawKomorkomSasiedztwa()
+      public void ZastosujRozdzielaczWodyIL¹du(IRozdzielaczWodyIL¹du rozdzielacz)
       {
-         throw new System.NotImplementedException();
+         rozdzielacz.PrzetworzMape(this); // todo zale¿noœæ cykliczna – trzeba coœ z tym robiæ? 
       }
    }
 }

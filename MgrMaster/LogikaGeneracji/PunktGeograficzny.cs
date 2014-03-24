@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace LogikaGeneracji
 {
-   public class PunktGeograficzny : IPunktGeograficzny
+   public class PunktTopologiczny : IPunktTopologiczny
    {
       public IPunkt Punkt { get; set; }
-      public IEnumerable<IPunktGeograficzny> Sasiedzi { get; set; }
+      public IEnumerable<IPunktTopologiczny> Sasiedzi { get; set; }
       public float Wysokosc { get; set; }
-      public IPunktGeograficzny Nastepnik { get; set; }
+      public IPunktTopologiczny Nastepnik { get; set; }
 
-      public PunktGeograficzny()
+      public PunktTopologiczny()
       {
-         Sasiedzi = new List<IPunktGeograficzny>();
+         Sasiedzi = new List<IPunktTopologiczny>();
       }
    }
 }

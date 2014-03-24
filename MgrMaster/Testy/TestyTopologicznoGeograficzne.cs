@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Testy
 {
    [TestFixture]
-   public class TestyMapyGeograficznej
+   public class TestyTopologicznoGeograficzne
    {
       private class Punkt : IPunkt
       {
@@ -24,11 +24,22 @@ namespace Testy
          public const float WysokoscDrugiego = 2f;
          public const float WysokoscTrzeciego = 1f;
 
-         public void ModyfikujMape(IZbiorPunktowGeograficznych mapaWysokosci)
+         public void ModyfikujMape(IZbiorPunktowTopologicznych mapaWysokosci)
          {
-            mapaWysokosci.PunktyGeograficzne.ElementAt(0).Wysokosc = WysokoscPierwszego;
-            mapaWysokosci.PunktyGeograficzne.ElementAt(1).Wysokosc = WysokoscDrugiego;
-            mapaWysokosci.PunktyGeograficzne.ElementAt(2).Wysokosc = WysokoscTrzeciego;
+            mapaWysokosci.PunktyTopologiczne.ElementAt(0).Wysokosc = WysokoscPierwszego;
+            mapaWysokosci.PunktyTopologiczne.ElementAt(1).Wysokosc = WysokoscDrugiego;
+            mapaWysokosci.PunktyTopologiczne.ElementAt(2).Wysokosc = WysokoscTrzeciego;
+         }
+      }
+
+      private class ProstyRozdzielacz : IRozdzielaczWodyILądu
+      {
+         public void PrzetworzMape(MapaGeograficzna mapaGeograficzna)
+         {
+            foreach (var komorkaGeograficzna in mapaGeograficzna.KomorkiGeograficzne)
+            {
+               komorkaGeograficzna.Typ = TypKomorki.Morze;
+            }
          }
       }
 
@@ -44,7 +55,7 @@ namespace Testy
       public void NowaMapaGeograficznaPosiadaPunktyZWysokościąZero()
       {
          MapaGeograficzna mapaGeograficzna = PrzetwarzaczZbioruPunktow.NaMapeGeograficzna(_mapaProsta);
-         foreach (IPunktGeograficzny pg in mapaGeograficzna.PunktyGeograficzne)
+         foreach (IPunktTopologiczny pg in mapaGeograficzna.PunktyTopologiczne)
          {
             pg.Wysokosc.ShouldEqual(0);
          }
@@ -56,7 +67,7 @@ namespace Testy
          MapaGeograficzna mapaGeograficzna = PrzetwarzaczZbioruPunktow.NaMapeGeograficzna(_mapaProsta);
          foreach (var p in mapaGeograficzna.MapaProsta.Punkty)
          {
-            var odpowiednik = mapaGeograficzna.PunktyGeograficzne.First(pg => pg.Punkt.Pozycja == p.Pozycja);
+            var odpowiednik = mapaGeograficzna.PunktyTopologiczne.First(pg => pg.Punkt.Pozycja == p.Pozycja);
             var punktySasiednieOdpowiednika = odpowiednik.Sasiedzi.Select(s => s.Punkt);
             CollectionAssert.AreEquivalent(punktySasiednieOdpowiednika, p.Sasiedzi);
          }
@@ -69,13 +80,12 @@ namespace Testy
          var mojModyfikator = new ProstyModyfikator();
          mapaGeograficzna.ZastosujModyfikatorWysokosci(mojModyfikator);
 
-         mapaGeograficzna.PunktyGeograficzne.ElementAt(0).Wysokosc
+         mapaGeograficzna.PunktyTopologiczne.ElementAt(0).Wysokosc
             .ShouldEqual(ProstyModyfikator.WysokoscPierwszego);
-         mapaGeograficzna.PunktyGeograficzne.ElementAt(1).Wysokosc
+         mapaGeograficzna.PunktyTopologiczne.ElementAt(1).Wysokosc
             .ShouldEqual(ProstyModyfikator.WysokoscDrugiego);
-         mapaGeograficzna.PunktyGeograficzne.ElementAt(2).Wysokosc
+         mapaGeograficzna.PunktyTopologiczne.ElementAt(2).Wysokosc
             .ShouldEqual(ProstyModyfikator.WysokoscTrzeciego);
-    
       }
 
 
@@ -86,9 +96,9 @@ namespace Testy
          var mojModyfikator = new ProstyModyfikator();
          mapaGeograficzna.ZastosujModyfikatorWysokosci(mojModyfikator);
          AktualizatorNastepstwaMapyWysokosci.Aktualizuj(mapaGeograficzna);
-         var punkt1 = mapaGeograficzna.PunktyGeograficzne.ElementAt(0);
-         var punkt2 = mapaGeograficzna.PunktyGeograficzne.ElementAt(1);
-         var punkt3 = mapaGeograficzna.PunktyGeograficzne.ElementAt(2);
+         var punkt1 = mapaGeograficzna.PunktyTopologiczne.ElementAt(0);
+         var punkt2 = mapaGeograficzna.PunktyTopologiczne.ElementAt(1);
+         var punkt3 = mapaGeograficzna.PunktyTopologiczne.ElementAt(2);
          punkt1.Nastepnik.ShouldEqual(punkt2);
          punkt2.Nastepnik.ShouldEqual(punkt3);
          punkt3.Nastepnik.ShouldBeNull();
@@ -97,20 +107,26 @@ namespace Testy
       [Test]
       public void NastepnicyPunktówGeograficznychSąIchSąsiadami()
       {
-         IZbiorPunktowGeograficznych mapaGeograficzna = PrzetwarzaczZbioruPunktow.NaMapeGeograficzna(_mapaProsta);
+         IZbiorPunktowTopologicznych mapaGeograficzna = PrzetwarzaczZbioruPunktow.NaMapeGeograficzna(_mapaProsta);
          var mojModyfikator = new ProstyModyfikator();
          mapaGeograficzna.ZastosujModyfikatorWysokosci(mojModyfikator);
          AktualizatorNastepstwaMapyWysokosci.Aktualizuj(mapaGeograficzna);
-         var punkt1 = mapaGeograficzna.PunktyGeograficzne.ElementAt(0);
-         var punkt2 = mapaGeograficzna.PunktyGeograficzne.ElementAt(1);
+         var punkt1 = mapaGeograficzna.PunktyTopologiczne.ElementAt(0);
+         var punkt2 = mapaGeograficzna.PunktyTopologiczne.ElementAt(1);
          punkt1.Sasiedzi.ShouldContain(punkt1.Nastepnik);
          punkt2.Sasiedzi.ShouldContain(punkt2.Nastepnik);
       }
 
       [Test]
-      public void RozdzielaczMorzaILąduPrzypisujePunktomTypy() 
+      public void RozdzielaczWodyILąduPrzypisujePunktomTypy() 
       {
-        
+        IRozdzielaczWodyILądu rozdzielacz = new ProstyRozdzielacz();
+        IZbiorPunktowTopologicznych mapaGeograficzna = PrzetwarzaczZbioruPunktow.NaMapeGeograficzna(_mapaProsta);
+        mapaGeograficzna.ZastosujRozdzielaczWodyILądu(rozdzielacz);
+        foreach (var komorkaGeograficzna in mapaGeograficzna.KomorkiGeograficzne)
+        {
+           komorkaGeograficzna.Typ.ShouldNotBeSameAs(TypKomorki.Brak);
+        }
       }
 
       private static IZbiorPunktow MockPrzykladowegoZbioruPunktowZSasiedztwem()
@@ -131,15 +147,11 @@ namespace Testy
    }
 
 
-
-
-
-
    public class AktualizatorNastepstwaMapyWysokosci
    {
-      public static void Aktualizuj(IZbiorPunktowGeograficznych mapaGeograficzna)
+      public static void Aktualizuj(IZbiorPunktowTopologicznych mapaGeograficzna)
       {
-         foreach (var punktGeograficzny in mapaGeograficzna.PunktyGeograficzne)
+         foreach (var punktGeograficzny in mapaGeograficzna.PunktyTopologiczne)
          {
             if (!punktGeograficzny.Sasiedzi.Any(s => s.Wysokosc < punktGeograficzny.Wysokosc))
                continue;

@@ -46,6 +46,7 @@
     <Compile Include="IKomorkaGeograficzna.cs" />
     <Compile Include="IModyfikatorWysokosci.cs" />
     <Compile Include="IPunkt.cs" />
+    <Compile Include="IRozdzielaczWodyILądu.cs" />
     <Compile Include="IZbiorKomorekGeograficznych.cs" />
     <Compile Include="Komorka.cs" />
     <Compile Include="MapaProsta.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="PrzetwarzaczZbioruPunktow.cs" />
     <Compile Include="PunktGeograficzny.cs" />
     <Compile Include="Rog.cs" />
+    <Compile Include="TypKomorki.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZewnetrzneBiblioteki\ZewnetrzneBiblioteki.csproj">
