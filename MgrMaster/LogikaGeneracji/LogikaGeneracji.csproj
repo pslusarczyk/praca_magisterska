@@ -43,8 +43,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IKomorkaGeograficzna.cs" />
     <Compile Include="IModyfikatorWysokosci.cs" />
     <Compile Include="IPunkt.cs" />
+    <Compile Include="IZbiorKomorekGeograficznych.cs" />
     <Compile Include="Komorka.cs" />
     <Compile Include="MapaProsta.cs" />
     <Compile Include="MapaGeograficzna.cs" />

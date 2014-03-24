@@ -1,12 +1,19 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 
 namespace LogikaGeneracji
 {
-   public class MapaGeograficzna : IZbiorPunktowGeograficznych
+   public interface IZbiorPunktowGeograficznych
+   {
+      IEnumerable<IPunktGeograficzny> PunktyGeograficzne { get; set; }
+      void UstawPunktomSasiedztwa();
+      void ZastosujModyfikatorWysokosci(IModyfikatorWysokosci modyfikator);
+   }
+
+   public class MapaGeograficzna : IZbiorPunktowGeograficznych, IZbiorKomorekGeograficznych
    {
       public IEnumerable<IPunktGeograficzny> PunktyGeograficzne { get; set; }
+      public IEnumerable<IKomorkaGeograficzna> KomorkiGeograficzne { get; set; }
       public IZbiorPunktow MapaProsta { get; set; }
 
       public void UstawPunktomSasiedztwa()
@@ -21,13 +28,12 @@ namespace LogikaGeneracji
 
       public void ZastosujModyfikatorWysokosci(IModyfikatorWysokosci modyfikator)
       {
-         modyfikator.ModyfikujMape(this); // todo sprawdziæ czy to nie zale¿noœæ cykliczna
+         modyfikator.ModyfikujMape(this); // todo zale¿noœæ cykliczna – trzeba coœ z tym robiæ?
       }
-   }
 
-   public interface IZbiorPunktowGeograficznych
-   {
-      IEnumerable<IPunktGeograficzny> PunktyGeograficzne { get; set; }
-      void UstawPunktomSasiedztwa();
+      public void UstawKomorkomSasiedztwa()
+      {
+         throw new System.NotImplementedException();
+      }
    }
 }

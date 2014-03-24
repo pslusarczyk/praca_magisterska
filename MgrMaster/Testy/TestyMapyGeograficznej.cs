@@ -79,11 +79,13 @@ namespace Testy
       }
 
 
-      [Ignore]
       [Test]
-      public void PunktyGeograficzneNowejMapyMająOdpowiednioPoustawianychNastepnikow()
+      public void PunktyGeograficznePrzetworzonejMapyMająOdpowiednioPoustawianychNastepnikow()
       {
          MapaGeograficzna mapaGeograficzna = PrzetwarzaczZbioruPunktow.NaMapeGeograficzna(_mapaProsta);
+         var mojModyfikator = new ProstyModyfikator();
+         mapaGeograficzna.ZastosujModyfikatorWysokosci(mojModyfikator);
+         AktualizatorNastepstwaMapyWysokosci.Aktualizuj(mapaGeograficzna);
          var punkt1 = mapaGeograficzna.PunktyGeograficzne.ElementAt(0);
          var punkt2 = mapaGeograficzna.PunktyGeograficzne.ElementAt(1);
          var punkt3 = mapaGeograficzna.PunktyGeograficzne.ElementAt(2);
@@ -92,11 +94,23 @@ namespace Testy
          punkt3.Nastepnik.ShouldBeNull();
       }
 
-      [Ignore]
       [Test]
-      public void NastepnicyPunktowGeograficznychNowejMapyPowinniBycIchSasiadami()
+      public void NastepnicyPunktówGeograficznychSąIchSąsiadami()
       {
-         
+         IZbiorPunktowGeograficznych mapaGeograficzna = PrzetwarzaczZbioruPunktow.NaMapeGeograficzna(_mapaProsta);
+         var mojModyfikator = new ProstyModyfikator();
+         mapaGeograficzna.ZastosujModyfikatorWysokosci(mojModyfikator);
+         AktualizatorNastepstwaMapyWysokosci.Aktualizuj(mapaGeograficzna);
+         var punkt1 = mapaGeograficzna.PunktyGeograficzne.ElementAt(0);
+         var punkt2 = mapaGeograficzna.PunktyGeograficzne.ElementAt(1);
+         punkt1.Sasiedzi.ShouldContain(punkt1.Nastepnik);
+         punkt2.Sasiedzi.ShouldContain(punkt2.Nastepnik);
+      }
+
+      [Test]
+      public void RozdzielaczMorzaILąduPrzypisujePunktomTypy() 
+      {
+        
       }
 
       private static IZbiorPunktow MockPrzykladowegoZbioruPunktowZSasiedztwem()
@@ -112,6 +126,28 @@ namespace Testy
          var mock = new Mock<IZbiorPunktow>();
          mock.Setup(zp => zp.Punkty).Returns(punkty);
          return mock.Object;
+      }
+
+   }
+
+
+
+
+
+
+   public class AktualizatorNastepstwaMapyWysokosci
+   {
+      public static void Aktualizuj(IZbiorPunktowGeograficznych mapaGeograficzna)
+      {
+         foreach (var punktGeograficzny in mapaGeograficzna.PunktyGeograficzne)
+         {
+            if (!punktGeograficzny.Sasiedzi.Any(s => s.Wysokosc < punktGeograficzny.Wysokosc))
+               continue;
+
+            float minimalnaWysokosc = punktGeograficzny.Sasiedzi.Min(s => s.Wysokosc);
+            punktGeograficzny.Nastepnik = punktGeograficzny.Sasiedzi
+                                                   .First(s => s.Wysokosc == minimalnaWysokosc);
+         }
       }
    }
 }
