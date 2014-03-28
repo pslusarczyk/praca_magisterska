@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="IKomorkaGeograficzna.cs" />
     <Compile Include="IModyfikatorWysokosci.cs" />
-    <Compile Include="IPunkt.cs" />
+    <Compile Include="Punkt.cs" />
     <Compile Include="IRozdzielaczWodyILądu.cs" />
     <Compile Include="IZbiorKomorekGeograficznych.cs" />
     <Compile Include="Komorka.cs" />

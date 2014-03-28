@@ -24,7 +24,7 @@ namespace Testy
       private PrzetwarzaczFortunea _przetwarzacz;
       private HashSet<VoronoiEdge> _krawedzieWoronoja;
 
-      private IEnumerable PrzykladowaSiatka(int rozmiar = 3)
+      private IEnumerable PrzykladowaSiatka(int rozmiar = 15)
       {
          for (float x = 0; x < rozmiar; ++x)
             for (float z = 0; z < rozmiar; ++z)
@@ -60,11 +60,11 @@ namespace Testy
          _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
          foreach (IKomorka komorka in _przetwarzacz.MapaProsta.Komorki)
          {
-            komorka.Sasiedzi.Count().ShouldEqual(komorka.PrzylegleKomorki.Count + komorka.Rogi.Count);
+            komorka.Punkt.Sasiedzi.Count().ShouldEqual(komorka.PrzylegleKomorki.Count + komorka.Rogi.Count);
          }
          foreach (IRog rog in _przetwarzacz.MapaProsta.Rogi)
          {
-            rog.Sasiedzi.Count().ShouldEqual(rog.BliskieRogi.Count + rog.Komorki.Count);
+            rog.Punkt.Sasiedzi.Count().ShouldEqual(rog.BliskieRogi.Count + rog.Komorki.Count);
          }
       }
 
@@ -149,10 +149,10 @@ namespace Testy
          var punkty = new List<IPunkt>();
          foreach (Dwukrawedz dwu in _przetwarzacz.MapaProsta.Dwukrawedzie)
          {
-            punkty.Add(dwu.Lewa);
-            punkty.Add(dwu.Prawa);
-            punkty.Add(dwu.Pierwszy);
-            punkty.Add(dwu.Drugi);
+            punkty.Add(dwu.Lewa.Punkt);
+            punkty.Add(dwu.Prawa.Punkt);
+            punkty.Add(dwu.Pierwszy.Punkt);
+            punkty.Add(dwu.Drugi.Punkt);
          }
          bool saPowtorzenia = false;
          foreach (IPunkt punkt in punkty)

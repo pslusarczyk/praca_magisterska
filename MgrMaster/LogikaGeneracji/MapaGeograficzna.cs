@@ -16,7 +16,7 @@ namespace LogikaGeneracji
    {
       public IEnumerable<IPunktTopologiczny> PunktyTopologiczne { get; set; }
       public IEnumerable<IKomorkaGeograficzna> KomorkiGeograficzne { get; set; }
-      public IZbiorPunktow MapaProsta { get; set; }
+      public IMapaProsta MapaProsta { get; set; }
 
       public void UstawPunktomSasiedztwa()
       {

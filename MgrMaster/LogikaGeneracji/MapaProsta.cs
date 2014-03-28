@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace LogikaGeneracji
 {
-   public interface IZbiorPunktow
+   public interface IMapaProsta
    {
       IEnumerable<IPunkt> Punkty { get; }
    }
 
-   public class MapaProsta : IZbiorPunktow
+   public class MapaProsta : IMapaProsta
    {
       public bool ZakonczonoTworzenie { get; set; }
       public List<Dwukrawedz> Dwukrawedzie { get; set; }
@@ -25,8 +25,10 @@ namespace LogikaGeneracji
          get
          {
             return new List<IPunkt>(
-               Rogi.Select(r => r as IPunkt))
-               .Union(Komorki.Select(k => k as IPunkt)).ToList();
+               Rogi.Select(r => r.Punkt))
+               .Union(
+               Komorki.Select(k => k.Punkt)
+               ).ToList();
          }
       }
    }

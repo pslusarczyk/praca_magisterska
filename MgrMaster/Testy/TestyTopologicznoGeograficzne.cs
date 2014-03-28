@@ -12,12 +12,6 @@ namespace Testy
    [TestFixture]
    public class TestyTopologicznoGeograficzne
    {
-      private class Punkt : IPunkt
-      {
-         public IEnumerable<IPunkt> Sasiedzi { get; set; }
-         public Vector3 Pozycja { get; set; }
-      }
-
       private class ProstyModyfikator : IModyfikatorWysokosci
       {
          public const float WysokoscPierwszego = 3f;
@@ -43,7 +37,7 @@ namespace Testy
          }
       }
 
-      private IZbiorPunktow _mapaProsta;
+      private IMapaProsta _mapaProsta;
 
       [SetUp]
       public void SetUp()
@@ -129,17 +123,17 @@ namespace Testy
         }
       }
 
-      private static IZbiorPunktow MockPrzykladowegoZbioruPunktowZSasiedztwem()
+      private static IMapaProsta MockPrzykladowegoZbioruPunktowZSasiedztwem()
       {
          var punkt1 = new Punkt{Pozycja = new Vector3(10f, 3f, 2f)};
          var punkt2 = new Punkt{Pozycja = new Vector3(-4f, 1f, 3f)};
          var punkt3 = new Punkt{Pozycja = new Vector3(-3f, 0f, 5f)};
-         punkt1.Sasiedzi = new List<Punkt>{punkt2};
-         punkt2.Sasiedzi = new List<Punkt>{punkt1, punkt3};
-         punkt3.Sasiedzi = new List<Punkt>{punkt2};
+         punkt1.Sasiedzi = new List<IPunkt>{punkt2};
+         punkt2.Sasiedzi = new List<IPunkt>{punkt1, punkt3};
+         punkt3.Sasiedzi = new List<IPunkt>{punkt2};
          var punkty = new List<IPunkt> {punkt1, punkt2, punkt3};
 
-         var mock = new Mock<IZbiorPunktow>();
+         var mock = new Mock<IMapaProsta>();
          mock.Setup(zp => zp.Punkty).Returns(punkty);
          return mock.Object;
       }

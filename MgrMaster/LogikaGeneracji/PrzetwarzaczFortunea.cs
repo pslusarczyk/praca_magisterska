@@ -72,9 +72,15 @@ namespace LogikaGeneracji
          foreach (Dwukrawedz dwukrawedz in MapaProsta.Dwukrawedzie)
          {
             if (!dwukrawedz.Lewa.PrzylegleKomorki.Contains(dwukrawedz.Prawa))
+            {
                dwukrawedz.Lewa.PrzylegleKomorki.Add(dwukrawedz.Prawa);
+               dwukrawedz.Lewa.Punkt.Sasiedzi.Add(dwukrawedz.Prawa.Punkt);
+            }
             if (!dwukrawedz.Prawa.PrzylegleKomorki.Contains(dwukrawedz.Lewa))
+            {
                dwukrawedz.Prawa.PrzylegleKomorki.Add(dwukrawedz.Lewa);
+               dwukrawedz.Prawa.Punkt.Sasiedzi.Add(dwukrawedz.Lewa.Punkt);
+            }
          }
       }
 
@@ -83,9 +89,15 @@ namespace LogikaGeneracji
          foreach (Dwukrawedz dwukrawedz in MapaProsta.Dwukrawedzie)
          {
             if (!dwukrawedz.Pierwszy.BliskieRogi.Contains(dwukrawedz.Drugi))
+            {
                dwukrawedz.Pierwszy.BliskieRogi.Add(dwukrawedz.Drugi);
+               dwukrawedz.Pierwszy.Punkt.Sasiedzi.Add(dwukrawedz.Drugi.Punkt);
+            }
             if (!dwukrawedz.Drugi.BliskieRogi.Contains(dwukrawedz.Pierwszy))
+            {
                dwukrawedz.Drugi.BliskieRogi.Add(dwukrawedz.Pierwszy);
+               dwukrawedz.Drugi.Punkt.Sasiedzi.Add(dwukrawedz.Pierwszy.Punkt);
+            }
          }
       }
    }
