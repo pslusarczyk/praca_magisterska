@@ -1,11 +1,13 @@
 using System.Collections.Generic;
+using LogikaGeneracji.PrzetwarzaczeMapy;
+using UnityEngine;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 
 namespace LogikaGeneracji
 {
    public interface IKomorka
    {
-      IDaneKomorki Dane { get; set; }
+      DaneKomorki Dane { get; set; }
       IPunkt Punkt { get; set; }
       IList<IRog> Rogi { get; set; }
       IList<IKomorka> PrzylegleKomorki { get; set; }
@@ -14,16 +16,22 @@ namespace LogikaGeneracji
 
    public class Komorka : IKomorka
    {
-      public Komorka(Vector wektorFortunea)
+      public Komorka()
       {
-         Punkt = new Punkt{Pozycja = NarzedziaPrzetwarzaniaFortunea.VectorNaVector3(wektorFortunea)};
+         Punkt = new Punkt {Pozycja = new Vector3()};
          Rogi = new List<IRog>();
          PrzylegleKomorki = new List<IKomorka>();
+         Dane = new DaneKomorki(); // todo jeœliby wprowadziæ etap wstêpny etap przetwarzania dzia³aj¹cy na tym polu, to mo¿naby wywaliæ tê inicjalizacjê ¿eby by³o wiadomo, czy okreœlono dane czy nie
+      }
+
+      public Komorka(Vector wektorFortunea) : this()
+      {
+         Punkt.Pozycja = NarzedziaPrzetwarzaniaFortunea.VectorNaVector3(wektorFortunea);
       }
 
       public IList<IKomorka> PrzylegleKomorki { get; set; }
       public IPunkt NajnizszySasiad { get; set; }
-      public IDaneKomorki Dane { get; set; }
+      public DaneKomorki Dane { get; set; }
       public IPunkt Punkt { get; set; }
       public IList<IRog> Rogi { get; set; }
 
@@ -42,7 +50,11 @@ namespace LogikaGeneracji
       }
    }
 
-   public interface IDaneKomorki
+   public class DaneKomorki
    {
+      public Podloze? Podloze { get; set; }
+      public TypKomorki? Typ { get; set; }
+      public BrzeznoscKomorki? Brzeznosc { get; set; }
+
    }
 }
