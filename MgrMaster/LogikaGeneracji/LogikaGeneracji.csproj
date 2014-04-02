@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PrzetwarzaczeMapy\AktualizatorNastepstwaMapyWysokosci.cs" />
+    <Compile Include="PrzetwarzaczeMapy\PustyPrzetwarzacz.cs" />
     <Compile Include="PrzetwarzaczeMapy\ModyfikatorWysokosciNaAdekwatneDoPozycji.cs" />
     <Compile Include="Punkt.cs" />
     <Compile Include="IRozdzielaczWodyILądu.cs" />

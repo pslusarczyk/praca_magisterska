@@ -52,6 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestyPrzetwarzaczyZwiazanychZWlasciwosciamiKomorekIRogow.cs" />
     <Compile Include="TestyMechanizmuPrzetwarzania.cs" />
     <Compile Include="TestyPrzetwarzaniaFortunea.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

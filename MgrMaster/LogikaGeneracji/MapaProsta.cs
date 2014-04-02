@@ -28,6 +28,8 @@ namespace LogikaGeneracji
       {
          przetwarzacz.Przetwarzaj(this);
          ZastosowanePrzetwarzacze.Add(przetwarzacz);
+         if(przetwarzacz.Nastepnik != null)
+            ZastosujPrzetwarzanie(przetwarzacz.Nastepnik);
       }
 
       public Mapa()
@@ -46,7 +48,7 @@ namespace LogikaGeneracji
          }
       }
 
-      public IEnumerable<IPunkt> Punkty
+      public virtual IEnumerable<IPunkt> Punkty
       {
          get
          {

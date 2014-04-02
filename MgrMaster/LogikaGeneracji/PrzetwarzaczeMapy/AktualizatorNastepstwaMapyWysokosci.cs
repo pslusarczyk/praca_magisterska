@@ -4,6 +4,8 @@ namespace LogikaGeneracji.PrzetwarzaczeMapy
 {
    public class AktualizatorNastepstwaMapyWysokosci : IPrzetwarzaczMapy
    {
+      public IPrzetwarzaczMapy Nastepnik { get; set; }
+
       public virtual void Przetwarzaj(IMapa mapa)
       {
          foreach (var punktGeograficzny in mapa.Punkty)

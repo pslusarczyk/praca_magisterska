@@ -13,25 +13,35 @@ namespace Testy
    [TestFixture]
    public class TestyPrzetwarzaczyZwiazanychZTopologia
    {
+      private class PustyPrzetwarzaczZNastepnikiem : IPrzetwarzaczMapy
+      {
+         public IPrzetwarzaczMapy Nastepnik { get; set; }
+
+         public PustyPrzetwarzaczZNastepnikiem()
+         {
+            Nastepnik = new PustyPrzetwarzacz();
+         }
+
+         public void Przetwarzaj(IMapa mapa){}
+      }
+
       private class ProstyModyfikatorWysokosci : IPrzetwarzaczMapy
       {
          public const float WysokoscPierwszego = 3f;
          public const float WysokoscDrugiego = 2f;
          public const float WysokoscTrzeciego = 1f;
+         public IPrzetwarzaczMapy Nastepnik { get; set; }
 
-         public virtual void Przetwarzaj(IMapa mapa)
+         public void Przetwarzaj(IMapa mapa)
          {
             mapa.Punkty.ElementAt(0).Wysokosc = WysokoscPierwszego;
             mapa.Punkty.ElementAt(1).Wysokosc = WysokoscDrugiego;
             mapa.Punkty.ElementAt(2).Wysokosc = WysokoscTrzeciego;
          }
-      }
 
-      private class ProstyRozdzielacz : IRozdzielaczWodyILądu
-      {
-         public void PrzetworzMape(IMapa mapa)
+         public ProstyModyfikatorWysokosci()
          {
-            throw new System.NotImplementedException();
+            Nastepnik = new AktualizatorNastepstwaMapyWysokosci();
          }
       }
 
@@ -40,7 +50,7 @@ namespace Testy
       [SetUp]
       public void SetUp()
       {
-         _mapa = MockPrzykladowegoZbioruPunktowZSasiedztwem();
+         _mapa = MockInterfejsuMapa();
       }
 
       [Test]
@@ -68,7 +78,7 @@ namespace Testy
       public void PoNalozeniuWysokosciPunktyGeograficzneMajaOdpowiednieWysokosci()
       {
          var modyfikator = new ProstyModyfikatorWysokosci();
-         modyfikator.Przetwarzaj(_mapa);
+         _mapa.ZastosujPrzetwarzanie(modyfikator);
          _mapa.Punkty.ElementAt(0).Wysokosc
             .ShouldEqual(ProstyModyfikatorWysokosci.WysokoscPierwszego);
          _mapa.Punkty.ElementAt(1).Wysokosc
@@ -80,9 +90,9 @@ namespace Testy
       [Test]
       public void PunktyGeograficznePrzetworzonejMapyMająOdpowiednioPoustawianychNastepnikow()
       {
+         _mapa = MockKlasyMapa();
          var modyfikator = new ProstyModyfikatorWysokosci();
-         modyfikator.Przetwarzaj(_mapa);
-         new AktualizatorNastepstwaMapyWysokosci().Przetwarzaj(_mapa);
+         _mapa.ZastosujPrzetwarzanie(modyfikator);
          var punkt1 = _mapa.Punkty.ElementAt(0);
          var punkt2 = _mapa.Punkty.ElementAt(1);
          var punkt3 = _mapa.Punkty.ElementAt(2);
@@ -94,9 +104,10 @@ namespace Testy
       [Test]
       public void NastepnicyPunktówGeograficznychSąIchSąsiadami()
       {
+         _mapa = MockKlasyMapa();
          var modyfikator = new ProstyModyfikatorWysokosci();
-         modyfikator.Przetwarzaj(_mapa);
-         new AktualizatorNastepstwaMapyWysokosci().Przetwarzaj(_mapa);
+         _mapa.ZastosujPrzetwarzanie(modyfikator);
+
          var punkt1 = _mapa.Punkty.ElementAt(0);
          var punkt2 = _mapa.Punkty.ElementAt(1);
          punkt1.Sasiedzi.ShouldContain(punkt1.Nastepnik);
@@ -107,7 +118,7 @@ namespace Testy
       public void PrzetwarzaczWysokosciNaAdekwatneDoPozycjiPoprawnieDziała()
       {
          var przetwarzacz = new ModyfikatorWysokosciNaAdekwatneDoPozycji();
-         przetwarzacz.Przetwarzaj(_mapa);
+         _mapa.ZastosujPrzetwarzanie(przetwarzacz);
          IPunkt p1 = _mapa.Punkty.ElementAt(0);
          IPunkt p2 = _mapa.Punkty.ElementAt(0);
          IPunkt p3 = _mapa.Punkty.ElementAt(0);
@@ -116,33 +127,43 @@ namespace Testy
          p3.Wysokosc.ShouldEqual(p3.Pozycja.y);
       }
 
-     /* [Test]
-      public void RozdzielaczWodyILąduPrzypisujePunktomTypy() 
+      [Test]
+      public void PrzetwarzaczZNastępnikiemWywołujeGoPoSobie()
       {
-        IRozdzielaczWodyILądu rozdzielacz = new ProstyRozdzielacz();
-        IZbiorPunktowTopologicznych mapa = PrzetwarzaczZbioruPunktow.NaMapeGeograficzna(_mapa);
-        mapa.ZastosujRozdzielaczWodyILądu(rozdzielacz);
-        foreach (var komorkaGeograficzna in mapa.KomorkiGeograficzne)
-        {
-           komorkaGeograficzna.Typ.ShouldNotBeSameAs(TypKomorki.Brak);
-        }
-      }*/
+         _mapa = new Mapa(); // nie mock, bo testujemy zachowanie związane z rejestracją przetwarzaczy
+         var przetwarzacz = new PustyPrzetwarzaczZNastepnikiem();
+         _mapa.ZastosujPrzetwarzanie(przetwarzacz);
+         _mapa.ZastosowanePrzetwarzacze.ElementAt(0).ShouldBeType<PustyPrzetwarzaczZNastepnikiem>();
+         _mapa.ZastosowanePrzetwarzacze.ElementAt(1).ShouldBeType<PustyPrzetwarzacz>();
+      }
 
-
-      private static IMapa MockPrzykladowegoZbioruPunktowZSasiedztwem()
+      private static IMapa MockInterfejsuMapa()
       {
-         var punkt1 = new Punkt{Pozycja = new Vector3(10f, 3f, 2f)};
-         var punkt2 = new Punkt{Pozycja = new Vector3(-4f, 1f, 3f)};
-         var punkt3 = new Punkt{Pozycja = new Vector3(-3f, 0f, 5f)};
-         punkt1.Sasiedzi = new List<IPunkt>{punkt2};
-         punkt2.Sasiedzi = new List<IPunkt>{punkt1, punkt3};
-         punkt3.Sasiedzi = new List<IPunkt>{punkt2};
-         var punkty = new List<IPunkt> {punkt1, punkt2, punkt3};
-
-         var mock = new Mock<IMapa>();
-         mock.Setup(zp => zp.Punkty).Returns(punkty);
+         var punkty = MockPunktow();
+         var mock = new Mock<IMapa>{};
+         mock.Setup(m => m.Punkty).Returns(punkty);
+         mock.Setup(m => m.ZastosujPrzetwarzanie(It.IsAny<IPrzetwarzaczMapy>()))
+            .Callback((IPrzetwarzaczMapy p) => p.Przetwarzaj(mock.Object));
          return mock.Object;
       }
 
+      private static IMapa MockKlasyMapa()
+      {
+         var punkty = MockPunktow();
+         var mock = new Mock<Mapa>{CallBase = true};
+         mock.Setup(m => m.Punkty).Returns(punkty);
+         return mock.Object;
+      }
+
+      private static IEnumerable<IPunkt> MockPunktow()
+      {
+         var punkt1 = new Punkt { Pozycja = new Vector3(10f, 3f, 2f) };
+         var punkt2 = new Punkt { Pozycja = new Vector3(-4f, 1f, 3f) };
+         var punkt3 = new Punkt { Pozycja = new Vector3(-3f, 0f, 5f) };
+         punkt1.Sasiedzi = new List<IPunkt> { punkt2 };
+         punkt2.Sasiedzi = new List<IPunkt> { punkt1, punkt3 };
+         punkt3.Sasiedzi = new List<IPunkt> { punkt2 };
+         return new List<IPunkt> { punkt1, punkt2, punkt3 };
+      }
    }
 }
