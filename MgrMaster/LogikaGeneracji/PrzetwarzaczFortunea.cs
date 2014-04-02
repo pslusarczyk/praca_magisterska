@@ -8,11 +8,11 @@ namespace LogikaGeneracji
    {
       private Dictionary<Vector, IKomorka> _komorkiZVectorami;
       private Dictionary<Vector, IRog> _rogiZVectorami;
-      private readonly MapaProsta _mapaProsta = new MapaProsta();
+      private readonly Mapa _mapa = new Mapa();
 
-      public MapaProsta MapaProsta
+      public Mapa Mapa
       {
-         get { return _mapaProsta; }
+         get { return _mapa; }
       }
 
 
@@ -20,22 +20,22 @@ namespace LogikaGeneracji
       {
          _komorkiZVectorami = new Dictionary<Vector, IKomorka>();
          _rogiZVectorami = new Dictionary<Vector, IRog>();
-         MapaProsta.Dwukrawedzie = krawedzieWoronoja.Select(woro => UtworzDwukrawedz(woro)).ToList();
+         Mapa.Dwukrawedzie = krawedzieWoronoja.Select(woro => UtworzDwukrawedz(woro)).ToList();
          UstawKomorkomPrzylegle();
          UstawRogomBliskich();
-         MapaProsta.ZakonczonoTworzenie = true;
-         return MapaProsta.Dwukrawedzie;
+         Mapa.ZakonczonoTworzenie = true;
+         return Mapa.Dwukrawedzie;
       }
 
       private Dwukrawedz UtworzDwukrawedz(VoronoiEdge woro)
       {
          var dwukrawedz = new Dwukrawedz();
 
-         UstawSkladoweDwukrawedzi(woro, dwukrawedz);
+         UtworzSkladoweDwukrawedzi(woro, dwukrawedz);
          PolaczKomorkiIRogiZDwukrawedzi(dwukrawedz);
 
-         MapaProsta.Komorki = new HashSet<IKomorka>(_komorkiZVectorami.Values);
-         MapaProsta.Rogi = new HashSet<IRog>(_rogiZVectorami.Values);
+         Mapa.Komorki = new HashSet<IKomorka>(_komorkiZVectorami.Values);
+         Mapa.Rogi = new HashSet<IRog>(_rogiZVectorami.Values);
 
          return dwukrawedz;
       }
@@ -48,7 +48,7 @@ namespace LogikaGeneracji
          dwukrawedz.Drugi.DodajKomorki(dwukrawedz.Lewa, dwukrawedz.Prawa);
       }
 
-      private void UstawSkladoweDwukrawedzi(VoronoiEdge woro, Dwukrawedz dwukrawedz)
+      private void UtworzSkladoweDwukrawedzi(VoronoiEdge woro, Dwukrawedz dwukrawedz)
       {
          if (!_komorkiZVectorami.ContainsKey(woro.LeftData))
             _komorkiZVectorami[woro.LeftData] = new Komorka(woro.LeftData);
@@ -69,7 +69,7 @@ namespace LogikaGeneracji
 
       private void UstawKomorkomPrzylegle()
       {
-         foreach (Dwukrawedz dwukrawedz in MapaProsta.Dwukrawedzie)
+         foreach (Dwukrawedz dwukrawedz in Mapa.Dwukrawedzie)
          {
             if (!dwukrawedz.Lewa.PrzylegleKomorki.Contains(dwukrawedz.Prawa))
             {
@@ -86,7 +86,7 @@ namespace LogikaGeneracji
 
       private void UstawRogomBliskich()
       {
-         foreach (Dwukrawedz dwukrawedz in MapaProsta.Dwukrawedzie)
+         foreach (Dwukrawedz dwukrawedz in Mapa.Dwukrawedzie)
          {
             if (!dwukrawedz.Pierwszy.BliskieRogi.Contains(dwukrawedz.Drugi))
             {

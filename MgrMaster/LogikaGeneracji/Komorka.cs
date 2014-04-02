@@ -5,6 +5,7 @@ namespace LogikaGeneracji
 {
    public interface IKomorka
    {
+      IDaneKomorki Dane { get; set; }
       IPunkt Punkt { get; set; }
       IList<IRog> Rogi { get; set; }
       IList<IKomorka> PrzylegleKomorki { get; set; }
@@ -22,6 +23,7 @@ namespace LogikaGeneracji
 
       public IList<IKomorka> PrzylegleKomorki { get; set; }
       public IPunkt NajnizszySasiad { get; set; }
+      public IDaneKomorki Dane { get; set; }
       public IPunkt Punkt { get; set; }
       public IList<IRog> Rogi { get; set; }
 
@@ -38,5 +40,9 @@ namespace LogikaGeneracji
             Punkt.Sasiedzi.Add(drugi.Punkt);
          }
       }
+   }
+
+   public interface IDaneKomorki
+   {
    }
 }

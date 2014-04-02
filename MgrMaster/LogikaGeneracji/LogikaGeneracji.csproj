@@ -43,22 +43,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IKomorkaGeograficzna.cs" />
-    <Compile Include="IModyfikatorWysokosci.cs" />
+    <Compile Include="PrzetwarzaczeMapy\AktualizatorNastepstwaMapyWysokosci.cs" />
+    <Compile Include="PrzetwarzaczeMapy\ModyfikatorWysokosciNaAdekwatneDoPozycji.cs" />
     <Compile Include="Punkt.cs" />
     <Compile Include="IRozdzielaczWodyILądu.cs" />
-    <Compile Include="IZbiorKomorekGeograficznych.cs" />
     <Compile Include="Komorka.cs" />
     <Compile Include="MapaProsta.cs" />
-    <Compile Include="MapaGeograficzna.cs" />
     <Compile Include="NarzedziaPrzetwarzaniaFortunea.cs" />
-    <Compile Include="NaWysokosciAdekwatneDoPozycji.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PrzetwarzaczFortunea.cs" />
-    <Compile Include="PrzetwarzaczZbioruPunktow.cs" />
-    <Compile Include="PunktGeograficzny.cs" />
+    <Compile Include="PrzetwarzaczeMapy\IPrzetwarzaczMapy.cs" />
     <Compile Include="Rog.cs" />
-    <Compile Include="TypKomorki.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZewnetrzneBiblioteki\ZewnetrzneBiblioteki.csproj">

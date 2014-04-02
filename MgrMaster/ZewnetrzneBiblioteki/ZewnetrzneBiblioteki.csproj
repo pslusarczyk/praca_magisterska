@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2D34C7A8-4540-416C-8A8B-9FB45E52F46C}</ProjectGuid>
+    <ProjectGuid>{3EDE1B0C-224A-4090-BBA1-93E4455B6A28}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Testy</RootNamespace>
-    <AssemblyName>Testy</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>ZewnetrzneBiblioteki</RootNamespace>
+    <AssemblyName>ZewnetrzneBiblioteki</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,43 +34,25 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1402.2112\lib\net35\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Should">
-      <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestyMechanizmuPrzetwarzania.cs" />
-    <Compile Include="TestyPrzetwarzaniaFortunea.cs" />
+    <Compile Include="FortuneVoronoi\FortuneVoronoi.cs" />
+    <Compile Include="FortuneVoronoi\FortuneHashSet.cs" />
+    <Compile Include="FortuneVoronoi\PriorityQueue.cs" />
+    <Compile Include="FortuneVoronoi\ToolBox.cs" />
+    <Compile Include="FortuneVoronoi\Vector.cs" />
+    <Compile Include="PerlinNoise\PerlinTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestyPrzetwarzaczyZwiazanychZTopologia.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ZewnetrzneBiblioteki\ZewnetrzneBiblioteki.csproj">
-      <Project>{3EDE1B0C-224A-4090-BBA1-93E4455B6A28}</Project>
-      <Name>ZewnetrzneBiblioteki</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LogikaGeneracji\LogikaGeneracji.csproj">
-      <Project>{C1AB377F-749B-411C-A09D-691490F67B48}</Project>
-      <Name>LogikaGeneracji</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Unity\Assembly-CSharp.csproj">
-      <Project>{FB0809E4-77CE-0461-65D3-A78993EF56B3}</Project>
-      <Name>Assembly-CSharp</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
