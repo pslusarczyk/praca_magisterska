@@ -21,10 +21,10 @@
       MorzePrzybrzezne
    }
 
-   public enum TypRogu
+   public enum BrzeznoscRogu
    {
       OtwartyLad,
       Brzeg,
-      MorzePrzybrzezne
+      OtwarteMorze
    }
 }

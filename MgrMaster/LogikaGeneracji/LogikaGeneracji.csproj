@@ -43,6 +43,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PrzetwarzaczeMapy\AktualizatorBrzeznosciKomorek.cs" />
+    <Compile Include="PrzetwarzaczeMapy\AktualizatorBrzeznosciRogow.cs" />
     <Compile Include="PrzetwarzaczeMapy\AktualizatorNastepstwaMapyWysokosci.cs" />
     <Compile Include="PrzetwarzaczeMapy\Typy.cs" />
     <Compile Include="PrzetwarzaczeMapy\PustyPrzetwarzacz.cs" />

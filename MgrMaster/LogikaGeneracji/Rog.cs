@@ -1,11 +1,13 @@
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+using LogikaGeneracji.PrzetwarzaczeMapy;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 
 namespace LogikaGeneracji
 {
    public interface IRog
    {
-      IDaneRogu Dane { get; set; }
+      DaneRogu Dane { get; set; }
       IPunkt Punkt { get; set; }
       IList<IKomorka> Komorki { get; set; }
       IList<IRog> BliskieRogi { get; set; }
@@ -22,7 +24,7 @@ namespace LogikaGeneracji
       }
 
       public IPunkt NajnizszySasiad { get; set; }
-      public IDaneRogu Dane { get; set; }
+      public DaneRogu Dane { get; set; }
       public IPunkt Punkt { get; set; }
       public IList<IKomorka> Komorki { get; set; }
       public IList<IRog> BliskieRogi { get; set; }
@@ -42,7 +44,8 @@ namespace LogikaGeneracji
       }
    }
 
-   public interface IDaneRogu
+   public class DaneRogu
    {
+      public BrzeznoscRogu? Brzeznosc { get; set; }
    }
 }

@@ -26,6 +26,7 @@ namespace Testy
       }
 
       private ISet<IKomorka> _komorki;
+      private ISet<IRog> _rogi;
 
       [Test]
       public void RozdzielaczWodyILąduPrzypisujeKomorkomTypy()
@@ -75,7 +76,7 @@ namespace Testy
          BrzeznoscKomorki.BrzegMorza, BrzeznoscKomorki.OtwartyLad)]
       [TestCase(4, BrzeznoscKomorki.OtwartyLad, BrzeznoscKomorki.OtwartyLad, BrzeznoscKomorki.BrzegMorza,
          BrzeznoscKomorki.BrzegMorza, BrzeznoscKomorki.MorzePrzybrzezne)]
-      public void RozdzielaczMorzIJeziorOdpowiednioPrzypisujeBrzeżności(int indeksInicjatora,
+      public void AktualizatorBrzeżnościKomórekOdpowiednioPrzypisujeBrzeżnościKomórek(int indeksInicjatora,
       BrzeznoscKomorki spodziewanaBrzeznoscK1, BrzeznoscKomorki spodziewanaBrzeznoscK2,
       BrzeznoscKomorki spodziewanaBrzeznoscK3, BrzeznoscKomorki spodziewanaBrzeznoscK4, BrzeznoscKomorki spodziewanaBrzeznoscK5)
          {
@@ -87,7 +88,10 @@ namespace Testy
             IKomorka k4 = _komorki.ElementAt(3);
             IKomorka k5 = _komorki.ElementAt(4);
             IKomorka inicjator = _komorki.ElementAt(indeksInicjatora);
-            IPrzetwarzaczMapy rozdzielacz = new RozdzielaczMorzIJezior(inicjator);
+            var rozdzielacz = new RozdzielaczMorzIJezior(inicjator)
+            {
+               Nastepnik = new AktualizatorBrzeznosciKomorek()
+            };
 
             mapa.ZastosujPrzetwarzanie(rozdzielacz);
 
@@ -98,6 +102,38 @@ namespace Testy
             k5.Dane.Brzeznosc.ShouldEqual(spodziewanaBrzeznoscK5);
 
          }
+
+      [TestCase(0, BrzeznoscRogu.OtwarteMorze, BrzeznoscRogu.Brzeg, BrzeznoscRogu.Brzeg,
+   BrzeznoscRogu.OtwartyLad, BrzeznoscRogu.OtwartyLad)]
+      [TestCase(1, BrzeznoscRogu.OtwarteMorze, BrzeznoscRogu.Brzeg, BrzeznoscRogu.Brzeg,
+   BrzeznoscRogu.OtwartyLad, BrzeznoscRogu.OtwartyLad)]
+      [TestCase(4, BrzeznoscRogu.OtwartyLad, BrzeznoscRogu.OtwartyLad, BrzeznoscRogu.OtwartyLad,
+   BrzeznoscRogu.Brzeg, BrzeznoscRogu.Brzeg)]
+      public void AktualizatorBrzeżnościRogówOdpowiednioPrzypisujeBrzeżnościRogów(int indeksInicjatora,
+      BrzeznoscRogu spodziewanaBrzeznoscR1, BrzeznoscRogu spodziewanaBrzeznoscR2,
+      BrzeznoscRogu spodziewanaBrzeznoscR3, BrzeznoscRogu spodziewanaBrzeznoscR4, BrzeznoscRogu spodziewanaBrzeznoscR5)
+      {
+         _komorki = MockKomorek();
+         IMapa mapa = MockKlasyMapa(_komorki);
+         IKomorka inicjator = _komorki.ElementAt(indeksInicjatora);
+         IRog r1 = _rogi.ElementAt(0);
+         IRog r2 = _rogi.ElementAt(1);
+         IRog r3 = _rogi.ElementAt(2);
+         IRog r4 = _rogi.ElementAt(3);
+         IRog r5 = _rogi.ElementAt(4);
+         var rozdzielacz = new RozdzielaczMorzIJezior(inicjator)
+         {
+            Nastepnik = new AktualizatorBrzeznosciRogow()
+         };
+
+         mapa.ZastosujPrzetwarzanie(rozdzielacz);
+
+         r1.Dane.Brzeznosc.ShouldEqual(spodziewanaBrzeznoscR1);
+         r2.Dane.Brzeznosc.ShouldEqual(spodziewanaBrzeznoscR2);
+         r3.Dane.Brzeznosc.ShouldEqual(spodziewanaBrzeznoscR3);
+         r4.Dane.Brzeznosc.ShouldEqual(spodziewanaBrzeznoscR4);
+         r5.Dane.Brzeznosc.ShouldEqual(spodziewanaBrzeznoscR5);
+      }
 
 
       private static IMapa MockKlasyMapa(ISet<IKomorka> komorki)
@@ -110,9 +146,9 @@ namespace Testy
       private static IEnumerable<IPunkt> MockPunktow()
       {
          /*              Układ:
-          *               /k3\
-          *       k1 — k2     k5
-          *               \k4/
+          *          r1 r2/K3\r4
+          *       K1 — K2     K5
+          *             r3\K4/r5
           */
 
          var punkt1 = new Punkt { Pozycja = new Vector3(10f, 3f, 2f) };
