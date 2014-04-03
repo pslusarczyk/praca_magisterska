@@ -47,6 +47,7 @@
     <Compile Include="PrzetwarzanieMapy\AktualizatorBrzeznosciRogow.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorNastepstwaMapyWysokosci.cs" />
     <Compile Include="PrzetwarzanieMapy\Baza\KreatorCiaguPrzetwarzan.cs" />
+    <Compile Include="PrzetwarzanieMapy\WyrownywaczTerenuJeziora.cs" />
     <Compile Include="Typy.cs" />
     <Compile Include="PrzetwarzanieMapy\PustyPrzetwarzacz.cs" />
     <Compile Include="PrzetwarzanieMapy\ModyfikatorWysokosciNaAdekwatneDoPozycji.cs" />
