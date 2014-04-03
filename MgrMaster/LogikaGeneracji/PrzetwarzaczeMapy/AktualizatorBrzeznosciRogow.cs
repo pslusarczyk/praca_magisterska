@@ -26,13 +26,13 @@ namespace LogikaGeneracji.PrzetwarzaczeMapy
             ))
             rog.Dane.Brzeznosc = BrzeznoscRogu.Brzeg;
 
-         if(typyKomorekTegoRogu.All(t => t == TypKomorki.Morze))
+         else if(typyKomorekTegoRogu.All(t => t == TypKomorki.Morze))
             rog.Dane.Brzeznosc = BrzeznoscRogu.OtwarteMorze;
 
-         if (typyKomorekTegoRogu.All(t => t == TypKomorki.Lad || t == TypKomorki.Jezioro))
+         else if (typyKomorekTegoRogu.All(t => t == TypKomorki.Lad || t == TypKomorki.Jezioro))
             rog.Dane.Brzeznosc = BrzeznoscRogu.OtwartyLad;
 
-         throw new InvalidOperationException("Nie uda³o siê przypisaæ rogowi brze¿noœci");
+         else throw new InvalidOperationException("Nie uda³o siê przypisaæ rogowi brze¿noœci");
       }
    }
 }

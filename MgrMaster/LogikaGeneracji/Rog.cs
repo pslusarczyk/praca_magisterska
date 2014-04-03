@@ -16,11 +16,16 @@ namespace LogikaGeneracji
 
    public class Rog : IRog
    {
-      public Rog(Vector wektorFortunea)
+      public Rog()
       {
-         Punkt = new Punkt {Pozycja = NarzedziaPrzetwarzaniaFortunea.VectorNaVector3(wektorFortunea)};
          Komorki = new List<IKomorka>();
          BliskieRogi = new List<IRog>();
+         Dane = new DaneRogu(); // todo jak w komórkach: jeœliby wprowadziæ etap wstêpny etap przetwarzania dzia³aj¹cy na tym polu, to mo¿naby wywaliæ tê inicjalizacjê ¿eby by³o wiadomo, czy okreœlono dane czy nie
+      }
+
+      public Rog(Vector wektorFortunea) : this()
+      {
+         Punkt = new Punkt { Pozycja = NarzedziaPrzetwarzaniaFortunea.VectorNaVector3(wektorFortunea) };
       }
 
       public IPunkt NajnizszySasiad { get; set; }

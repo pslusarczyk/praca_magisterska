@@ -109,12 +109,13 @@ namespace Testy
    BrzeznoscRogu.OtwartyLad, BrzeznoscRogu.OtwartyLad)]
       [TestCase(4, BrzeznoscRogu.OtwartyLad, BrzeznoscRogu.OtwartyLad, BrzeznoscRogu.OtwartyLad,
    BrzeznoscRogu.Brzeg, BrzeznoscRogu.Brzeg)]
-      public void AktualizatorBrzeżnościRogówOdpowiednioPrzypisujeBrzeżnościRogów(int indeksInicjatora,
+      public void AktualizatorBrzeżnościRogówOdpowiednioJePrzypisuje(int indeksInicjatora,
       BrzeznoscRogu spodziewanaBrzeznoscR1, BrzeznoscRogu spodziewanaBrzeznoscR2,
       BrzeznoscRogu spodziewanaBrzeznoscR3, BrzeznoscRogu spodziewanaBrzeznoscR4, BrzeznoscRogu spodziewanaBrzeznoscR5)
       {
          _komorki = MockKomorek();
-         IMapa mapa = MockKlasyMapa(_komorki);
+         _rogi = MockRogow(_komorki);
+         IMapa mapa = MockKlasyMapa(_komorki, _rogi);
          IKomorka inicjator = _komorki.ElementAt(indeksInicjatora);
          IRog r1 = _rogi.ElementAt(0);
          IRog r2 = _rogi.ElementAt(1);
@@ -136,14 +137,15 @@ namespace Testy
       }
 
 
-      private static IMapa MockKlasyMapa(ISet<IKomorka> komorki)
+      private static IMapa MockKlasyMapa(ISet<IKomorka> komorki, ISet<IRog> rogi = null)
       {
          IMapa mapa = new Mapa();
          mapa.Komorki = (HashSet<IKomorka>) komorki;
+         mapa.Rogi = (HashSet<IRog>) rogi;
          return mapa;
       }
 
-      private static IEnumerable<IPunkt> MockPunktow()
+      private static IList<IPunkt> MockPunktow()
       {
          /*              Układ:
           *          r1 r2/K3\r4
@@ -184,7 +186,22 @@ namespace Testy
                potencjalnySasiad => komorka.Punkt.Sasiedzi.Contains(potencjalnySasiad.Punkt)).ToList();
          }
          return komorki;
-      } 
+      }
+
+      private ISet<IRog> MockRogow(ISet<IKomorka> komorki)
+      {
+         var r1 = new Rog();
+         var r2 = new Rog();
+         var r3 = new Rog();
+         var r4 = new Rog();
+         var r5 = new Rog();
+         r1.Komorki = new List<IKomorka> {komorki.ElementAt(0), komorki.ElementAt(1)};
+         r2.Komorki = new List<IKomorka> {komorki.ElementAt(1), komorki.ElementAt(2)};
+         r3.Komorki = new List<IKomorka> {komorki.ElementAt(1), komorki.ElementAt(3)};
+         r4.Komorki = new List<IKomorka> {komorki.ElementAt(2), komorki.ElementAt(4)};
+         r5.Komorki = new List<IKomorka> {komorki.ElementAt(3), komorki.ElementAt(4)};
+         return new HashSet<IRog>{r1, r2, r3, r4, r5};
+      }
    }
 }
 
