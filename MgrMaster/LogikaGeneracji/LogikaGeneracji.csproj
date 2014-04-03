@@ -43,21 +43,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PrzetwarzaczeMapy\AktualizatorBrzeznosciKomorek.cs" />
-    <Compile Include="PrzetwarzaczeMapy\AktualizatorBrzeznosciRogow.cs" />
-    <Compile Include="PrzetwarzaczeMapy\AktualizatorNastepstwaMapyWysokosci.cs" />
-    <Compile Include="PrzetwarzaczeMapy\Typy.cs" />
-    <Compile Include="PrzetwarzaczeMapy\PustyPrzetwarzacz.cs" />
-    <Compile Include="PrzetwarzaczeMapy\ModyfikatorWysokosciNaAdekwatneDoPozycji.cs" />
-    <Compile Include="PrzetwarzaczeMapy\RozdzielaczMorzIJezior.cs" />
+    <Compile Include="PrzetwarzanieMapy\AktualizatorBrzeznosciKomorek.cs" />
+    <Compile Include="PrzetwarzanieMapy\AktualizatorBrzeznosciRogow.cs" />
+    <Compile Include="PrzetwarzanieMapy\AktualizatorNastepstwaMapyWysokosci.cs" />
+    <Compile Include="PrzetwarzanieMapy\Baza\KreatorCiaguPrzetwarzan.cs" />
+    <Compile Include="Typy.cs" />
+    <Compile Include="PrzetwarzanieMapy\PustyPrzetwarzacz.cs" />
+    <Compile Include="PrzetwarzanieMapy\ModyfikatorWysokosciNaAdekwatneDoPozycji.cs" />
+    <Compile Include="PrzetwarzanieMapy\RozdzielaczMorzIJezior.cs" />
     <Compile Include="Punkt.cs" />
-    <Compile Include="IRozdzielaczWodyILądu.cs" />
     <Compile Include="Komorka.cs" />
     <Compile Include="MapaProsta.cs" />
-    <Compile Include="NarzedziaPrzetwarzaniaFortunea.cs" />
+    <Compile Include="PrzetwarzanieFortunea\NarzedziaPrzetwarzaniaFortunea.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PrzetwarzaczFortunea.cs" />
-    <Compile Include="PrzetwarzaczeMapy\IPrzetwarzaczMapy.cs" />
+    <Compile Include="PrzetwarzanieFortunea\PrzetwarzaczFortunea.cs" />
+    <Compile Include="PrzetwarzanieMapy\Baza\IPrzetwarzaczMapy.cs" />
     <Compile Include="Rog.cs" />
   </ItemGroup>
   <ItemGroup>

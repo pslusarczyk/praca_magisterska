@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using LogikaGeneracji.PrzetwarzaczeMapy;
+using LogikaGeneracji.PrzetwarzaczeMapy.Baza;
 
-namespace LogikaGeneracji.PrzetwarzaczeMapy
+namespace LogikaGeneracji.PrzetwarzanieMapy
 {
    public class RozdzielaczMorzIJezior : IPrzetwarzaczMapy
    {

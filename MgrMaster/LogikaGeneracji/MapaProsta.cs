@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using LogikaGeneracji.PrzetwarzaczeMapy;
+using LogikaGeneracji.PrzetwarzaczeMapy.Baza;
+using LogikaGeneracji.PrzetwarzanieFortunea;
 
 namespace LogikaGeneracji
 {

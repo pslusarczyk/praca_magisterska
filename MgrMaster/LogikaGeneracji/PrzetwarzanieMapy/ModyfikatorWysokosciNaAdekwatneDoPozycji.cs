@@ -1,4 +1,6 @@
-namespace LogikaGeneracji.PrzetwarzaczeMapy
+using LogikaGeneracji.PrzetwarzaczeMapy.Baza;
+
+namespace LogikaGeneracji.PrzetwarzanieMapy
 {
    public class ModyfikatorWysokosciNaAdekwatneDoPozycji : IPrzetwarzaczMapy
    {

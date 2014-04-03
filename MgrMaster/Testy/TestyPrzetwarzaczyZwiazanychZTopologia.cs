@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using LogikaGeneracji;
 using LogikaGeneracji.PrzetwarzaczeMapy;
+using LogikaGeneracji.PrzetwarzaczeMapy.Baza;
+using LogikaGeneracji.PrzetwarzanieMapy;
 using Moq;
 using NUnit.Framework;
 using Should;

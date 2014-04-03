@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using LogikaGeneracji.PrzetwarzaczeMapy;
+using LogikaGeneracji.PrzetwarzanieFortunea;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 
 namespace LogikaGeneracji

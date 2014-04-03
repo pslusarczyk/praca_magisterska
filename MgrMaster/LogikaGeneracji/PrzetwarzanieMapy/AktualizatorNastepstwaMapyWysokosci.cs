@@ -1,6 +1,7 @@
 using System.Linq;
+using LogikaGeneracji.PrzetwarzaczeMapy.Baza;
 
-namespace LogikaGeneracji.PrzetwarzaczeMapy
+namespace LogikaGeneracji.PrzetwarzanieMapy
 {
    public class AktualizatorNastepstwaMapyWysokosci : IPrzetwarzaczMapy
    {

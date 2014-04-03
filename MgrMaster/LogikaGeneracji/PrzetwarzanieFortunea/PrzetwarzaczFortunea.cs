@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 
-namespace LogikaGeneracji
+namespace LogikaGeneracji.PrzetwarzanieFortunea
 {
    public class PrzetwarzaczFortunea
    {

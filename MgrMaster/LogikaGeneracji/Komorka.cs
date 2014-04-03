@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using LogikaGeneracji.PrzetwarzaczeMapy;
+using LogikaGeneracji.PrzetwarzanieFortunea;
 using UnityEngine;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 

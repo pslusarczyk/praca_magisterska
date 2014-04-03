@@ -1,7 +1,7 @@
 using UnityEngine;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 
-namespace LogikaGeneracji
+namespace LogikaGeneracji.PrzetwarzanieFortunea
 {
     static internal class NarzedziaPrzetwarzaniaFortunea
     {

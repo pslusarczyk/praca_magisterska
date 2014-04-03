@@ -1,4 +1,4 @@
-﻿namespace LogikaGeneracji.PrzetwarzaczeMapy
+﻿namespace LogikaGeneracji
 {
    public enum Podloze
    {

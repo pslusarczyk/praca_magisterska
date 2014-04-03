@@ -2,6 +2,8 @@
 using System.Linq;
 using LogikaGeneracji;
 using LogikaGeneracji.PrzetwarzaczeMapy;
+using LogikaGeneracji.PrzetwarzaczeMapy.Baza;
+using LogikaGeneracji.PrzetwarzanieMapy;
 using NUnit.Framework;
 using Should;
 using UnityEngine;

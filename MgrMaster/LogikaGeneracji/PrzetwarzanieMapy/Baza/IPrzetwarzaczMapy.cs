@@ -1,4 +1,4 @@
-﻿namespace LogikaGeneracji.PrzetwarzaczeMapy
+﻿namespace LogikaGeneracji.PrzetwarzaczeMapy.Baza
 {
    public interface IPrzetwarzaczMapy
    {
