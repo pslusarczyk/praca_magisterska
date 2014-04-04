@@ -136,11 +136,17 @@ namespace Testy
       }
 
       // Pilne uwzględnić w PT jeziora więcej niż jednokomórkowe
-      //[TestCase("1", 1)]
-      //[TestCase("2", 1)]
+      [TestCase("1", 1)]
+      [TestCase("2", 1)]
       [TestCase("3", 2)]
-      //[TestCase("4", 2)]
-      //[TestCase("5", 4)]
+      [TestCase("4", 3)]
+      [TestCase("5", 4)]
+      [TestCase("1;2", 1)]
+      [TestCase("2;3", 1)]
+      [TestCase("4;5", 3)]
+      [TestCase("1;2;3;4;5", 1)]
+      // todo test sprawdzający dwa oddzielone jeziora?
+      // todo test sprawdzający czy niejeziorne komórki się nie zmieniły? Ten i powyższy wykonane ręcznie 4 IV.
       public void WyrównywaczTerenuJezioraOdpowiednioModyfikujeWysokosc(string jeziora, float minWys)
       {
          _komorki = MockKomorek();
@@ -153,14 +159,14 @@ namespace Testy
             _komorki.ElementAt(i).Punkt.Wysokosc = i+1;
             _rogi.ElementAt(i).Punkt.Wysokosc = i+1;
          }
-         IEnumerable<int> numeryJezior = jeziora.Split(';').Select(int.Parse);
-         foreach (int numer in numeryJezior)
-            _komorki.ElementAt(numer-1).Dane.Typ = TypKomorki.Jezioro;
+         IEnumerable<int> indeksyJezior = jeziora.Split(';').Select(n => int.Parse(n) - 1);
+         foreach (int indeks in indeksyJezior)
+            _komorki.ElementAt(indeks).Dane.Typ = TypKomorki.Jezioro;
          
          mapa.ZastosujPrzetwarzanie(new WyrownywaczTerenuJeziora());
 
-         _komorki.ElementAt(1).Punkt.Wysokosc.ShouldEqual(minWys);
-         _komorki.ElementAt(1).Rogi.ToList().ForEach(r => r.Punkt.Wysokosc.ShouldEqual(minWys));
+         _komorki.ElementAt(indeksyJezior.First()).Punkt.Wysokosc.ShouldEqual(minWys);
+         _komorki.ElementAt(indeksyJezior.First()).Rogi.ToList().ForEach(r => r.Punkt.Wysokosc.ShouldEqual(minWys));
       }
 
       #endregion
