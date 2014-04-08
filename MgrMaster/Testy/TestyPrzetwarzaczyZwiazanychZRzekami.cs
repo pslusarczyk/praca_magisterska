@@ -77,11 +77,24 @@ namespace Testy
          _mapa.Rzeki.Count().ShouldEqual(0);
       }
 
-
+      // Pilne Prawdopodobnie coś jest nie tak z sąsiedztwem. 
+      // Sąsiadami komórki 2 są róg 1 oraz komórki 3 i 4, a powinny to być rogi 1, 2 i 3
       [Test]
       public void RzekaSpływającaDoMorzaTworzySięIKończyNaBrzegu()
       {
-         
+         var aktualizator = new AktualizatorNastepstwaMapyWysokosci();
+         IPunkt punktPoczatkowy = _mapa.Komorki.ElementAt(2).Punkt;
+         IRog brzeg = _mapa.Komorki.ElementAt(0).Rogi.First();
+         brzeg.Dane.Brzeznosc = BrzeznoscRogu.Brzeg;
+
+         IGeneratorRzeki generatorRzeki = new GeneratorRzeki(punktPoczatkowy);
+         _mapa.ZastosujPrzetwarzanie(aktualizator);
+
+         _mapa.ZastosujPrzetwarzanie(generatorRzeki);
+
+         generatorRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
+         _mapa.Rzeki.Count().ShouldEqual(1);
+         _mapa.Rzeki.First().Punkty.Last().ShouldEqual(brzeg.Punkt);
       }
 
       [Test]
@@ -156,7 +169,7 @@ namespace Testy
 
       private ISet<IRog> MockRogow(ISet<IKomorka> komorki)
       {
-         var r1 = new Rog{Punkt = new Punkt()};
+         var r1 = new Rog{ Punkt = new Punkt()};
          var r2 = new Rog{ Punkt = new Punkt()};
          var r3 = new Rog{ Punkt = new Punkt()};
          var r4 = new Rog{ Punkt = new Punkt()};
@@ -166,6 +179,11 @@ namespace Testy
          r3.Komorki = new List<IKomorka> {komorki.ElementAt(1), komorki.ElementAt(3)};
          r4.Komorki = new List<IKomorka> {komorki.ElementAt(2), komorki.ElementAt(4)};
          r5.Komorki = new List<IKomorka> {komorki.ElementAt(3), komorki.ElementAt(4)};
+         r1.Punkt.Sasiedzi = r1.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
+         r2.Punkt.Sasiedzi = r2.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
+         r3.Punkt.Sasiedzi = r3.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
+         r4.Punkt.Sasiedzi = r4.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
+         r5.Punkt.Sasiedzi = r5.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
          komorki.ElementAt(0).Rogi = new List<IRog> {r1};
          komorki.ElementAt(1).Rogi = new List<IRog> {r1, r2, r3};
          komorki.ElementAt(2).Rogi = new List<IRog> {r2, r4};
