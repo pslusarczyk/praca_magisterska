@@ -9,15 +9,26 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
 
       public virtual void Przetwarzaj(IMapa mapa)
       {
-         foreach (var punktGeograficzny in mapa.Punkty)
+         foreach (var punkt in mapa.Punkty)
          {
-            if (!punktGeograficzny.Sasiedzi.Any(s => s.Wysokosc < punktGeograficzny.Wysokosc))
+            if (PunktNalezyDoRoguBedacegoBrzegiemLubMorzem(mapa, punkt))
                continue;
 
-            float minimalnaWysokosc = punktGeograficzny.Sasiedzi.Min(s => s.Wysokosc);
-            punktGeograficzny.Nastepnik = punktGeograficzny.Sasiedzi
+            if (!punkt.Sasiedzi.Any(
+               s => s.Wysokosc <= punkt.Wysokosc
+               ))
+               continue;
+
+            float minimalnaWysokosc = punkt.Sasiedzi.Min(s => s.Wysokosc);
+            punkt.Nastepnik = punkt.Sasiedzi
                .First(s => s.Wysokosc == minimalnaWysokosc);
          }
+      }
+
+      private static bool PunktNalezyDoRoguBedacegoBrzegiemLubMorzem(IMapa mapa, IPunkt s)
+      {
+         return mapa.Rogi.Any(r => r.Punkt == s
+            && (r.Dane.Brzeznosc == BrzeznoscRogu.Brzeg) || (r.Dane.Brzeznosc == BrzeznoscRogu.OtwarteMorze));
       }
    }
 }

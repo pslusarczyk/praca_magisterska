@@ -102,6 +102,30 @@ namespace Testy
       }
 
       [Test]
+      public void ŁańcuchNastępnikówKończySięNaBrzegu()
+      {
+         _mapa = MockKlasyMapa();
+         var modyfikator = new ProstyModyfikatorWysokosci();
+         var punkt1 = _mapa.Punkty.ElementAt(0);
+         var punkt2 = _mapa.Punkty.ElementAt(1);
+         var punkt3 = _mapa.Punkty.ElementAt(2);
+         _mapa.Rogi.Add(new Rog
+         {
+            Punkt = punkt2,
+            Dane = new DaneRogu
+            {
+               Brzeznosc = BrzeznoscRogu.Brzeg
+            }
+         });
+         
+         _mapa.ZastosujPrzetwarzanie(modyfikator);
+
+         punkt1.Nastepnik.ShouldEqual(punkt2);
+         punkt2.Nastepnik.ShouldBeNull();
+         punkt3.Nastepnik.ShouldBeNull();
+      }
+
+      [Test]
       public void NastepnicyPunktówGeograficznychSąIchSąsiadami()
       {
          _mapa = MockKlasyMapa();
@@ -127,7 +151,7 @@ namespace Testy
          p3.Wysokosc.ShouldEqual(p3.Pozycja.y);
       }
 
-      [Test]
+      [Test] // todo Potrzebne? Przenieść do testów mechanizmu przetwarzania?
       public void PrzetwarzaczZNastępnikiemWywołujeGoPoSobie()
       {
          _mapa = new Mapa(); // nie mock, bo testujemy zachowanie związane z rejestracją przetwarzaczy
@@ -136,6 +160,7 @@ namespace Testy
          _mapa.ZastosowanePrzetwarzacze.ElementAt(0).ShouldBeType<PustyPrzetwarzaczZNastepnikiem>();
          _mapa.ZastosowanePrzetwarzacze.ElementAt(1).ShouldBeType<PustyPrzetwarzacz>();
       }
+
 
       private static IMapa MockInterfejsuMapa()
       {
@@ -150,8 +175,10 @@ namespace Testy
       private static IMapa MockKlasyMapa()
       {
          var punkty = MockPunktow();
+         var rogi = new HashSet<IRog>();
          var mock = new Mock<Mapa>{CallBase = true};
          mock.Setup(m => m.Punkty).Returns(punkty);
+         mock.Object.Rogi = rogi;
          return mock.Object;
       }
 

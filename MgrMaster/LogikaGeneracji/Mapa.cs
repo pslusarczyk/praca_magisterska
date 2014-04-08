@@ -12,7 +12,9 @@ namespace LogikaGeneracji
       HashSet<IKomorka> Komorki { get; set; }
       HashSet<IRog> Rogi { get; set; }
       void ZastosujPrzetwarzanie(IPrzetwarzaczMapy przetwarzacz); // todo jak ni¿ej
-      List<IPrzetwarzaczMapy> ZastosowanePrzetwarzacze { get; set; } // todo cykliczne referencje, ale przy bardzo prostej interakcji – mo¿e byæ?
+      List<IPrzetwarzaczMapy> ZastosowanePrzetwarzacze { get; set; } // todo cykliczne referencje, ale przy bardzo prostej interakcji – mo¿e tak byæ?
+      IList<IRzeka> Rzeki { get; set; }
+
       void UstawPunktomSasiedztwa();
    }
 
@@ -23,6 +25,7 @@ namespace LogikaGeneracji
       public HashSet<IKomorka> Komorki { get; set; }
       public HashSet<IRog> Rogi { get; set; }
       public List<IPrzetwarzaczMapy> ZastosowanePrzetwarzacze { get; set; }
+      public IList<IRzeka> Rzeki { get; set; }
 
       public void ZastosujPrzetwarzanie(IPrzetwarzaczMapy przetwarzacz)
       {
@@ -35,6 +38,7 @@ namespace LogikaGeneracji
       public Mapa()
       {
          ZastosowanePrzetwarzacze = new List<IPrzetwarzaczMapy>();
+         Rzeki = new List<IRzeka>();
          ZakonczonoTworzenie = false;
       }
 
@@ -48,7 +52,7 @@ namespace LogikaGeneracji
          }
       }
 
-      public virtual IEnumerable<IPunkt> Punkty
+      public virtual IEnumerable<IPunkt> Punkty // wydajnoœæ: ta w³aœciwoœæ jest obliczana za ka¿dym razem
       {
          get
          {

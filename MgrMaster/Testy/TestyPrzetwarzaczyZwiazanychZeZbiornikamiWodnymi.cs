@@ -17,7 +17,7 @@ namespace Testy
     */
 
    [TestFixture]
-   public class TestyPrzetwarzaczyZwiazanychZWlasciwosciamiKomorekIRogow
+   public class TestyPrzetwarzaczyZwiazanychZeZbiornikamiWodnymi
    {
 
       #region Deklaracje
@@ -135,7 +135,6 @@ namespace Testy
          _rogi.ElementAt(4).Dane.Brzeznosc.ShouldEqual(spodziewanaBrzeznoscR5);
       }
 
-      // Pilne uwzględnić w PT jeziora więcej niż jednokomórkowe
       [TestCase("1", 1)]
       [TestCase("2", 1)]
       [TestCase("3", 2)]
@@ -196,8 +195,7 @@ namespace Testy
          return new List<IPunkt> { punktK1, punktK2, punktK3, punktK4, punktK5 };
       }
 
-      private static ISet<IKomorka> MockKomorek() // todo to też będzie do poprawy przy uwzględnieniu, 
-         // że punkty przyległych komórek nie są sąsiadami.
+      private static ISet<IKomorka> MockKomorek() 
       {
          var punkty = MockPunktow();
          var k1 = new Komorka {Punkt = punkty.ElementAt(0)};

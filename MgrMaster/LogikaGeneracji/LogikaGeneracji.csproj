@@ -43,10 +43,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Rzeka.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorBrzeznosciKomorek.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorBrzeznosciRogow.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorNastepstwaMapyWysokosci.cs" />
     <Compile Include="PrzetwarzanieMapy\Baza\KreatorCiaguPrzetwarzan.cs" />
+    <Compile Include="PrzetwarzanieMapy\GeneratorRzeki.cs" />
+    <Compile Include="PrzetwarzanieMapy\IGeneratorRzeki.cs" />
     <Compile Include="PrzetwarzanieMapy\WyrownywaczTerenuJeziora.cs" />
     <Compile Include="Typy.cs" />
     <Compile Include="PrzetwarzanieMapy\PustyPrzetwarzacz.cs" />
@@ -54,7 +57,7 @@
     <Compile Include="PrzetwarzanieMapy\RozdzielaczMorzIJezior.cs" />
     <Compile Include="Punkt.cs" />
     <Compile Include="Komorka.cs" />
-    <Compile Include="MapaProsta.cs" />
+    <Compile Include="Mapa.cs" />
     <Compile Include="PrzetwarzanieFortunea\NarzedziaPrzetwarzaniaFortunea.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PrzetwarzanieFortunea\PrzetwarzaczFortunea.cs" />
