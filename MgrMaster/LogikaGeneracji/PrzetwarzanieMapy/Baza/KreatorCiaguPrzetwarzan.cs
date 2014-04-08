@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LogikaGeneracji.PrzetwarzaczeMapy.Baza
+namespace LogikaGeneracji.PrzetwarzanieMapy.Baza
 {
    public class KreatorCiaguPrzetwarzan
    {

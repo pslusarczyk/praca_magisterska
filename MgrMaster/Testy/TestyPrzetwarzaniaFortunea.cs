@@ -46,22 +46,22 @@ namespace Testy
       }
 
       [Test]
-      public void KazdyPunktMaPoCoNajmniejTrzechSasiadow()
+      public void KazdyPunktMaPoCoNajmniejDwóchSasiadow()
       {
          _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
          foreach (IPunkt punkt in _przetwarzacz.Mapa.Punkty)
          {
-            punkt.Sasiedzi.Count().ShouldBeInRange(3, Int32.MaxValue);
+            punkt.Sasiedzi.Count().ShouldBeInRange(2, Int32.MaxValue);
          }
       }
 
       [Test]
-      public void KazdyPunktMaTyluSasiadowIleMaSasiednichKomorekIRogow()
+      public void PunktKażdejKomórkiMaTyleSąsiadówIleOnaRogów_APunktKażdegoRoguTyleIleMaKomórekIBliskich()
       {
          _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
          foreach (IKomorka komorka in _przetwarzacz.Mapa.Komorki)
          {
-            komorka.Punkt.Sasiedzi.Count().ShouldEqual(komorka.PrzylegleKomorki.Count + komorka.Rogi.Count);
+            komorka.Punkt.Sasiedzi.Count().ShouldEqual(komorka.Rogi.Count);
          }
          foreach (IRog rog in _przetwarzacz.Mapa.Rogi)
          {

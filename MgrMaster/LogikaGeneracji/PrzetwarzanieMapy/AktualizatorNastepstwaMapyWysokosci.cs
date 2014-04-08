@@ -1,5 +1,5 @@
 using System.Linq;
-using LogikaGeneracji.PrzetwarzaczeMapy.Baza;
+using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {

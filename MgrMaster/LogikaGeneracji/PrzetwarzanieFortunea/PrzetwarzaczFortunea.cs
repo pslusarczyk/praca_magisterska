@@ -74,12 +74,10 @@ namespace LogikaGeneracji.PrzetwarzanieFortunea
             if (!dwukrawedz.Lewa.PrzylegleKomorki.Contains(dwukrawedz.Prawa))
             {
                dwukrawedz.Lewa.PrzylegleKomorki.Add(dwukrawedz.Prawa);
-               dwukrawedz.Lewa.Punkt.Sasiedzi.Add(dwukrawedz.Prawa.Punkt);
             }
             if (!dwukrawedz.Prawa.PrzylegleKomorki.Contains(dwukrawedz.Lewa))
             {
                dwukrawedz.Prawa.PrzylegleKomorki.Add(dwukrawedz.Lewa);
-               dwukrawedz.Prawa.Punkt.Sasiedzi.Add(dwukrawedz.Lewa.Punkt);
             }
          }
       }

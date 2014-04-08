@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LogikaGeneracji.PrzetwarzaczeMapy;
-using LogikaGeneracji.PrzetwarzaczeMapy.Baza;
+using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {
