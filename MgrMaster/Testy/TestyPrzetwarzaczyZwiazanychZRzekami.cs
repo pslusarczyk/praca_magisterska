@@ -38,7 +38,7 @@ namespace Testy
       }
 
       [Test]
-      public void SpływSięNieUdajeGdyJestWNiecce() // todo to właściwie zostało przetestowane w aktualizatorze – usunąć?
+      public void PunktBędącyNieckąNieMaNastępnika() // todo to właściwie zostało przetestowane w aktualizatorze – usunąć?
       {
          var aktualizator = new AktualizatorNastepstwaMapyWysokosci();
          IPunkt punktPoczatkowy = _mapa.Komorki.ElementAt(2).Punkt;
@@ -50,7 +50,7 @@ namespace Testy
       }
 
       [Test]
-      public void SpływSięUdajeGdyNieJestWNiecce() // todo to właściwie zostało przetestowane w aktualizatorze – usunąć?
+      public void PunktNiebędącyNieckąMaNastępnik() // todo to właściwie zostało przetestowane w aktualizatorze – usunąć?
       {
          var aktualizator = new AktualizatorNastepstwaMapyWysokosci();
          IPunkt punktPoczatkowy = _mapa.Komorki.ElementAt(2).Punkt;
@@ -77,13 +77,14 @@ namespace Testy
          _mapa.Rzeki.Count().ShouldEqual(0);
       }
 
-      // Pilne Prawdopodobnie coś jest nie tak z sąsiedztwem. 
-      // Sąsiadami komórki 2 są róg 1 oraz komórki 3 i 4, a powinny to być rogi 1, 2 i 3
-      [Test]
-      public void RzekaSpływającaDoMorzaTworzySięIKończyNaBrzegu()
+      [TestCase(null,null)]
+      [TestCase(Podloze.Ziemia,TypKomorki.Jezioro)]
+      public void RzekaSpływającaDoMorzaPrzezKomorkeTworzySięIKończyNaBrzegu(Podloze podlozeK2, TypKomorki typK2)
       {
          var aktualizator = new AktualizatorNastepstwaMapyWysokosci();
          IPunkt punktPoczatkowy = _mapa.Komorki.ElementAt(2).Punkt;
+         _mapa.Komorki.ElementAt(1).Dane.Podloze = podlozeK2;
+         _mapa.Komorki.ElementAt(1).Dane.Typ = typK2;
          IRog brzeg = _mapa.Komorki.ElementAt(0).Rogi.First();
          brzeg.Dane.Brzeznosc = BrzeznoscRogu.Brzeg;
 
@@ -95,12 +96,7 @@ namespace Testy
          generatorRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
          _mapa.Rzeki.Count().ShouldEqual(1);
          _mapa.Rzeki.First().Punkty.Last().ShouldEqual(brzeg.Punkt);
-      }
-
-      [Test]
-      public void RzekaPrzepływającaPrzezJezioroIWpadającaDoMorzaTworzySięIKończyNaBrzegu()
-      {
-         
+         _mapa.Rzeki.First().Punkty.Count.ShouldEqual(3);
       }
 
       [Test]
@@ -108,6 +104,19 @@ namespace Testy
       {
          
       }
+
+      [Test]
+      public void GdyDwieRzekiSięŁącząDłuższaMaZaZłączeniemGrubośćRównąSumieDwóchGrubości()
+      {
+         
+      }
+
+      [Test]
+      public void GdyJednaRzekaWpływaWŹródłoDrugiejNadpisujeJąAleGrubiejeOdTegoMiejsca()
+      {
+         
+      }
+
 
       #endregion
 
