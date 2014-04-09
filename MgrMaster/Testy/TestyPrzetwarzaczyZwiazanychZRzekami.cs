@@ -136,15 +136,11 @@ namespace Testy
          var punktK2 = new Punkt { Pozycja = new Vector3(-4f, 1f, 3f) };
          var punktK3 = new Punkt { Pozycja = new Vector3(-3f, 0f, 5f) };
          var punktK4 = new Punkt { Pozycja = new Vector3(-1f, 4f, 1f) };
-         var punktK5 = new Punkt { Pozycja = new Vector3(-2f, 2f, 2f) };
-         punktK1.Sasiedzi = new List<IPunkt> { punktK2 };
-         punktK2.Sasiedzi = new List<IPunkt> { punktK1, punktK3, punktK4 };
-         punktK3.Sasiedzi = new List<IPunkt> { punktK2, punktK5 };
-         punktK4.Sasiedzi = new List<IPunkt> { punktK2, punktK5 };
-         punktK5.Sasiedzi = new List<IPunkt> { punktK3, punktK4 };
+         var punktK5 = new Punkt { Pozycja = new Vector3(-2f, 2f, 2f) };    
          return new List<IPunkt> { punktK1, punktK2, punktK3, punktK4, punktK5 };
       }
 
+      // todo Może utworzyć mechanizm/przetwarzacz łączący w pary komórki/rogi i, przy okazji, ich punkty?
       private static ISet<IKomorka> MockKomorek() 
       {
          var punkty = MockPunktow();
@@ -158,12 +154,12 @@ namespace Testy
          k3.Dane.Podloze = Podloze.Ziemia;
          k4.Dane.Podloze = Podloze.Ziemia;
          k5.Dane.Podloze = Podloze.Woda;
+         k1.PrzylegleKomorki = new List<IKomorka>{k2};
+         k2.PrzylegleKomorki = new List<IKomorka>{k1, k3, k4};
+         k3.PrzylegleKomorki = new List<IKomorka>{k2, k5};
+         k4.PrzylegleKomorki = new List<IKomorka>{k2, k5};
+         k5.PrzylegleKomorki = new List<IKomorka>{k3, k4};
          var komorki = new HashSet<IKomorka>{k1, k2, k3, k4, k5};
-         foreach (IKomorka komorka in komorki)
-         {
-            komorka.PrzylegleKomorki = komorki.Where(
-               potencjalnySasiad => komorka.Punkt.Sasiedzi.Contains(potencjalnySasiad.Punkt)).ToList();
-         }
          return komorki;
       }
 
@@ -174,6 +170,11 @@ namespace Testy
          var r3 = new Rog{ Punkt = new Punkt()};
          var r4 = new Rog{ Punkt = new Punkt()};
          var r5 = new Rog{ Punkt = new Punkt()};
+         r1.BliskieRogi = new List<IRog>{r2, r3};
+         r2.BliskieRogi = new List<IRog>{r1, r3, r4};
+         r3.BliskieRogi = new List<IRog>{r1, r2, r5};
+         r4.BliskieRogi = new List<IRog>{r2, r5};
+         r5.BliskieRogi = new List<IRog>{r3, r4};
          r1.Komorki = new List<IKomorka> {komorki.ElementAt(0), komorki.ElementAt(1)};
          r2.Komorki = new List<IKomorka> {komorki.ElementAt(1), komorki.ElementAt(2)};
          r3.Komorki = new List<IKomorka> {komorki.ElementAt(1), komorki.ElementAt(3)};
@@ -184,11 +185,21 @@ namespace Testy
          r3.Punkt.Sasiedzi = r3.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
          r4.Punkt.Sasiedzi = r4.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
          r5.Punkt.Sasiedzi = r5.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
-         komorki.ElementAt(0).Rogi = new List<IRog> {r1};
-         komorki.ElementAt(1).Rogi = new List<IRog> {r1, r2, r3};
-         komorki.ElementAt(2).Rogi = new List<IRog> {r2, r4};
-         komorki.ElementAt(3).Rogi = new List<IRog> {r3, r5};
-         komorki.ElementAt(4).Rogi = new List<IRog> {r4, r5};
+         var k1 = komorki.ElementAt(0);
+         var k2 = komorki.ElementAt(1);
+         var k3 = komorki.ElementAt(2);
+         var k4 = komorki.ElementAt(3);
+         var k5 = komorki.ElementAt(4);
+         k1.Rogi = new List<IRog> {r1};
+         k2.Rogi = new List<IRog> {r1, r2, r3};
+         k3.Rogi = new List<IRog> {r2, r4};
+         k4.Rogi = new List<IRog> {r3, r5};
+         k5.Rogi = new List<IRog> {r4, r5};
+         k1.Punkt.Sasiedzi = k1.Rogi.Select(r => r.Punkt).ToList();
+         k2.Punkt.Sasiedzi = k1.Rogi.Select(r => r.Punkt).ToList();
+         k3.Punkt.Sasiedzi = k1.Rogi.Select(r => r.Punkt).ToList();
+         k4.Punkt.Sasiedzi = k1.Rogi.Select(r => r.Punkt).ToList();
+         k5.Punkt.Sasiedzi = k1.Rogi.Select(r => r.Punkt).ToList();
          return new HashSet<IRog>{r1, r2, r3, r4, r5};
       }
 
