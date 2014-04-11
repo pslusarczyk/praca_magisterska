@@ -8,6 +8,8 @@ using UnityEngine;
 
 namespace Testy
 {
+   // Pilne zrobić punktom, rogom i komórkom identyfikatory?
+
    [TestFixture]
    public class TestyPrzetwarzaczyZwiazanychZRzekami
    {
@@ -79,7 +81,7 @@ namespace Testy
 
       [TestCase(null,null)]
       [TestCase(Podloze.Ziemia,TypKomorki.Jezioro)]
-      public void RzekaSpływającaDoMorzaPrzezKomorkeTworzySięIKończyNaBrzegu(Podloze podlozeK2, TypKomorki typK2)
+      public void RzekaSpływającaDoMorzaPrzezKomorkeTworzySięPoprawnie(Podloze podlozeK2, TypKomorki typK2)
       {
          var aktualizator = new AktualizatorNastepstwaMapyWysokosci();
          IPunkt punktPoczatkowy = _mapa.Komorki.ElementAt(2).Punkt;
@@ -87,22 +89,49 @@ namespace Testy
          _mapa.Komorki.ElementAt(1).Dane.Typ = typK2;
          IRog brzeg = _mapa.Komorki.ElementAt(0).Rogi.First();
          brzeg.Dane.Brzeznosc = BrzeznoscRogu.Brzeg;
-
-         IGeneratorRzeki generatorRzeki = new GeneratorRzeki(punktPoczatkowy);
          _mapa.ZastosujPrzetwarzanie(aktualizator);
 
+         IGeneratorRzeki generatorRzeki = new GeneratorRzeki(punktPoczatkowy);
          _mapa.ZastosujPrzetwarzanie(generatorRzeki);
 
          generatorRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
          _mapa.Rzeki.Count().ShouldEqual(1);
-         _mapa.Rzeki.First().Punkty.Last().ShouldEqual(brzeg.Punkt);
-         _mapa.Rzeki.First().Punkty.Count.ShouldEqual(3);
+         _mapa.Rzeki.First().MiejscaRzeki.Last().Punkt.ShouldEqual(brzeg.Punkt);
+         _mapa.Rzeki.First().MiejscaRzeki.Count.ShouldEqual(3); // k3, r2, r1
+         for(int i=0; i<3; ++i) _mapa.Rzeki.First().MiejscaRzeki.ElementAt(i).DlugoscDotad.ShouldEqual(i);
       }
 
       [Test]
-      public void GdyDwieRzekiSięŁącząWspólnyOdcinekNależyDoTejDłuższej()
+      public void GdyDwieRzekiSięŁącząWspólnyOdcinekNależyDoTejDłuższejAJegoGrubośćJestSumąGrubości()
       {
+         var aktualizator = new AktualizatorNastepstwaMapyWysokosci();
+         IPunkt punktPoczatkowyKrotszej = _mapa.Komorki.ElementAt(3).Punkt;
+         IPunkt punktPoczatkowyDluzszej = _mapa.Komorki.ElementAt(4).Punkt;
+         _mapa.Rogi.ElementAt(1).Punkt.Sasiedzi.Remove(_mapa.Rogi.ElementAt(0).Punkt);
+         _mapa.Rogi.ElementAt(2).Punkt.Sasiedzi.Remove(_mapa.Rogi.ElementAt(0).Punkt); // usuwamy te sąsiedztwa, żeby rzeka płynęła przez k2
+         IPunkt ujscie = _mapa.Komorki.ElementAt(1).Punkt;
+         ujscie.Wysokosc = 1.5f; // żeby mieć pewność, że r3 spływa do k2, a nie do r2
+         IRog brzeg = _mapa.Komorki.ElementAt(0).Rogi.First();
+         brzeg.Dane.Brzeznosc = BrzeznoscRogu.Brzeg;
+         _mapa.ZastosujPrzetwarzanie(aktualizator);
+
+         IGeneratorRzeki generatorKrotszejRzeki = new GeneratorRzeki(punktPoczatkowyKrotszej);
+         IGeneratorRzeki generatorDluzszejRzeki = new GeneratorRzeki(punktPoczatkowyDluzszej);
+
+         _mapa.ZastosujPrzetwarzanie(generatorKrotszejRzeki);
+         _mapa.ZastosujPrzetwarzanie(generatorDluzszejRzeki);
+
+         generatorKrotszejRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
+         generatorDluzszejRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
+         _mapa.Rzeki.Count().ShouldEqual(2);
+         IRzeka krotsza = _mapa.Rzeki.ElementAt(0);
+         IRzeka dluzsza = _mapa.Rzeki.ElementAt(1);
+         krotsza.MiejscaRzeki.Last().Punkt.ShouldEqual(brzeg.Punkt);
+         dluzsza.MiejscaRzeki.Last().Punkt.ShouldEqual(brzeg.Punkt);
+         krotsza.MiejscaRzeki.Count.ShouldEqual(3); // k4, r3, k2
+         dluzsza.MiejscaRzeki.Count.ShouldEqual(5); // k5, r4, r2, k2, r1
          
+         // todo grubości
       }
 
       [Test]
@@ -110,13 +139,6 @@ namespace Testy
       {
          
       }
-
-      [Test]
-      public void GdyJednaRzekaWpływaWŹródłoDrugiejNadpisujeJąAleGrubiejeOdTegoMiejsca()
-      {
-         
-      }
-
 
       #endregion
 
@@ -190,10 +212,10 @@ namespace Testy
          r4.Komorki = new List<IKomorka> {komorki.ElementAt(2), komorki.ElementAt(4)};
          r5.Komorki = new List<IKomorka> {komorki.ElementAt(3), komorki.ElementAt(4)};
          r1.Punkt.Sasiedzi = r1.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
-         r2.Punkt.Sasiedzi = r2.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
-         r3.Punkt.Sasiedzi = r3.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
-         r4.Punkt.Sasiedzi = r4.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
-         r5.Punkt.Sasiedzi = r5.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
+         r2.Punkt.Sasiedzi = r2.BliskieRogi.Select(b => b.Punkt).Union(r2.Komorki.Select(k => k.Punkt)).ToList();
+         r3.Punkt.Sasiedzi = r3.BliskieRogi.Select(b => b.Punkt).Union(r3.Komorki.Select(k => k.Punkt)).ToList();
+         r4.Punkt.Sasiedzi = r4.BliskieRogi.Select(b => b.Punkt).Union(r4.Komorki.Select(k => k.Punkt)).ToList();
+         r5.Punkt.Sasiedzi = r5.BliskieRogi.Select(b => b.Punkt).Union(r5.Komorki.Select(k => k.Punkt)).ToList();
          var k1 = komorki.ElementAt(0);
          var k2 = komorki.ElementAt(1);
          var k3 = komorki.ElementAt(2);
@@ -205,10 +227,10 @@ namespace Testy
          k4.Rogi = new List<IRog> {r3, r5};
          k5.Rogi = new List<IRog> {r4, r5};
          k1.Punkt.Sasiedzi = k1.Rogi.Select(r => r.Punkt).ToList();
-         k2.Punkt.Sasiedzi = k1.Rogi.Select(r => r.Punkt).ToList();
-         k3.Punkt.Sasiedzi = k1.Rogi.Select(r => r.Punkt).ToList();
-         k4.Punkt.Sasiedzi = k1.Rogi.Select(r => r.Punkt).ToList();
-         k5.Punkt.Sasiedzi = k1.Rogi.Select(r => r.Punkt).ToList();
+         k2.Punkt.Sasiedzi = k2.Rogi.Select(r => r.Punkt).ToList();
+         k3.Punkt.Sasiedzi = k3.Rogi.Select(r => r.Punkt).ToList();
+         k4.Punkt.Sasiedzi = k4.Rogi.Select(r => r.Punkt).ToList();
+         k5.Punkt.Sasiedzi = k5.Rogi.Select(r => r.Punkt).ToList();
          return new HashSet<IRog>{r1, r2, r3, r4, r5};
       }
 
