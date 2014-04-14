@@ -9,10 +9,9 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
    {
       private const float GruboscJednostkowa = 1f;
 
-      private int   _aktualnaDlugosc;
       private float _aktualnaGrubosc;
       private IMapa _mapa;
-      private IList<IMiejsceRzeki> _miejscaSplywu;
+      private IList<IOdcinekRzeki> _odcinki;
 
       public Random Random { get; set; }
       public IPrzetwarzaczMapy Nastepnik { get; set; }
@@ -27,31 +26,56 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
       public void Przetwarzaj(IMapa mapa)
       {
          _mapa = mapa;
-         _aktualnaDlugosc = 0;
          _aktualnaGrubosc = GruboscJednostkowa;
-         _miejscaSplywu = new List<IMiejsceRzeki>();
-         IMiejsceRzeki aktualneMiejsce = new MiejsceRzeki
-         {
-            Punkt = PunktPoczatkowy, DlugoscDotad = _aktualnaDlugosc, Grubosc = _aktualnaGrubosc
-         };
+         _odcinki = new List<IOdcinekRzeki>();
 
-         SprobujUtworzycRzeke(_miejscaSplywu, aktualneMiejsce);
+         SprobujUtworzycRzeke(PunktPoczatkowy);
       }
 
-      private void SprobujUtworzycRzeke(IList<IMiejsceRzeki> miejscaSplywu, IMiejsceRzeki miejscePoczatkowe)
+      // Pilne Poprawiæ pod k¹tem zagnie¿d¿eñ.
+      private void SprobujUtworzycRzeke(IPunkt PunktPoczatkowy)
       {
-         IMiejsceRzeki aktualneMiejsce = miejscePoczatkowe;
-         miejscaSplywu.Add(aktualneMiejsce);
-         while (aktualneMiejsce != null && aktualneMiejsce.Punkt.Nastepnik != null)
+         IPunkt aktualnyPunkt = PunktPoczatkowy;
+         IPunkt nastepnyPunkt = aktualnyPunkt.Nastepnik;
+
+         while (nastepnyPunkt != null)
          {
-            _aktualnaDlugosc += 1;
-            aktualneMiejsce = SplynDalej(aktualneMiejsce);
+            _odcinki.Add(new OdcinekRzeki
+            {
+               Grubosc = GruboscJednostkowa,
+               PunktA = aktualnyPunkt,
+               PunktB = nastepnyPunkt
+            });
+            IRzeka kolizyjnaRzeka = _mapa.Rzeki.FirstOrDefault(rz => rz.Odcinki.Any(o => o.PunktA == nastepnyPunkt));
+            if (kolizyjnaRzeka != null)
+            {
+               bool kolidujacaJestDluzsza = _odcinki.Count < kolizyjnaRzeka.DlugoscDoPunktu(nastepnyPunkt);
+               if (kolidujacaJestDluzsza)
+               {
+                  PogrubRzekeOdPunktu(kolizyjnaRzeka, nastepnyPunkt, _aktualnaGrubosc);
+                  aktualnyPunkt = nastepnyPunkt;
+                  break;
+               }
+               else
+               {
+                  float gruboscDoDodania = kolizyjnaRzeka.Odcinki.First(o => o.PunktA == nastepnyPunkt).Grubosc;
+                  _aktualnaGrubosc += gruboscDoDodania;
+                  IList<IOdcinekRzeki> wycinek = WytnijCzescRzekiOdPunktu(kolizyjnaRzeka, nastepnyPunkt);
+                  _odcinki = _odcinki.Concat(wycinek).ToList();
+                  aktualnyPunkt = _odcinki.Last().PunktB;
+                  nastepnyPunkt = aktualnyPunkt.Nastepnik;
+                  continue;
+               }
+            }
+
+            aktualnyPunkt = nastepnyPunkt;
+            nastepnyPunkt = aktualnyPunkt.Nastepnik;
          }
 
-         if (KoncoweMiejsceJestNaBrzegu(_mapa, aktualneMiejsce.Punkt))
+         if (KoncoweMiejsceJestNaBrzegu(_mapa, aktualnyPunkt))
          {
             UdaloSieUtworzyc = true;
-            _mapa.Rzeki.Add(new Rzeka {MiejscaRzeki = miejscaSplywu});
+            _mapa.Rzeki.Add(new Rzeka {Odcinki = _odcinki});
          }
          else
          {
@@ -59,25 +83,42 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          }
       }
 
-      private IMiejsceRzeki SplynDalej(IMiejsceRzeki aktualneMiejsce)
+      private IList<IOdcinekRzeki> WytnijCzescRzekiOdPunktu(IRzeka rzeka, IPunkt punkt)
       {
-         IMiejsceRzeki istniejaceNastepne = NastepneMiejsceANalezaceJuzDoInnejRzeki(aktualneMiejsce);
-         var nastepneMiejsce = istniejaceNastepne ?? new MiejsceRzeki
+         int indeks = rzeka.DlugoscDoPunktu(punkt);
+         var wycinek = rzeka.Odcinki.Skip(indeks).ToList();
+         rzeka.Odcinki = rzeka.Odcinki.Take(indeks).ToList();
+         return wycinek;
+      }
+
+      private void PogrubRzekeOdPunktu(IRzeka rzeka, IPunkt punkt, float aktualnaGrubosc)
+      {
+         int indeksPunktu = rzeka.DlugoscDoPunktu(punkt);
+         foreach (var odcinekRzeki in rzeka.Odcinki.Skip(indeksPunktu))
          {
-            DlugoscDotad = _aktualnaDlugosc,
+            odcinekRzeki.Grubosc += aktualnaGrubosc;
+         }
+      }
+
+      private IOdcinekRzeki SplynDalej(IOdcinekRzeki aktualnyOdcinek)
+      {
+         IOdcinekRzeki istniejaceNastepne = NastepneMiejsceANalezaceJuzDoInnejRzeki(aktualnyOdcinek);
+
+         var nastepneMiejsce = istniejaceNastepne ?? new OdcinekRzeki
+         {
             Grubosc = _aktualnaGrubosc,
-            Punkt = aktualneMiejsce.Punkt.Nastepnik
+            PunktB = aktualnyOdcinek.PunktA.Nastepnik
          };
-         _miejscaSplywu.Add(nastepneMiejsce);
-         bool zakoncz = istniejaceNastepne != null;
-         if (zakoncz)
+         _odcinki.Add(nastepneMiejsce);
+
+         if (istniejaceNastepne != null)
          {
             ZmodyfikujRzekêNaJak¹Natrafi³eœAPozaTymZakoñczyæTrzebaTylkoWtedyKiedyJestD³u¿sza();
-            aktualneMiejsce = null;
+            aktualnyOdcinek = null;
          }
-         
-         else aktualneMiejsce = nastepneMiejsce;
-         return aktualneMiejsce;
+         else aktualnyOdcinek = nastepneMiejsce;
+
+         return aktualnyOdcinek;
       }
 
       private void ZmodyfikujRzekêNaJak¹Natrafi³eœAPozaTymZakoñczyæTrzebaTylkoWtedyKiedyJestD³u¿sza()
@@ -85,9 +126,9 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          throw new System.NotImplementedException();
       }
 
-      private IMiejsceRzeki NastepneMiejsceANalezaceJuzDoInnejRzeki(IMiejsceRzeki aktualneMiejsce)
+      private IOdcinekRzeki NastepneMiejsceANalezaceJuzDoInnejRzeki(IOdcinekRzeki aktualnyOdcinek)
       {
-         return _mapa.Rzeki.SelectMany(rz => rz.MiejscaRzeki).FirstOrDefault(m => m.Punkt == aktualneMiejsce.Punkt.Nastepnik);
+         return _mapa.Rzeki.SelectMany(rz => rz.Odcinki).FirstOrDefault(m => m.PunktA == aktualnyOdcinek.PunktB.Nastepnik);
       }
 
       private static bool KoncoweMiejsceJestNaBrzegu(IMapa mapa, IPunkt aktualnyPunkt)

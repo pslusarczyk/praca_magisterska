@@ -96,13 +96,14 @@ namespace Testy
 
          generatorRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
          _mapa.Rzeki.Count().ShouldEqual(1);
-         _mapa.Rzeki.First().MiejscaRzeki.Last().Punkt.ShouldEqual(brzeg.Punkt);
-         _mapa.Rzeki.First().MiejscaRzeki.Count.ShouldEqual(3); // k3, r2, r1
-         for(int i=0; i<3; ++i) _mapa.Rzeki.First().MiejscaRzeki.ElementAt(i).DlugoscDotad.ShouldEqual(i);
+         _mapa.Rzeki.First().Odcinki.Last().PunktB.ShouldEqual(brzeg.Punkt);
+         _mapa.Rzeki.First().Odcinki.Count.ShouldEqual(2); // k3-r2-r1
       }
 
+      // Pilne Przetestować Rzeka.DługośćDoPunktu
+
       [Test]
-      public void GdyDwieRzekiSięŁącząWspólnyOdcinekNależyDoTejDłuższejAJegoGrubośćJestSumąGrubości()
+      public void GdyDwieRzekiSięŁącząTaKrótszaSięKończyADłuższaPłynieDalejGrubsza()
       {
          var aktualizator = new AktualizatorNastepstwaMapyWysokosci();
          IPunkt punktPoczatkowyKrotszej = _mapa.Komorki.ElementAt(3).Punkt;
@@ -110,7 +111,7 @@ namespace Testy
          _mapa.Rogi.ElementAt(1).Punkt.Sasiedzi.Remove(_mapa.Rogi.ElementAt(0).Punkt);
          _mapa.Rogi.ElementAt(2).Punkt.Sasiedzi.Remove(_mapa.Rogi.ElementAt(0).Punkt); // usuwamy te sąsiedztwa, żeby rzeka płynęła przez k2
          IPunkt ujscie = _mapa.Komorki.ElementAt(1).Punkt;
-         ujscie.Wysokosc = 1.5f; // żeby mieć pewność, że r3 spływa do k2, a nie do r2
+         ujscie.Wysokosc = 1.5f; // żeby mieć pewność, że z r3 spływa do k2, a nie do r2
          IRog brzeg = _mapa.Komorki.ElementAt(0).Rogi.First();
          brzeg.Dane.Brzeznosc = BrzeznoscRogu.Brzeg;
          _mapa.ZastosujPrzetwarzanie(aktualizator);
@@ -119,17 +120,20 @@ namespace Testy
          IGeneratorRzeki generatorDluzszejRzeki = new GeneratorRzeki(punktPoczatkowyDluzszej);
 
          _mapa.ZastosujPrzetwarzanie(generatorKrotszejRzeki);
+
+         IRzeka krotsza = _mapa.Rzeki.ElementAt(0);
+         generatorKrotszejRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
+         krotsza.Odcinki.Last().PunktB.ShouldEqual(brzeg.Punkt);
+
          _mapa.ZastosujPrzetwarzanie(generatorDluzszejRzeki);
 
-         generatorKrotszejRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
          generatorDluzszejRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
          _mapa.Rzeki.Count().ShouldEqual(2);
-         IRzeka krotsza = _mapa.Rzeki.ElementAt(0);
          IRzeka dluzsza = _mapa.Rzeki.ElementAt(1);
-         krotsza.MiejscaRzeki.Last().Punkt.ShouldEqual(brzeg.Punkt);
-         dluzsza.MiejscaRzeki.Last().Punkt.ShouldEqual(brzeg.Punkt);
-         krotsza.MiejscaRzeki.Count.ShouldEqual(3); // k4, r3, k2
-         dluzsza.MiejscaRzeki.Count.ShouldEqual(5); // k5, r4, r2, k2, r1
+         krotsza.Odcinki.Last().PunktB.ShouldEqual(ujscie);
+         dluzsza.Odcinki.Last().PunktB.ShouldEqual(brzeg.Punkt);
+         krotsza.Odcinki.Count.ShouldEqual(2); // k4-r3-k2
+         dluzsza.Odcinki.Count.ShouldEqual(4); // k5-r4-r2-k2-r1
          
          // todo grubości
       }

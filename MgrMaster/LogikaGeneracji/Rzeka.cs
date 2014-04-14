@@ -1,28 +1,34 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LogikaGeneracji
 {
    public interface IRzeka
    {
-      IList<IMiejsceRzeki> MiejscaRzeki { get; set; } 
+      IList<IOdcinekRzeki> Odcinki { get; set; }
+      int DlugoscDoPunktu(IPunkt prog);
    }
 
    public class Rzeka : IRzeka
    {
-      public IList<IMiejsceRzeki> MiejscaRzeki { get; set; }
+      public IList<IOdcinekRzeki> Odcinki { get; set; }
+      public int DlugoscDoPunktu(IPunkt prog)
+      {
+         return Odcinki.IndexOf(Odcinki.First(o => o.PunktA == prog));
+      }
    }
 
-   public interface IMiejsceRzeki
+   public interface IOdcinekRzeki
    {
-      IPunkt Punkt { get; set; }
-      int DlugoscDotad { get; set; }
+      IPunkt PunktA { get; set; }
+      IPunkt PunktB { get; set; }
       float Grubosc { get; set; }
    }
 
-   public class MiejsceRzeki : IMiejsceRzeki
+   public class OdcinekRzeki : IOdcinekRzeki
    {
-      public IPunkt Punkt { get; set; }
-      public int DlugoscDotad { get; set; }
+      public IPunkt PunktA { get; set; }
+      public IPunkt PunktB { get; set; }
       public float Grubosc { get; set; }
    }
 }
