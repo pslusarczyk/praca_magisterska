@@ -100,10 +100,9 @@ namespace Testy
          _mapa.Rzeki.First().Odcinki.Count.ShouldEqual(2); // k3-r2-r1
       }
 
-      // Pilne Przetestować Rzeka.DługośćDoPunktu
-
-      [Test]
-      public void GdyDwieRzekiSięŁącząTaKrótszaSięKończyADłuższaPłynieDalejGrubsza()
+      [TestCase(true)]
+      [TestCase(false)]
+      public void GdyDwieRzekiSięŁącząTaKrótszaSięKończyADłuższaPłynieDalejGrubsza(bool najpierwKrotsza)
       {
          var aktualizator = new AktualizatorNastepstwaMapyWysokosci();
          IPunkt punktPoczatkowyKrotszej = _mapa.Komorki.ElementAt(3).Punkt;
@@ -118,30 +117,40 @@ namespace Testy
 
          IGeneratorRzeki generatorKrotszejRzeki = new GeneratorRzeki(punktPoczatkowyKrotszej);
          IGeneratorRzeki generatorDluzszejRzeki = new GeneratorRzeki(punktPoczatkowyDluzszej);
+         IRzeka krotsza; 
+         IRzeka dluzsza; 
+         if (najpierwKrotsza)
+         {
+            _mapa.ZastosujPrzetwarzanie(generatorKrotszejRzeki);
 
-         _mapa.ZastosujPrzetwarzanie(generatorKrotszejRzeki);
+            krotsza = _mapa.Rzeki.ElementAt(0);
+            generatorKrotszejRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
+            krotsza.Odcinki.Last().PunktB.ShouldEqual(brzeg.Punkt);
 
-         IRzeka krotsza = _mapa.Rzeki.ElementAt(0);
-         generatorKrotszejRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
-         krotsza.Odcinki.Last().PunktB.ShouldEqual(brzeg.Punkt);
+            _mapa.ZastosujPrzetwarzanie(generatorDluzszejRzeki);
+            dluzsza =  _mapa.Rzeki.ElementAt(1);
+         }
+         else
+         {
+            _mapa.ZastosujPrzetwarzanie(generatorDluzszejRzeki);
 
-         _mapa.ZastosujPrzetwarzanie(generatorDluzszejRzeki);
+            dluzsza = _mapa.Rzeki.ElementAt(1);
+            generatorDluzszejRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
+            dluzsza.Odcinki.Last().PunktB.ShouldEqual(brzeg.Punkt);
+
+            _mapa.ZastosujPrzetwarzanie(generatorKrotszejRzeki);
+            krotsza = _mapa.Rzeki.ElementAt(0);
+         }
 
          generatorDluzszejRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
          _mapa.Rzeki.Count().ShouldEqual(2);
-         IRzeka dluzsza = _mapa.Rzeki.ElementAt(1);
          krotsza.Odcinki.Last().PunktB.ShouldEqual(ujscie);
          dluzsza.Odcinki.Last().PunktB.ShouldEqual(brzeg.Punkt);
          krotsza.Odcinki.Count.ShouldEqual(2); // k4-r3-k2
          dluzsza.Odcinki.Count.ShouldEqual(4); // k5-r4-r2-k2-r1
-         
-         // todo grubości
-      }
-
-      [Test]
-      public void GdyDwieRzekiSięŁącząDłuższaMaZaZłączeniemGrubośćRównąSumieDwóchGrubości()
-      {
-         
+         krotsza.Odcinki.ToList().ForEach(o => o.Grubosc.ShouldEqual(GeneratorRzeki.GruboscJednostkowa));
+         dluzsza.Odcinki.Take(3).ToList().ForEach(o => o.Grubosc.ShouldEqual(GeneratorRzeki.GruboscJednostkowa));
+         krotsza.Odcinki.Skip(3).ToList().ForEach(o => o.Grubosc.ShouldEqual(GeneratorRzeki.GruboscJednostkowa*2));
       }
 
       #endregion

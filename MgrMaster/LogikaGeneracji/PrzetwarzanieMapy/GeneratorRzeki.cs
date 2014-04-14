@@ -7,7 +7,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
 {
    public class GeneratorRzeki : IGeneratorRzeki
    {
-      private const float GruboscJednostkowa = 1f;
+      public const float GruboscJednostkowa = 1f;
 
       private float _aktualnaGrubosc;
       private IMapa _mapa;
@@ -29,15 +29,15 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          _aktualnaGrubosc = GruboscJednostkowa;
          _odcinki = new List<IOdcinekRzeki>();
 
-         SprobujUtworzycRzeke(PunktPoczatkowy);
+         SprobujUtworzycRzeke();
       }
 
       // Pilne Poprawiæ pod k¹tem zagnie¿d¿eñ.
-      private void SprobujUtworzycRzeke(IPunkt PunktPoczatkowy)
+      private void SprobujUtworzycRzeke()
       {
          IPunkt aktualnyPunkt = PunktPoczatkowy;
          IPunkt nastepnyPunkt = aktualnyPunkt.Nastepnik;
-
+         IRzeka kolizyjnaRzeka = null;
          while (nastepnyPunkt != null)
          {
             _odcinki.Add(new OdcinekRzeki
@@ -46,22 +46,18 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
                PunktA = aktualnyPunkt,
                PunktB = nastepnyPunkt
             });
-            IRzeka kolizyjnaRzeka = _mapa.Rzeki.FirstOrDefault(rz => rz.Odcinki.Any(o => o.PunktA == nastepnyPunkt));
+            kolizyjnaRzeka = _mapa.Rzeki.FirstOrDefault(rz => rz.Odcinki.Any(o => o.PunktA == nastepnyPunkt));
             if (kolizyjnaRzeka != null)
             {
                bool kolidujacaJestDluzsza = _odcinki.Count < kolizyjnaRzeka.DlugoscDoPunktu(nastepnyPunkt);
+               ObsluzKolizje(kolidujacaJestDluzsza, kolizyjnaRzeka, nastepnyPunkt);
                if (kolidujacaJestDluzsza)
                {
-                  PogrubRzekeOdPunktu(kolizyjnaRzeka, nastepnyPunkt, _aktualnaGrubosc);
                   aktualnyPunkt = nastepnyPunkt;
                   break;
                }
                else
                {
-                  float gruboscDoDodania = kolizyjnaRzeka.Odcinki.First(o => o.PunktA == nastepnyPunkt).Grubosc;
-                  _aktualnaGrubosc += gruboscDoDodania;
-                  IList<IOdcinekRzeki> wycinek = WytnijCzescRzekiOdPunktu(kolizyjnaRzeka, nastepnyPunkt);
-                  _odcinki = _odcinki.Concat(wycinek).ToList();
                   aktualnyPunkt = _odcinki.Last().PunktB;
                   nastepnyPunkt = aktualnyPunkt.Nastepnik;
                   continue;
@@ -72,7 +68,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
             nastepnyPunkt = aktualnyPunkt.Nastepnik;
          }
 
-         if (KoncoweMiejsceJestNaBrzegu(_mapa, aktualnyPunkt))
+         if (kolizyjnaRzeka != null || KoncoweMiejsceJestNaBrzegu(_mapa, aktualnyPunkt))
          {
             UdaloSieUtworzyc = true;
             _mapa.Rzeki.Add(new Rzeka {Odcinki = _odcinki});
@@ -80,6 +76,21 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          else
          {
             UdaloSieUtworzyc = false;
+         }
+      }
+
+      private void ObsluzKolizje(bool kolidujacaJestDluzsza, IRzeka kolizyjnaRzeka, IPunkt punktKolizji)
+      {
+         if (kolidujacaJestDluzsza)
+         {
+            PogrubRzekeOdPunktu(kolizyjnaRzeka, punktKolizji, _aktualnaGrubosc);
+         }
+         else
+         {
+            float gruboscDoDodania = kolizyjnaRzeka.Odcinki.First(o => o.PunktA == punktKolizji).Grubosc;
+            _aktualnaGrubosc += gruboscDoDodania;
+            IList<IOdcinekRzeki> wycinek = WytnijCzescRzekiOdPunktu(kolizyjnaRzeka, punktKolizji);
+            _odcinki = _odcinki.Concat(wycinek).ToList();
          }
       }
 
@@ -98,37 +109,6 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          {
             odcinekRzeki.Grubosc += aktualnaGrubosc;
          }
-      }
-
-      private IOdcinekRzeki SplynDalej(IOdcinekRzeki aktualnyOdcinek)
-      {
-         IOdcinekRzeki istniejaceNastepne = NastepneMiejsceANalezaceJuzDoInnejRzeki(aktualnyOdcinek);
-
-         var nastepneMiejsce = istniejaceNastepne ?? new OdcinekRzeki
-         {
-            Grubosc = _aktualnaGrubosc,
-            PunktB = aktualnyOdcinek.PunktA.Nastepnik
-         };
-         _odcinki.Add(nastepneMiejsce);
-
-         if (istniejaceNastepne != null)
-         {
-            ZmodyfikujRzekêNaJak¹Natrafi³eœAPozaTymZakoñczyæTrzebaTylkoWtedyKiedyJestD³u¿sza();
-            aktualnyOdcinek = null;
-         }
-         else aktualnyOdcinek = nastepneMiejsce;
-
-         return aktualnyOdcinek;
-      }
-
-      private void ZmodyfikujRzekêNaJak¹Natrafi³eœAPozaTymZakoñczyæTrzebaTylkoWtedyKiedyJestD³u¿sza()
-      {
-         throw new System.NotImplementedException();
-      }
-
-      private IOdcinekRzeki NastepneMiejsceANalezaceJuzDoInnejRzeki(IOdcinekRzeki aktualnyOdcinek)
-      {
-         return _mapa.Rzeki.SelectMany(rz => rz.Odcinki).FirstOrDefault(m => m.PunktA == aktualnyOdcinek.PunktB.Nastepnik);
       }
 
       private static bool KoncoweMiejsceJestNaBrzegu(IMapa mapa, IPunkt aktualnyPunkt)
