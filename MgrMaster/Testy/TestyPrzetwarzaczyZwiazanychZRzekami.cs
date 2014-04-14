@@ -134,12 +134,12 @@ namespace Testy
          {
             _mapa.ZastosujPrzetwarzanie(generatorDluzszejRzeki);
 
-            dluzsza = _mapa.Rzeki.ElementAt(1);
+            dluzsza = _mapa.Rzeki.ElementAt(0);
             generatorDluzszejRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
             dluzsza.Odcinki.Last().PunktB.ShouldEqual(brzeg.Punkt);
 
             _mapa.ZastosujPrzetwarzanie(generatorKrotszejRzeki);
-            krotsza = _mapa.Rzeki.ElementAt(0);
+            krotsza = _mapa.Rzeki.ElementAt(1);
          }
 
          generatorDluzszejRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
