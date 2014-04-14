@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using LogikaGeneracji.PrzetwarzanieFortunea;
+using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 
 namespace LogikaGeneracji
 {
    public interface IRog
    {
+      int Id { get; set; }
       DaneRogu Dane { get; set; }
       IPunkt Punkt { get; set; }
       IList<IKomorka> Komorki { get; set; }
@@ -17,6 +19,7 @@ namespace LogikaGeneracji
    {
       public Rog()
       {
+         Id = new TworcaIdRogow().UtworzId();
          Komorki = new List<IKomorka>();
          BliskieRogi = new List<IRog>();
          Dane = new DaneRogu(); // todo jak w komórkach: jeœliby wprowadziæ etap wstêpny etap przetwarzania dzia³aj¹cy na tym polu, to mo¿naby wywaliæ tê inicjalizacjê ¿eby by³o wiadomo, czy okreœlono dane czy nie
@@ -27,6 +30,7 @@ namespace LogikaGeneracji
          Punkt = new Punkt { Pozycja = NarzedziaPrzetwarzaniaFortunea.VectorNaVector3(wektorFortunea) };
       }
 
+      public int Id { get; set; }
       public IPunkt NajnizszySasiad { get; set; }
       public DaneRogu Dane { get; set; }
       public IPunkt Punkt { get; set; }

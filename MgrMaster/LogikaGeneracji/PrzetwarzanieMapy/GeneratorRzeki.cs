@@ -32,7 +32,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          SprobujUtworzycRzeke();
       }
 
-      // Pilne Poprawiæ pod k¹tem zagnie¿d¿eñ.
+      // Todo Poprawiæ pod k¹tem zagnie¿d¿eñ.?
       private void SprobujUtworzycRzeke()
       {
          IPunkt aktualnyPunkt = PunktPoczatkowy;

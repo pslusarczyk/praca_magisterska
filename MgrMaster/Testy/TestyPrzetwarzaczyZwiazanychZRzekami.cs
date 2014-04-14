@@ -8,8 +8,6 @@ using UnityEngine;
 
 namespace Testy
 {
-   // Pilne zrobić punktom, rogom i komórkom identyfikatory?
-
    [TestFixture]
    public class TestyPrzetwarzaczyZwiazanychZRzekami
    {

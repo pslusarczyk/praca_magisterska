@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using LogikaGeneracji.PrzetwarzanieFortunea;
+using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 using UnityEngine;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 
@@ -7,6 +8,7 @@ namespace LogikaGeneracji
 {
    public interface IKomorka
    {
+      int Id { get; set; }
       DaneKomorki Dane { get; set; }
       IPunkt Punkt { get; set; }
       IList<IRog> Rogi { get; set; }
@@ -18,6 +20,7 @@ namespace LogikaGeneracji
    {
       public Komorka()
       {
+         Id = new TworcaIdKomorek().UtworzId();
          Punkt = new Punkt {Pozycja = new Vector3()};
          Rogi = new List<IRog>();
          PrzylegleKomorki = new List<IKomorka>();
@@ -29,6 +32,7 @@ namespace LogikaGeneracji
          Punkt.Pozycja = NarzedziaPrzetwarzaniaFortunea.VectorNaVector3(wektorFortunea);
       }
 
+      public int Id { get; set; }
       public IList<IKomorka> PrzylegleKomorki { get; set; }
       public IPunkt NajnizszySasiad { get; set; }
       public DaneKomorki Dane { get; set; }

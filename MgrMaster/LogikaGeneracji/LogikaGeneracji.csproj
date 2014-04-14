@@ -43,6 +43,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PrzetwarzanieMapy\Baza\ITworcaId.cs" />
     <Compile Include="Rzeka.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorBrzeznosciKomorek.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorBrzeznosciRogow.cs" />
