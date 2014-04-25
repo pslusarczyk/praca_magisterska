@@ -69,6 +69,20 @@
       <HintPath>C:\Program Files (x86)\Unity\Editor\Data\PlaybackEngines\AndroidPlayer\EditorExtensions\UnityEditor.Android.Extensions.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LogikaGeneracji\LogikaGeneracji.csproj">
+      <Project>{c1ab377f-749b-411c-a09d-691490f67b48}</Project>
+      <Name>LogikaGeneracji</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ZewnetrzneBiblioteki\ZewnetrzneBiblioteki.csproj">
+      <Project>{3ede1b0c-224a-4090-bba1-93e4455b6a28}</Project>
+      <Name>ZewnetrzneBiblioteki</Name>
+    </ProjectReference>
+    <ProjectReference Include="Assembly-CSharp.csproj">
+      <Project>{fb0809e4-77ce-0461-65d3-a78993ef56b3}</Project>
+      <Name>Assembly-CSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	   Other similar extension points exist, see Microsoft.Common.targets.

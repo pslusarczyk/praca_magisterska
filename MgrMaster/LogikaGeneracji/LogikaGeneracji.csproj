@@ -70,10 +70,6 @@
       <Project>{3EDE1B0C-224A-4090-BBA1-93E4455B6A28}</Project>
       <Name>ZewnetrzneBiblioteki</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unity\Assembly-CSharp.csproj">
-      <Project>{FB0809E4-77CE-0461-65D3-A78993EF56B3}</Project>
-      <Name>Assembly-CSharp</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
