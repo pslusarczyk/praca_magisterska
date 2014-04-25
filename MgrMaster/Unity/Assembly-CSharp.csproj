@@ -54,12 +54,6 @@
     <Compile Include="Assets\Skrypty\Wezel.cs" />
     <None Include="Assets\Resources\prototype_textures\readme.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ZewnetrzneBiblioteki\ZewnetrzneBiblioteki.csproj">
-      <Project>{3ede1b0c-224a-4090-bba1-93e4455b6a28}</Project>
-      <Name>ZewnetrzneBiblioteki</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	   Other similar extension points exist, see Microsoft.Common.targets.
