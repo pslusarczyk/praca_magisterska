@@ -2,10 +2,29 @@
 ## Paweł – Unity
 #################
 
-Produkcja/Library/
-Produkcja/Temp/
+Unity/obj
+Unity/Library
+Unity/ProjectSettings
+Unity/Temp
 *.dll
+*.pdb
 *.dll.mdb
+
+#################
+## Wzięte z  http://developers.nravo.com/mastering-unity-project-folder-structure-level-0-vcs/
+#################
+
+**/ExportedObj/
+**/obj/
+**/*.svd
+**/*.userprefs
+**//*.csproj
+**/*.pidb
+**/*.suo
+**//*.sln
+**/*.user
+**/*.unityproj
+**/*.booproj
 
 #################
 ## Eclipse
