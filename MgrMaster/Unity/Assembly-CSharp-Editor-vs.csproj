@@ -71,12 +71,11 @@
     <Reference Include="UnityEditor.Android.Extensions">
       <HintPath>C:\Program Files (x86)\Unity\Editor\Data\PlaybackEngines\AndroidPlayer\EditorExtensions\UnityEditor.Android.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="LogikaGeneracji">
+      <HintPath>Assets\LogikaGeneracji.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LogikaGeneracji\LogikaGeneracji.csproj">
-      <Project>{C1AB377F-749B-411C-A09D-691490F67B48}</Project>
-      <Name>LogikaGeneracji</Name>
-    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp-vs.csproj">
       <Project>{CD8C9303-404B-FB8D-6B9B-21988D5CAC0A}</Project>
       <Name>Assembly-CSharp-vs</Name>
