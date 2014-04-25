@@ -7,7 +7,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
    public class RozdzielaczMorzIJezior : IPrzetwarzaczMapy
    {
       private readonly IKomorka _inicjatorPowodzi;
-      private ISet<IKomorka> _zalane;
+      private HashSet<IKomorka> _zalane;
       public IPrzetwarzaczMapy Nastepnik { get; set; }
 
       public RozdzielaczMorzIJezior(IKomorka inicjator)
