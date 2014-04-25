@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Unity\Assembly-CSharp.csproj", "{FB0809E4-77CE-0461-65D3-A78993EF56B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-vs", "Unity\Assembly-CSharp-vs.csproj", "{FB0809E4-77CE-0461-65D3-A78993EF56B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Unity\Assembly-CSharp-Editor.csproj", "{38B92343-75A9-52C8-65D6-A831B005A6A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-vs", "Unity\Assembly-CSharp-Editor-vs.csproj", "{38B92343-75A9-52C8-65D6-A831B005A6A6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testy", "Testy\Testy.csproj", "{2D34C7A8-4540-416C-8A8B-9FB45E52F46C}"
 EndProject
