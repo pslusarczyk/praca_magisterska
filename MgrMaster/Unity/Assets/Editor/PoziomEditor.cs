@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Assets.Skrypty;
+using LogikaGeneracji;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 using UnityEditor;
 using UnityEngine;
@@ -38,6 +39,11 @@ namespace Assets.Editor
             Poziom._etap = Etap.GenerowanieWezlow;
          }
 
+         if (GUILayout.Button("Komórki, rogi itp."))
+         {
+            GenerujKomorkiIRogi();
+         }
+
          if (GUILayout.Button("Generuj wezly"))
          {
             GenerujWezly();
@@ -64,6 +70,13 @@ namespace Assets.Editor
          {
             GenerujTeren();
          }
+      }
+
+      private void GenerujKomorkiIRogi()
+      {
+         UsunWezly();
+         IMapa mapa = new Mapa();
+
       }
 
       private void UsunWezly()
@@ -132,7 +145,7 @@ namespace Assets.Editor
       {
          foreach (Wezel w in Poziom._wezly)
          {
-            yield return new Vector(/*w, */w.transform.position.x, w.transform.position.z);
+            yield return new Vector(w.transform.position.x, w.transform.position.z);
          }
       }
 
@@ -160,15 +173,15 @@ namespace Assets.Editor
             for (int z = 0; z < Poziom._wezly.GetLength(1); ++z)
             {
                var wezel = Poziom._wezly[x, z].GetComponent<Wezel>();
-               wezel._wysokosc = mapa[x][z];
+               //wezel._wysokosc = mapa[x][z];
                wezel.transform.Translate(0f, mapa[x][z] * skalaWysokosci, 0f);
                var kopiaMaterialu = new Material(wezel.renderer.sharedMaterial);
-               if (wezel._wysokosc > Poziom._poziomMorza)
-               {
-                  kopiaMaterialu.color = new Color(mapa[x][z] * 4f, 0f, 0f);
-               }
-               else
-                  kopiaMaterialu.color = new Color(0f, .7f, .95f);
+               //if (wezel._wysokosc > Poziom._poziomMorza)
+               //{
+               //   kopiaMaterialu.color = new Color(mapa[x][z] * 4f, 0f, 0f);
+               //}
+               //else
+               //   kopiaMaterialu.color = new Color(0f, .7f, .95f);
                wezel.renderer.sharedMaterial = kopiaMaterialu;
             }
       }

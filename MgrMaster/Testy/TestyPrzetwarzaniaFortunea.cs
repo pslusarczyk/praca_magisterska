@@ -35,7 +35,7 @@ namespace Testy
       [Test]
       public void DoKażdejDwukrawędziPrzyczepioneSąDwieKomórkiIDwaRogi()
       {
-         List<Dwukrawedz> dwukrawedzie = _przetwarzacz.Przetwarzaj(_krawedzieWoronoja);
+         List<Dwukrawedz> dwukrawedzie = _przetwarzacz.Przetwarzaj(_krawedzieWoronoja).Dwukrawedzie;
          foreach (Dwukrawedz dwu in dwukrawedzie)
          {
             dwu.Lewa.ShouldNotBeNull();

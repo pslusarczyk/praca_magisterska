@@ -16,7 +16,7 @@ namespace LogikaGeneracji.PrzetwarzanieFortunea
       }
 
 
-      public List<Dwukrawedz> Przetwarzaj(HashSet<VoronoiEdge> krawedzieWoronoja)
+      public IMapa Przetwarzaj(HashSet<VoronoiEdge> krawedzieWoronoja)
       {
          _komorkiZVectorami = new Dictionary<Vector, IKomorka>();
          _rogiZVectorami = new Dictionary<Vector, IRog>();
@@ -24,7 +24,7 @@ namespace LogikaGeneracji.PrzetwarzanieFortunea
          UstawKomorkomPrzylegle();
          UstawRogomBliskich();
          Mapa.ZakonczonoTworzenie = true;
-         return Mapa.Dwukrawedzie;
+         return Mapa;
       }
 
       private Dwukrawedz UtworzDwukrawedz(VoronoiEdge woro)

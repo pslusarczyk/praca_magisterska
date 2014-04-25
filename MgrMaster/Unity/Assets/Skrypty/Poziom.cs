@@ -24,7 +24,7 @@ namespace Assets.Skrypty
       public Wezel[,] _wezly;
       public static int ziarno;
 
-      private void OnDrawGizmos()
+      public void OnDrawGizmos()
       {
          Gizmos.color = Color.green;
          if (_pokazDelaunaya)
@@ -48,13 +48,13 @@ namespace Assets.Skrypty
       }
 
       // Use this for initialization
-      private void Start()
+      public void Start()
       {
          ziarno = (int) DateTime.Now.ToBinary();
       }
 
       // Update is called once per frame
-      private void Update()
+      public void Update()
       {
       }
    }
