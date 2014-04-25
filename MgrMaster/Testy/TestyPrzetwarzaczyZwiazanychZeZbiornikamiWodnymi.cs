@@ -35,8 +35,8 @@ namespace Testy
          }
       }
 
-      private ISet<IKomorka> _komorki;
-      private ISet<IRog> _rogi;
+      private HashSet<IKomorka> _komorki;
+      private HashSet<IRog> _rogi;
 
       #endregion
 
@@ -172,7 +172,7 @@ namespace Testy
 
       #region Funkcje pomocnicze
 
-      private static IMapa MockKlasyMapa(ISet<IKomorka> komorki, ISet<IRog> rogi = null)
+      private static IMapa MockKlasyMapa(HashSet<IKomorka> komorki, HashSet<IRog> rogi = null)
       {
          IMapa mapa = new Mapa();
          mapa.Komorki = (HashSet<IKomorka>) komorki;
@@ -190,7 +190,7 @@ namespace Testy
          return new List<IPunkt> { punktK1, punktK2, punktK3, punktK4, punktK5 };
       }
 
-      private static ISet<IKomorka> MockKomorek() 
+      private static HashSet<IKomorka> MockKomorek() 
       {
          var punkty = MockPunktow();
          var k1 = new Komorka {Punkt = punkty.ElementAt(0)};
@@ -212,7 +212,7 @@ namespace Testy
          return komorki;
       }
 
-      private ISet<IRog> MockRogow(ISet<IKomorka> komorki)
+      private HashSet<IRog> MockRogow(HashSet<IKomorka> komorki)
       {
          var r1 = new Rog{ Punkt = new Punkt()};
          var r2 = new Rog{ Punkt = new Punkt()};
