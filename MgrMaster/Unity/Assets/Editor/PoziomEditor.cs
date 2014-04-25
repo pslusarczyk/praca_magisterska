@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
 using Assets.Skrypty;
 using LogikaGeneracji;
+using LogikaGeneracji.PrzetwarzanieFortunea;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 using UnityEditor;
 using UnityEngine;
+using System.Linq;
 using ZewnetrzneBiblioteki.PerlinNoise;
 using Random = System.Random;
 
@@ -74,10 +77,30 @@ namespace Assets.Editor
 
       private void GenerujKomorkiIRogi()
       {
-         UsunWezly();
-         IMapa mapa = new Mapa();
+         Poziom._krawedzieWoronoja = Fortune.ComputeVoronoiGraph(WezlyNaWektory()).Edges;
 
-      }
+         var pf = new PrzetwarzaczFortunea();
+
+         IMapa mapa = pf.Przetwarzaj(Poziom._krawedzieWoronoja);
+
+         foreach (var komorka in mapa.Komorki)
+         {
+            var nowa = (GameObject)Instantiate(Resources.Load("KomorkaUnity"),
+                                 Poziom.transform.position + komorka.Punkt.Pozycja, Quaternion.identity);
+            nowa.GetComponent<KomorkaUnity>().Komorka = komorka;
+         }
+
+         foreach (var rog in mapa.Rogi)
+         {
+            Vector3 pozycja = rog.Punkt.Pozycja;
+            if (float.IsInfinity(pozycja.x) || float.IsInfinity(pozycja.y) || float.IsInfinity(pozycja.z))
+               continue;
+            var nowy = (GameObject)Instantiate(Resources.Load("RogUnity"),
+                                 Poziom.transform.position + rog.Punkt.Pozycja, Quaternion.identity);
+            nowy.GetComponent<RogUnity>().Rog = rog;
+         }
+
+         }
 
       private void UsunWezly()
       {
@@ -152,17 +175,17 @@ namespace Assets.Editor
       private void StworzDiagramWoronoja()
       {
 
-         /*Poziom._krawedzieWoronoja = Fortune.ComputeVoronoiGraph(WezlyNaWektory()).Edges;
+         Poziom._krawedzieWoronoja = Fortune.ComputeVoronoiGraph(WezlyNaWektory()).Edges;
          foreach (VoronoiEdge k in Poziom._krawedzieWoronoja)
          {
-             Wezel lewy = k.LeftData._wezel;
-             lewy._scianyKomorki.Add(new Para<Vector3, Vector3>(k.VVertexA.ToVector3(), k.VVertexB.ToVector3()));
-
-             Wezel prawy = k.RightData._wezel;
-             prawy._scianyKomorki.Add(new Para<Vector3, Vector3>(k.VVertexA.ToVector3(), k.VVertexB.ToVector3()));
+             //Wezel lewy = k.LeftData._wezel;
+             //lewy._scianyKomorki.Add(new Para<Vector3, Vector3>(k.VVertexA.ToVector3(), k.VVertexB.ToVector3()));
+             //
+             //Wezel prawy = k.RightData._wezel;
+             //prawy._scianyKomorki.Add(new Para<Vector3, Vector3>(k.VVertexA.ToVector3(), k.VVertexB.ToVector3()));
          }
          Poziom._etap = Etap.TworzenieMapyWysokosci;
-         SceneView.RepaintAll();*/
+         SceneView.RepaintAll();
       }
 
       private void GenerujMapeWysokosci()

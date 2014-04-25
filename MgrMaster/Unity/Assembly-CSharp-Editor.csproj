@@ -49,6 +49,9 @@
      <Compile Include="Assets\Editor\PoziomEditor.cs" />
      <Compile Include="Assets\Editor\TerenEditor.cs" />
      <None Include="Assets\Resources\prototype_textures\readme.txt" />
+ <Reference Include="LogikaGeneracji">
+ <HintPath>Assets\LogikaGeneracji.dll</HintPath>
+ </Reference>
  <Reference Include="ZewnetrzneBiblioteki">
  <HintPath>Assets\ZewnetrzneBiblioteki.dll</HintPath>
  </Reference>
@@ -69,9 +72,6 @@
  </Reference>
  <Reference Include="UnityEditor.Android.Extensions">
  <HintPath>C:\Program Files (x86)\Unity\Editor\Data\PlaybackEngines\AndroidPlayer\EditorExtensions\UnityEditor.Android.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="LogikaGeneracji">
- <HintPath>Assets\LogikaGeneracji.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

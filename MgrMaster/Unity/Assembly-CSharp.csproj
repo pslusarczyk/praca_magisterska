@@ -46,17 +46,19 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Skrypty\KomorkaUnity.cs" />
      <Compile Include="Assets\Skrypty\Narzedzia\Etap.cs" />
      <Compile Include="Assets\Skrypty\Poziom.cs" />
+     <Compile Include="Assets\Skrypty\RogUnity.cs" />
      <Compile Include="Assets\Skrypty\Teren.cs" />
      <Compile Include="Assets\Skrypty\Terenoedytor.cs" />
      <Compile Include="Assets\Skrypty\Wezel.cs" />
      <None Include="Assets\Resources\prototype_textures\readme.txt" />
- <Reference Include="ZewnetrzneBiblioteki">
- <HintPath>Assets\ZewnetrzneBiblioteki.dll</HintPath>
- </Reference>
  <Reference Include="LogikaGeneracji">
  <HintPath>Assets\LogikaGeneracji.dll</HintPath>
+ </Reference>
+ <Reference Include="ZewnetrzneBiblioteki">
+ <HintPath>Assets\ZewnetrzneBiblioteki.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
