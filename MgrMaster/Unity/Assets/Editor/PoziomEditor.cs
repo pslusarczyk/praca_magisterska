@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Assets.Skrypty;
 using LogikaGeneracji;
 using LogikaGeneracji.PrzetwarzanieFortunea;
+using LogikaGeneracji.PrzetwarzanieMapy;
+using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 using UnityEditor;
 using UnityEngine;
@@ -28,7 +30,7 @@ namespace Assets.Editor
 
       private Random Random
       {
-         get { return _random ?? (_random = new Random(Poziom.ziarno)); }
+         get { return _random ?? (_random = new Random(Poziom.Ziarno)); }
          set { _random = value; }
       }
 
@@ -36,15 +38,15 @@ namespace Assets.Editor
       {
          DrawDefaultInspector();
 
-         if (Poziom._etap >= Etap.GenerowanieWezlow && GUILayout.Button("Resetuj"))
+         if (GUILayout.Button("Generuj mapê wysokoœci [test]"))
          {
-            UsunWezly();
-            Poziom._etap = Etap.GenerowanieWezlow;
+            GenerujTeren();
          }
 
-         if (GUILayout.Button("Komórki, rogi itp."))
+         if (Poziom._etap >= Etap.GenerowanieWezlow && GUILayout.Button("Resetuj"))
          {
-            GenerujKomorkiIRogi();
+            UsunWezlyRogiIKomorki();
+            Poziom._etap = Etap.GenerowanieWezlow;
          }
 
          if (GUILayout.Button("Generuj wezly"))
@@ -59,7 +61,25 @@ namespace Assets.Editor
             Poziom._etap = Etap.TworzenieDiagramuWoronoja;
          }
 
-         if (Poziom._etap >= Etap.TworzenieDiagramuWoronoja && GUILayout.Button("Stworz diagram Woronoja"))
+         if (Poziom._etap == Etap.TworzenieDiagramuWoronoja && GUILayout.Button("Komórki, rogi itp."))
+         {
+            UkryjWezly();
+            GenerujKomorkiIRogi();
+         }
+
+         if (Poziom._etap == Etap.TworzenieDiagramuWoronoja && GUILayout.Button("Ustaw wysokoœci"))
+         {
+            UstawWysokosci();
+            foreach (GameObject go in  GameObject.FindGameObjectsWithTag("Rog"))
+            {
+               go.transform.position = go.GetComponent<RogUnity>().Rog.Punkt.Pozycja;
+            }
+            foreach (GameObject go in  GameObject.FindGameObjectsWithTag("Komorka"))
+            {
+               go.transform.position = go.GetComponent<KomorkaUnity>().Komorka.Punkt.Pozycja;
+            }
+         }
+         /*if (Poziom._etap >= Etap.TworzenieDiagramuWoronoja && GUILayout.Button("Stworz diagram Woronoja"))
          {
             StworzDiagramWoronoja();
          }
@@ -67,12 +87,24 @@ namespace Assets.Editor
          if (Poziom._etap >= Etap.TworzenieMapyWysokosci && GUILayout.Button("Generuj mape wysokosci"))
          {
             GenerujMapeWysokosci();
+         }*/
+
+
+      }
+
+      private void UstawWysokosci()
+      {
+         IPrzetwarzaczMapy wysokosci = new GeneratorWysokosci {Nastepnik = new AktualizatorNastepstwaMapyWysokosci()};
+         wysokosci.Przetwarzaj(Poziom._mapa);
+      }
+
+      private void UkryjWezly()
+      {
+         foreach (Wezel wezel in Poziom._wezly)
+         {
+            wezel.renderer.enabled = false;
          }
 
-         if (GUILayout.Button("Generuj teren [test]"))
-         {
-            GenerujTeren();
-         }
       }
 
       private void GenerujKomorkiIRogi()
@@ -83,10 +115,13 @@ namespace Assets.Editor
 
          IMapa mapa = pf.Przetwarzaj(Poziom._krawedzieWoronoja);
 
+         Poziom._mapa = mapa;
+
          foreach (var komorka in mapa.Komorki)
          {
             var nowa = (GameObject)Instantiate(Resources.Load("KomorkaUnity"),
-                                 Poziom.transform.position + komorka.Punkt.Pozycja, Quaternion.identity);
+                                 komorka.Punkt.Pozycja, Quaternion.identity);
+            nowa.transform.parent = GameObject.Find("Komorki").transform;
             nowa.GetComponent<KomorkaUnity>().Komorka = komorka;
          }
 
@@ -96,29 +131,32 @@ namespace Assets.Editor
             if (float.IsInfinity(pozycja.x) || float.IsInfinity(pozycja.y) || float.IsInfinity(pozycja.z))
                continue;
             var nowy = (GameObject)Instantiate(Resources.Load("RogUnity"),
-                                 Poziom.transform.position + rog.Punkt.Pozycja, Quaternion.identity);
+                                 rog.Punkt.Pozycja, Quaternion.identity);
+            nowy.transform.parent = GameObject.Find("Rogi").transform; // todo pozmieniaæ te find jakoœ ¿eby nie polegaæ na nazwach
             nowy.GetComponent<RogUnity>().Rog = rog;
          }
 
          }
 
-      private void UsunWezly()
+      private void UsunWezlyRogiIKomorki()
       {
-         var wezlyDoUsuniecia = new List<GameObject>();
-         foreach (Transform d in Poziom.transform)
+         var obiektyDoUsuniecia = new List<GameObject>();
+         foreach (GameObject go in GameObject.FindGameObjectsWithTag("Wezel") // todo szukaæ tylko w dzieciach danego poziomu
+                                  .Concat(GameObject.FindGameObjectsWithTag("Rog")
+                                  .Concat(GameObject.FindGameObjectsWithTag("Komorka")))) 
          {
-            if (d.gameObject.CompareTag("Wezel"))
-               wezlyDoUsuniecia.Add(d.gameObject);
+               obiektyDoUsuniecia.Add(go.gameObject);
          }
-         wezlyDoUsuniecia.ForEach(w => DestroyImmediate(w));
+         obiektyDoUsuniecia.ForEach(w => DestroyImmediate(w));
          Poziom._wezly = null;
+         Poziom._mapa = null;
          Poziom._krawedzieWoronoja = null;
          Poziom._etap = Etap.GenerowanieWezlow;
       }
 
       public void GenerujWezly()
       {
-         UsunWezly();
+         UsunWezlyRogiIKomorki();
 
          Poziom._wezly = new Wezel[Poziom._rozmiarX, Poziom._rozmiarZ];
          for (int x = 0; x < Poziom._rozmiarX; ++x)
@@ -130,7 +168,7 @@ namespace Assets.Editor
                    Instantiate(Resources.Load("Wezel"),
                                Poziom.transform.position + new Vector3(x * rozpietosc, 0f, z * rozpietosc),
                                Quaternion.identity);
-               wezelObject.transform.parent = Poziom.transform;
+               wezelObject.transform.parent = GameObject.Find("Wezly").transform;
                wezelObject.GetComponent<Wezel>().pierwotnaPozycja = wezelObject.transform.position;
                Poziom._wezly[x, z] = wezelObject.GetComponent<Wezel>();
                if (x <= 1 || z <= 1 || x >= Poziom._rozmiarX - 2 || z >= Poziom._rozmiarZ - 2)
@@ -212,6 +250,19 @@ namespace Assets.Editor
       public void GenerujTeren()
       {
          //throw new NotImplementedException ();
+      }
+   }
+
+   internal class GeneratorWysokosci : IPrzetwarzaczMapy
+   {
+      public IPrzetwarzaczMapy Nastepnik { get; set; }
+      public void Przetwarzaj(IMapa mapa)
+      {
+         foreach (IPunkt punkt in mapa.Punkty)
+         {
+            punkt.Wysokosc = 6f + Mathf.Sin(punkt.Pozycja.x * .25f)*3f + Mathf.Cos(punkt.Pozycja.z * .25f)*3f;
+            punkt.Pozycja = new Vector3(punkt.Pozycja.x, punkt.Wysokosc, punkt.Pozycja.z);
+         }
       }
    }
 }

@@ -19,7 +19,7 @@ namespace Assets.Skrypty
          if (Komorka != null)
             foreach (IKomorka s in Komorka.PrzylegleKomorki)
             {
-               Gizmos.DrawLine(Komorka.Punkt.Pozycja, s.Punkt.Pozycja);
+               //Gizmos.DrawLine(Komorka.Punkt.Pozycja, s.Punkt.Pozycja);
             }
       }
    }

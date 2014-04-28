@@ -9,11 +9,11 @@ namespace Assets.Skrypty
 
       void OnDrawGizmos()
       {
-         Gizmos.color = Color.yellow;
+         //Gizmos.color = Color.yellow;
          if (Rog != null)
             foreach (IRog s in Rog.BliskieRogi)
             {
-               Gizmos.DrawLine(Rog.Punkt.Pozycja, s.Punkt.Pozycja);
+               //Gizmos.DrawLine(Rog.Punkt.Pozycja, s.Punkt.Pozycja);
             }
       }
    }
