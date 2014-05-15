@@ -45,6 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PrzetwarzanieMapy\Baza\ITworcaId.cs" />
+    <Compile Include="PrzetwarzanieMapy\KonfiguracjaModyfikatoraTemperaturyGradientem.cs" />
+    <Compile Include="PrzetwarzanieMapy\KonfiguracjaModyfikatoraTemperaturyNaPodstawieWysokosci.cs" />
+    <Compile Include="PrzetwarzanieMapy\ModyfikatorTemperaturyGradientem.cs" />
+    <Compile Include="PrzetwarzanieMapy\ModyfikatorTemperaturyNaPodstawieWysokosci.cs" />
     <Compile Include="Rzeka.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorBrzeznosciKomorek.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorBrzeznosciRogow.cs" />

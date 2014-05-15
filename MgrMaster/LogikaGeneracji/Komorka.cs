@@ -59,6 +59,6 @@ namespace LogikaGeneracji
       public Podloze? Podloze { get; set; }
       public TypKomorki? Typ { get; set; }
       public BrzeznoscKomorki? Brzeznosc { get; set; }
-
+      public float Temperatura { get; set; }
    }
 }
