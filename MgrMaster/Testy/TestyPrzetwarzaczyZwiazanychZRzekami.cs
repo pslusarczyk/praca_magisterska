@@ -96,6 +96,9 @@ namespace Testy
          _mapa.Rzeki.Count().ShouldEqual(1);
          _mapa.Rzeki.First().Odcinki.Last().PunktB.ShouldEqual(brzeg.Punkt);
          _mapa.Rzeki.First().Odcinki.Count.ShouldEqual(2); // k3-r2-r1
+         _mapa.Komorki.ElementAt(0).Punkt.ZawieraRzeke.ShouldBeTrue();
+         _mapa.Komorki.ElementAt(1).Punkt.ZawieraRzeke.ShouldBeTrue();
+         _mapa.Komorki.ElementAt(2).Punkt.ZawieraRzeke.ShouldBeTrue();
       }
 
       [TestCase(true)]
@@ -150,7 +153,7 @@ namespace Testy
          dluzsza.Odcinki.Take(3).ToList().ForEach(o => o.Grubosc.ShouldEqual(GeneratorRzeki.GruboscJednostkowa));
          krotsza.Odcinki.Skip(3).ToList().ForEach(o => o.Grubosc.ShouldEqual(GeneratorRzeki.GruboscJednostkowa*2));
       }
-
+      
       #endregion
 
       #region Funkcje pomocnicze

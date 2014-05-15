@@ -11,6 +11,7 @@ namespace LogikaGeneracji
       Vector3 Pozycja { get; set; }
       float Wysokosc { get; set; }
       IPunkt Nastepnik { get; set; }
+      bool ZawieraRzeke { get; set; }
    }
 
    public class Punkt : IPunkt
@@ -27,6 +28,7 @@ namespace LogikaGeneracji
       public Vector3 Pozycja { get; set; }
       public float Wysokosc { get; set; }
       public IPunkt Nastepnik { get; set; }
+      public bool ZawieraRzeke { get; set; }
    }
 
 

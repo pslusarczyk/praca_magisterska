@@ -57,6 +57,7 @@
     <Compile Include="TestyMechanizmuPrzetwarzania.cs" />
     <Compile Include="TestyPrzetwarzaczyZwiazanychZRzekami.cs" />
     <Compile Include="TestyPrzetwarzaczyZwiazanychZTemperatura.cs" />
+    <Compile Include="TestyPrzetwarzaczyZwiazanychZWilgotnoscia.cs" />
     <Compile Include="TestyPrzetwarzaniaFortunea.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestyPrzetwarzaczyZwiazanychZTopologia.cs" />

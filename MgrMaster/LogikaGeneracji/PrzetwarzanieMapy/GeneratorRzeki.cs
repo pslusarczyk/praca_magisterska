@@ -72,6 +72,10 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          {
             UdaloSieUtworzyc = true;
             _mapa.Rzeki.Add(new Rzeka {Odcinki = _odcinki});
+            foreach (IPunkt punkt in _mapa.Punkty)
+            {
+               punkt.ZawieraRzeke = true;
+            }
          }
          else
          {

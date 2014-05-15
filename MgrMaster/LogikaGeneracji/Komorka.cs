@@ -34,6 +34,7 @@ namespace LogikaGeneracji
 
       public int Id { get; set; }
       public IList<IKomorka> PrzylegleKomorki { get; set; }
+      public HashSet<OdcinekRzeki> OdcinkiRzek { get; set; }
       public IPunkt NajnizszySasiad { get; set; }
       public DaneKomorki Dane { get; set; }
       public IPunkt Punkt { get; set; }
@@ -60,5 +61,6 @@ namespace LogikaGeneracji
       public TypKomorki? Typ { get; set; }
       public BrzeznoscKomorki? Brzeznosc { get; set; }
       public float Temperatura { get; set; }
+      public float Wilgotnosc { get; set; }
    }
 }
