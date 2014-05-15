@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestyPrzetwarzaczyZwiazanychZBiomami.cs" />
     <Compile Include="TestyPrzetwarzaczyZwiazanychZeZbiornikamiWodnymi.cs" />
     <Compile Include="TestyMechanizmuPrzetwarzania.cs" />
     <Compile Include="TestyPrzetwarzaczyZwiazanychZRzekami.cs" />

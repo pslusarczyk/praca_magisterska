@@ -34,7 +34,6 @@ namespace Testy
          _komorki = MockKomorek();
          _rogi = MockRogow(_komorki);
          _mapa = MockKlasyMapa(_komorki, _rogi);
-         InicjujWysokosciPunktowIndeksamiIchKomorekIRogow();
       }
 
       [Test]
@@ -89,15 +88,6 @@ namespace Testy
 
       #region Funkcje pomocnicze
 
-      private void InicjujWysokosciPunktowIndeksamiIchKomorekIRogow()
-      {
-         for (int i = 0; i < 5; ++i)
-         {
-            _mapa.Komorki.ElementAt(i).Punkt.Wysokosc = i + 1;
-            _mapa.Rogi.ElementAt(i).Punkt.Wysokosc = i + 1;
-         }
-      }
-
       private static IMapa MockKlasyMapa(HashSet<IKomorka> komorki, HashSet<IRog> rogi = null)
       {
          IMapa mapa = new Mapa();
@@ -125,11 +115,6 @@ namespace Testy
          var k3 = new Komorka {Punkt = punkty.ElementAt(2)};
          var k4 = new Komorka {Punkt = punkty.ElementAt(3)};
          var k5 = new Komorka {Punkt = punkty.ElementAt(4)};
-         k1.Dane.Podloze = Podloze.Woda;
-         k2.Dane.Podloze = Podloze.Woda;
-         k3.Dane.Podloze = Podloze.Ziemia;
-         k4.Dane.Podloze = Podloze.Ziemia;
-         k5.Dane.Podloze = Podloze.Woda;
          k1.PrzylegleKomorki = new List<IKomorka>{k2};
          k2.PrzylegleKomorki = new List<IKomorka>{k1, k3, k4};
          k3.PrzylegleKomorki = new List<IKomorka>{k2, k5};

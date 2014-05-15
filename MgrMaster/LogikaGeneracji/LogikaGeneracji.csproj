@@ -44,6 +44,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Biom.cs" />
+    <Compile Include="PrzetwarzanieMapy\AktualizatorBiomow.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorWilgotnosci.cs" />
     <Compile Include="PrzetwarzanieMapy\Baza\ITworcaId.cs" />
     <Compile Include="PrzetwarzanieMapy\KonfiguracjaModyfikatoraTemperaturyGradientem.cs" />
