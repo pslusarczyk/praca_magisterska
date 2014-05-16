@@ -89,7 +89,12 @@ namespace Assets.Editor
             GenerujMapeWysokosci();
          }*/
 
-
+         if (GUILayout.Button("Zmieñ kolor komórki"))
+         {
+            GameObject komorka = GameObject.FindGameObjectWithTag("Komorka");
+				var nowa = Resources.Load<Material>("prototype_textures/Materials/proto_blue 1");
+            komorka.renderer.material = nowa;
+         }
       }
 
       private void UstawWysokosci()
