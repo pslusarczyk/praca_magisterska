@@ -48,6 +48,7 @@
     <Compile Include="PrzetwarzanieMapy\AktualizatorBiomow.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorWilgotnosci.cs" />
     <Compile Include="PrzetwarzanieMapy\Baza\ITworcaId.cs" />
+    <Compile Include="PrzetwarzanieMapy\KonfigAktualizatoraBiomow.cs" />
     <Compile Include="PrzetwarzanieMapy\KonfiguracjaModyfikatoraTemperaturyGradientem.cs" />
     <Compile Include="PrzetwarzanieMapy\KonfiguracjaModyfikatoraTemperaturyNaPodstawieWysokosci.cs" />
     <Compile Include="PrzetwarzanieMapy\ModyfikatorTemperaturyGradientem.cs" />
