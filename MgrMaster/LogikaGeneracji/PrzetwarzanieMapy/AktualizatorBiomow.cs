@@ -2,12 +2,11 @@ using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {
-   public class AktualizatorBiomow : IPrzetwarzaczMapy
+   public class AktualizatorBiomow : BazaPrzetwarzacza
    {
-      public IPrzetwarzaczMapy Nastepnik { get; set; }
       public KonfigAktualizatoraBiomow Konfiguracja { get; set; }
 
-      public void Przetwarzaj(IMapa mapa)
+      public override void Przetwarzaj(IMapa mapa)
       {
          foreach (IKomorka komorka in mapa.Komorki)
          {

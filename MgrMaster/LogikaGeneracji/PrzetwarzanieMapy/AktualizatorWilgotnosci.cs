@@ -6,19 +6,18 @@ using UnityEngine;
 
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {
-   public class AktualizatorWilgotnosci : IPrzetwarzaczMapy
+   public class AktualizatorWilgotnosci : BazaPrzetwarzacza
    {
       private HashSet<IKomorka> _odwiedzone;
       private HashSet<IKomorka> _oczekujace;
       private Dictionary<IKomorka, int> _glebokosci;
-      public IPrzetwarzaczMapy Nastepnik { get; set; }
       public int GlebokoscPrzeszukiwania { get; set; }
       public float WartoscJeziora { get; set; }
       public float WartoscRzeki { get; set; }
       public float WartoscMorza { get; set; }
       public float MnoznikWartosci { get; set; }
 
-      public void Przetwarzaj(IMapa mapa)
+      public override void Przetwarzaj(IMapa mapa)
       {
          foreach (IKomorka modyfikowana in mapa.Komorki.Where(k => k.Dane.Podloze == Podloze.Ziemia))
          {

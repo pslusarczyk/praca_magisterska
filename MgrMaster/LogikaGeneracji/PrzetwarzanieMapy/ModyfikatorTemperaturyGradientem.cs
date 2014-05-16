@@ -2,11 +2,10 @@ using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {
-   public class ModyfikatorTemperaturyGradientem : IPrzetwarzaczMapy
+   public class ModyfikatorTemperaturyGradientem : BazaPrzetwarzacza
    {
       private KonfiguracjaModyfikatoraTemperaturyGradientem _konfig;
 
-      public IPrzetwarzaczMapy Nastepnik { get; set; }
       public KonfiguracjaModyfikatoraTemperaturyGradientem Konfiguracja
       {
          get
@@ -20,7 +19,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          set { _konfig = value; }
       }
 
-      public void Przetwarzaj(IMapa mapa)
+      public override void Przetwarzaj(IMapa mapa)
       {
 
       }

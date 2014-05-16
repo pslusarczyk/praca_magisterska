@@ -4,10 +4,9 @@ using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {
-   public class WyrownywaczTerenuJeziora : IPrzetwarzaczMapy
+   public class WyrownywaczTerenuJeziora : BazaPrzetwarzacza
    {
-      public IPrzetwarzaczMapy Nastepnik { get; set; }
-      public void Przetwarzaj(IMapa mapa)
+      public override void Przetwarzaj(IMapa mapa)
       {
          foreach (IKomorka komorka in mapa.Komorki)
          {

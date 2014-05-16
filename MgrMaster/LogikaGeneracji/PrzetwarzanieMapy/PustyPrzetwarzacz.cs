@@ -2,9 +2,8 @@
 
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {
-   public class PustyPrzetwarzacz : IPrzetwarzaczMapy
+   public class PustyPrzetwarzacz : BazaPrzetwarzacza
    {
-      public IPrzetwarzaczMapy Nastepnik { get; set; }
-      public void Przetwarzaj(IMapa mapa){}
+      public override void Przetwarzaj(IMapa mapa){}
    }
 }

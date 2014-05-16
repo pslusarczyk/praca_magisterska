@@ -47,7 +47,9 @@
     <Compile Include="Biom.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorBiomow.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorWilgotnosci.cs" />
+    <Compile Include="PrzetwarzanieMapy\Baza\BazaPrzetwarzacza.cs" />
     <Compile Include="PrzetwarzanieMapy\Baza\ITworcaId.cs" />
+    <Compile Include="PrzetwarzanieMapy\IGeneratorRzeki.cs" />
     <Compile Include="PrzetwarzanieMapy\KonfigAktualizatoraBiomow.cs" />
     <Compile Include="PrzetwarzanieMapy\KonfiguracjaModyfikatoraTemperaturyGradientem.cs" />
     <Compile Include="PrzetwarzanieMapy\KonfiguracjaModyfikatoraTemperaturyNaPodstawieWysokosci.cs" />
@@ -59,7 +61,6 @@
     <Compile Include="PrzetwarzanieMapy\AktualizatorNastepstwaMapyWysokosci.cs" />
     <Compile Include="PrzetwarzanieMapy\Baza\KreatorCiaguPrzetwarzan.cs" />
     <Compile Include="PrzetwarzanieMapy\GeneratorRzeki.cs" />
-    <Compile Include="PrzetwarzanieMapy\IGeneratorRzeki.cs" />
     <Compile Include="PrzetwarzanieMapy\WyrownywaczTerenuJeziora.cs" />
     <Compile Include="Typy.cs" />
     <Compile Include="PrzetwarzanieMapy\PustyPrzetwarzacz.cs" />

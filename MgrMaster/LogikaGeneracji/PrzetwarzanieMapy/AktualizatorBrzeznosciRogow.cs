@@ -5,10 +5,9 @@ using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {
-   public class AktualizatorBrzeznosciRogow : IPrzetwarzaczMapy
+   public class AktualizatorBrzeznosciRogow : BazaPrzetwarzacza
    {
-      public IPrzetwarzaczMapy Nastepnik { get; set; }
-      public void Przetwarzaj(IMapa mapa)
+      public override void Przetwarzaj(IMapa mapa)
       {
          foreach (IRog rog in mapa.Rogi)
          {

@@ -4,18 +4,17 @@ using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {
-   public class RozdzielaczMorzIJezior : IPrzetwarzaczMapy
+   public class RozdzielaczMorzIJezior : BazaPrzetwarzacza
    {
       private readonly IKomorka _inicjatorPowodzi;
       private HashSet<IKomorka> _zalane;
-      public IPrzetwarzaczMapy Nastepnik { get; set; }
 
       public RozdzielaczMorzIJezior(IKomorka inicjator)
       {
          _inicjatorPowodzi = inicjator;
       }
 
-      public void Przetwarzaj(IMapa mapa)
+      public override void Przetwarzaj(IMapa mapa)
       {
          if(!mapa.Komorki.Contains(_inicjatorPowodzi))
             throw new ArgumentException("Mapa nie zawiera podanego w konstruktorze inicjatora powodzi");

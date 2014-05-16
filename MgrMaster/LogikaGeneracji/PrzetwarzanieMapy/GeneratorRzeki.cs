@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {
-   public class GeneratorRzeki : IGeneratorRzeki
+   public class GeneratorRzeki : BazaPrzetwarzacza, IGeneratorRzeki
    {
       public const float GruboscJednostkowa = 1f;
 
@@ -13,8 +13,6 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
       private IMapa _mapa;
       private IList<IOdcinekRzeki> _odcinki;
 
-      public Random Random { get; set; }
-      public IPrzetwarzaczMapy Nastepnik { get; set; }
       public IPunkt PunktPoczatkowy { get; set; }
       public bool? UdaloSieUtworzyc { get; set; }
 
@@ -23,7 +21,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          PunktPoczatkowy = punktPoczatkowy;
       }
 
-      public void Przetwarzaj(IMapa mapa)
+      public override void Przetwarzaj(IMapa mapa)
       {
          _mapa = mapa;
          _aktualnaGrubosc = GruboscJednostkowa;

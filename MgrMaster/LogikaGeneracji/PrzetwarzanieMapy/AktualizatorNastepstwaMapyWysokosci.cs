@@ -3,11 +3,9 @@ using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {
-   public class AktualizatorNastepstwaMapyWysokosci : IPrzetwarzaczMapy
+   public class AktualizatorNastepstwaMapyWysokosci : BazaPrzetwarzacza
    {
-      public IPrzetwarzaczMapy Nastepnik { get; set; }
-
-      public virtual void Przetwarzaj(IMapa mapa)
+      public override void Przetwarzaj(IMapa mapa)
       {
          foreach (var punkt in mapa.Punkty)
          {

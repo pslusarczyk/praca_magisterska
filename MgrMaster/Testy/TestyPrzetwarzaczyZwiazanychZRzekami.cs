@@ -2,6 +2,7 @@
 using System.Linq;
 using LogikaGeneracji;
 using LogikaGeneracji.PrzetwarzanieMapy;
+using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 using NUnit.Framework;
 using Should;
 using UnityEngine;
@@ -71,7 +72,7 @@ namespace Testy
          IGeneratorRzeki generatorRzeki = new GeneratorRzeki(punktPoczatkowy);
          _mapa.ZastosujPrzetwarzanie(aktualizator);
 
-         _mapa.ZastosujPrzetwarzanie(generatorRzeki);
+         _mapa.ZastosujPrzetwarzanie(generatorRzeki as IPrzetwarzaczMapy);
 
          generatorRzeki.UdaloSieUtworzyc.Value.ShouldBeFalse();
          _mapa.Rzeki.Count().ShouldEqual(0);
@@ -90,7 +91,7 @@ namespace Testy
          _mapa.ZastosujPrzetwarzanie(aktualizator);
 
          IGeneratorRzeki generatorRzeki = new GeneratorRzeki(punktPoczatkowy);
-         _mapa.ZastosujPrzetwarzanie(generatorRzeki);
+         _mapa.ZastosujPrzetwarzanie(generatorRzeki as IPrzetwarzaczMapy);
 
          generatorRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
          _mapa.Rzeki.Count().ShouldEqual(1);
@@ -122,24 +123,24 @@ namespace Testy
          IRzeka dluzsza; 
          if (najpierwKrotsza)
          {
-            _mapa.ZastosujPrzetwarzanie(generatorKrotszejRzeki);
+            _mapa.ZastosujPrzetwarzanie(generatorKrotszejRzeki as IPrzetwarzaczMapy);
 
             krotsza = _mapa.Rzeki.ElementAt(0);
             generatorKrotszejRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
             krotsza.Odcinki.Last().PunktB.ShouldEqual(brzeg.Punkt);
 
-            _mapa.ZastosujPrzetwarzanie(generatorDluzszejRzeki);
+            _mapa.ZastosujPrzetwarzanie(generatorDluzszejRzeki as IPrzetwarzaczMapy);
             dluzsza =  _mapa.Rzeki.ElementAt(1);
          }
          else
          {
-            _mapa.ZastosujPrzetwarzanie(generatorDluzszejRzeki);
+            _mapa.ZastosujPrzetwarzanie(generatorDluzszejRzeki as IPrzetwarzaczMapy);
 
             dluzsza = _mapa.Rzeki.ElementAt(0);
             generatorDluzszejRzeki.UdaloSieUtworzyc.Value.ShouldBeTrue();
             dluzsza.Odcinki.Last().PunktB.ShouldEqual(brzeg.Punkt);
 
-            _mapa.ZastosujPrzetwarzanie(generatorKrotszejRzeki);
+            _mapa.ZastosujPrzetwarzanie(generatorKrotszejRzeki as IPrzetwarzaczMapy);
             krotsza = _mapa.Rzeki.ElementAt(1);
          }
 

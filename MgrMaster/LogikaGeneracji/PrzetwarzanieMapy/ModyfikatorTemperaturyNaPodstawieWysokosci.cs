@@ -2,11 +2,10 @@
 
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {
-   public class ModyfikatorTemperaturyNaPodstawieWysokosci : IPrzetwarzaczMapy
+   public class ModyfikatorTemperaturyNaPodstawieWysokosci : BazaPrzetwarzacza
    {
       private KonfiguracjaModyfikatoraTemperaturyNaPodstawieWysokosci _konfig;
 
-      public IPrzetwarzaczMapy Nastepnik { get; set; }
       public KonfiguracjaModyfikatoraTemperaturyNaPodstawieWysokosci Konfiguracja { 
          get
          {
@@ -19,7 +18,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          }
          set { _konfig = value; } }
 
-      public void Przetwarzaj(IMapa mapa)
+      public override void Przetwarzaj(IMapa mapa)
       {
          foreach (IKomorka komorka in mapa.Komorki)
          {
