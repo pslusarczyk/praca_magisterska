@@ -21,7 +21,6 @@ namespace Testy
       #region Deklaracje
 
       private HashSet<IKomorka> _komorki;
-      private HashSet<IRog> _rogi;
       private IMapa _mapa;
 
       #endregion
@@ -32,7 +31,7 @@ namespace Testy
       public void SetUp()
       {
          _komorki = MockKomorek();
-         _mapa = MockKlasyMapa(_komorki, _rogi);
+         _mapa = MockKlasyMapa(_komorki);
       }
 
       [TestCase(0f, 0f, Biom.Sawanna)]
@@ -65,11 +64,10 @@ namespace Testy
 
       #region Funkcje pomocnicze
 
-      private static IMapa MockKlasyMapa(HashSet<IKomorka> komorki, HashSet<IRog> rogi = null)
+      private static IMapa MockKlasyMapa(HashSet<IKomorka> komorki)
       {
          IMapa mapa = new Mapa();
          mapa.Komorki = (HashSet<IKomorka>) komorki;
-         mapa.Rogi = (HashSet<IRog>) rogi;
          return mapa;
       }
 

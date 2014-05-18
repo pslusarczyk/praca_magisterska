@@ -38,11 +38,6 @@ namespace Assets.Editor
       {
          DrawDefaultInspector();
 
-         if (GUILayout.Button("Generuj mapê wysokoœci [test]"))
-         {
-            GenerujTeren();
-         }
-
          if (Poziom._etap >= Etap.GenerowanieWezlow && GUILayout.Button("Resetuj"))
          {
             UsunWezlyRogiIKomorki();
@@ -79,15 +74,6 @@ namespace Assets.Editor
                go.transform.position = go.GetComponent<KomorkaUnity>().Komorka.Punkt.Pozycja;
             }
          }
-         /*if (Poziom._etap >= Etap.TworzenieDiagramuWoronoja && GUILayout.Button("Stworz diagram Woronoja"))
-         {
-            StworzDiagramWoronoja();
-         }
-
-         if (Poziom._etap >= Etap.TworzenieMapyWysokosci && GUILayout.Button("Generuj mape wysokosci"))
-         {
-            GenerujMapeWysokosci();
-         }*/
 
          if (GUILayout.Button("Zmieñ kolor komórki"))
          {
@@ -101,6 +87,7 @@ namespace Assets.Editor
       {
          IPrzetwarzaczMapy wysokosci = new GeneratorWysokosci {Nastepnik = new AktualizatorNastepstwaMapyWysokosci()};
          wysokosci.Przetwarzaj(Poziom._mapa);
+         AktualizujKomorkiIRogiUnity();
       }
 
       private void UkryjWezly()
@@ -128,6 +115,7 @@ namespace Assets.Editor
                                  komorka.Punkt.Pozycja, Quaternion.identity);
             nowa.transform.parent = GameObject.Find("Komorki").transform;
             nowa.GetComponent<KomorkaUnity>().Komorka = komorka;
+            Poziom._komorkiUnity.Add(nowa.GetComponent<KomorkaUnity>());
          }
 
          foreach (var rog in mapa.Rogi)
@@ -139,6 +127,7 @@ namespace Assets.Editor
                                  rog.Punkt.Pozycja, Quaternion.identity);
             nowy.transform.parent = GameObject.Find("Rogi").transform; // todo pozmieniaæ te find jakoœ ¿eby nie polegaæ na nazwach
             nowy.GetComponent<RogUnity>().Rog = rog;
+            Poziom._rogiUnity.Add(nowy.GetComponent<RogUnity>());
          }
 
          }
@@ -215,59 +204,42 @@ namespace Assets.Editor
          }
       }
 
-      private void StworzDiagramWoronoja()
+      private void AktualizujKomorkiIRogiUnity()
       {
-
-         Poziom._krawedzieWoronoja = Fortune.ComputeVoronoiGraph(WezlyNaWektory()).Edges;
-         foreach (VoronoiEdge k in Poziom._krawedzieWoronoja)
+         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
-             //Wezel lewy = k.LeftData._wezel;
-             //lewy._scianyKomorki.Add(new Para<Vector3, Vector3>(k.VVertexA.ToVector3(), k.VVertexB.ToVector3()));
-             //
-             //Wezel prawy = k.RightData._wezel;
-             //prawy._scianyKomorki.Add(new Para<Vector3, Vector3>(k.VVertexA.ToVector3(), k.VVertexB.ToVector3()));
+            komorkaUnity.transform.position =
+               new Vector3(komorkaUnity.transform.position.x,
+                  komorkaUnity.transform.position.x*1.5f, komorkaUnity.transform.position.z);
          }
-         Poziom._etap = Etap.TworzenieMapyWysokosci;
-         SceneView.RepaintAll();
       }
-
-      private void GenerujMapeWysokosci()
-      {
-         float skalaWysokosci = 4f;
-         float[][] mapa = PerlinTools.GeneratePerlinNoise(Poziom._rozmiarX, Poziom._rozmiarZ, 2);
-         for (int x = 0; x < Poziom._wezly.GetLength(0); ++x)
-            for (int z = 0; z < Poziom._wezly.GetLength(1); ++z)
-            {
-               var wezel = Poziom._wezly[x, z].GetComponent<Wezel>();
-               //wezel._wysokosc = mapa[x][z];
-               wezel.transform.Translate(0f, mapa[x][z] * skalaWysokosci, 0f);
-               var kopiaMaterialu = new Material(wezel.renderer.sharedMaterial);
-               //if (wezel._wysokosc > Poziom._poziomMorza)
-               //{
-               //   kopiaMaterialu.color = new Color(mapa[x][z] * 4f, 0f, 0f);
-               //}
-               //else
-               //   kopiaMaterialu.color = new Color(0f, .7f, .95f);
-               wezel.renderer.sharedMaterial = kopiaMaterialu;
-            }
-      }
-
-      public void GenerujTeren()
-      {
-         //throw new NotImplementedException ();
-      }
+ 
    }
 
-   internal class GeneratorWysokosci : IPrzetwarzaczMapy
+   internal class GeneratorWysokosci : BazaPrzetwarzacza
    {
-      public IPrzetwarzaczMapy Nastepnik { get; set; }
-      public void Przetwarzaj(IMapa mapa)
+      public override void Przetwarzaj(IMapa mapa)
       {
+        // float[][] wys = PerlinTools.GeneratePerlinNoise(1000, 1000, 2);
+         const float skalaWysokosci = 4f;
          foreach (IPunkt punkt in mapa.Punkty)
          {
-            punkt.Wysokosc = 6f + Mathf.Sin(punkt.Pozycja.x * .25f)*3f + Mathf.Cos(punkt.Pozycja.z * .25f)*3f;
-            punkt.Pozycja = new Vector3(punkt.Pozycja.x, punkt.Wysokosc, punkt.Pozycja.z);
+            punkt.Wysokosc = Mathf.PerlinNoise(punkt.Pozycja.x, punkt.Pozycja.z);
+				int a =5;
+			//var kopiaMaterialu = new Material(wezel.renderer.sharedMaterial);
+            //if (wezel._wysokosc > Poziom._poziomMorza)
+            //{
+            //   kopiaMaterialu.color = new Color(mapa[x][z] * 4f, 0f, 0f);
+            //}
+            //else
+            //   kopiaMaterialu.color = new Color(0f, .7f, .95f);
+            //wezel.renderer.sharedMaterial = kopiaMaterialu;
          }
+
+
+            //punkt.Wysokosc = 6f + Mathf.Sin(punkt.Pozycja.x * .25f)*3f + Mathf.Cos(punkt.Pozycja.z * .25f)*3f;
+            //punkt.Pozycja = new Vector3(punkt.Pozycja.x, punkt.Wysokosc, punkt.Pozycja.z);
+
       }
    }
 }

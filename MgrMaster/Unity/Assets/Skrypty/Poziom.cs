@@ -26,8 +26,16 @@ namespace Assets.Skrypty
       [Range(1f, 5f)] public float _rozpietosc = 2f;
 
       public Wezel[,] _wezly;
+      public IList<KomorkaUnity> _komorkiUnity;
+      public IList<RogUnity> _rogiUnity;
       public IMapa _mapa;
       public static int Ziarno;
+
+      public Poziom()
+      {
+         _komorkiUnity = new List<KomorkaUnity>();
+         _rogiUnity = new List<RogUnity>();
+      }
 
       public void OnDrawGizmos()
       {
