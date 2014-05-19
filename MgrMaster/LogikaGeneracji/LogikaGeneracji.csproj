@@ -54,6 +54,7 @@
     <Compile Include="PrzetwarzanieMapy\KonfiguracjaModyfikatoraTemperaturyNaPodstawieWysokosci.cs" />
     <Compile Include="PrzetwarzanieMapy\ModyfikatorTemperaturyGradientem.cs" />
     <Compile Include="PrzetwarzanieMapy\ModyfikatorTemperaturyNaPodstawieWysokosci.cs" />
+    <Compile Include="PrzetwarzanieMapy\ModyfikatorWysokosciPerlinem.cs" />
     <Compile Include="Rzeka.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorBrzeznosciKomorek.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorBrzeznosciRogow.cs" />
