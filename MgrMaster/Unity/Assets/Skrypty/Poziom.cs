@@ -5,13 +5,23 @@ using LogikaGeneracji;
 using UnityEngine;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 
+public enum CoWyswietlac { Wysokosci, ZiemiaMorze, LadMorzeJezioro }
+
 namespace Assets.Skrypty
 {
+   public delegate void ReakcjaNaZmianeWyswietlac();
+
    [ExecuteInEditMode]
    [Serializable]
    public class Poziom : MonoBehaviour
    {
-      [HideInInspector] public Etap _etap = Etap.GenerowanieWezlow;
+      // chowanie czegoœ — atrybut HideInInspector
+      // pokazywanie w inspektorze nieautomatycznej w³aœciwoœci: na dole http://wiki.unity3d.com/index.php?title=Expose_properties_in_inspector
+
+      public Etap _etap = Etap.GenerowanieWezlow;
+
+      public CoWyswietlac _coWyswietlac = CoWyswietlac.Wysokosci;
+
       public HashSet<VoronoiEdge> _krawedzieWoronoja;
       public bool _pokazDelaunaya = true;
       public bool _pokazWoronoja = true;
@@ -24,6 +34,10 @@ namespace Assets.Skrypty
       [Range(10, 100)] public int _rozmiarZ = 20;
 
       [Range(1f, 5f)] public float _rozpietosc = 2f;
+
+
+
+
 
       public Wezel[,] _wezly;
       public IList<KomorkaUnity> _komorkiUnity;

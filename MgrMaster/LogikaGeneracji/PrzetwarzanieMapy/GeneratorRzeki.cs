@@ -5,6 +5,12 @@ using UnityEngine;
 
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {
+   public interface IGeneratorRzeki
+   {
+      IPunkt PunktPoczatkowy { get; set; }
+      bool? UdaloSieUtworzyc { get; set; }
+   }
+
    public class GeneratorRzeki : BazaPrzetwarzacza, IGeneratorRzeki
    {
       public const float GruboscJednostkowa = 1f;
