@@ -1,15 +1,10 @@
-using System.Collections.Generic;
 using Assets.Editor.ExposeProperties;
 using Assets.Skrypty;
+using Assets.Skrypty.Narzedzia;
 using LogikaGeneracji;
-using LogikaGeneracji.PrzetwarzanieFortunea;
-using LogikaGeneracji.PrzetwarzanieMapy;
 using LogikaGeneracji.PrzetwarzanieMapy.Baza;
-using ZewnetrzneBiblioteki.FortuneVoronoi;
 using UnityEditor;
 using UnityEngine;
-using System.Linq;
-using Random = System.Random;
 
 namespace Assets.Editor
 {
@@ -22,10 +17,9 @@ namespace Assets.Editor
 
       private readonly DzialaniaNaPoziomie _dzialania;
 
-      public PoziomEditor()
-      {
-         _dzialania = new DzialaniaNaPoziomie(this);
-      }
+      private Warstwa _ostatniaWarstwa;
+
+      private bool _pokazRogi = true;
 
       public Poziom Poziom
       {
@@ -33,11 +27,15 @@ namespace Assets.Editor
          set { _poziom = value; }
       }
 
-      public void naZdarzenie () { Debug.Log("Eureka!"); }
-
+      public PoziomEditor()
+      {
+         _dzialania = new DzialaniaNaPoziomie(this);
+      }
+      
       public void OnEnable()
       {
          _poziom = target as Poziom;
+         _ostatniaWarstwa = _poziom.warstwa;
          m_fields = ExposeProperties.ExposeProperties.GetProperties(_poziom);
       }
 
@@ -45,9 +43,10 @@ namespace Assets.Editor
       {
          if (_poziom == null)
             return;
-
          DrawDefaultInspector();
          ExposeProperties.ExposeProperties.Expose(m_fields);
+
+         ObsluzZmianyWeWlasciwosciach();
 
          if (Poziom._etap >= Etap.GenerowanieWezlow && GUILayout.Button("Resetuj"))
          {
@@ -64,34 +63,41 @@ namespace Assets.Editor
          if (Poziom._etap >= Etap.ZaburzanieWezlow && GUILayout.Button("Zaburz wezly"))
          {
             _dzialania.ZaburzWezly(true);
-            Poziom._etap = Etap.TworzenieDiagramuWoronoja;
+            Poziom._etap = Etap.TworzenieKomorekIRogow;
          }
 
-         if (Poziom._etap == Etap.TworzenieDiagramuWoronoja && GUILayout.Button("Komórki, rogi itp."))
+         if (Poziom._etap >= Etap.TworzenieKomorekIRogow && GUILayout.Button("Utworz komorki i rogi"))
          {
             _dzialania.UkryjWezly();
             _dzialania.GenerujKomorkiIRogi();
+            Poziom._etap = Etap.TworzenieMapyWysokosci;
          }
 
-         if (Poziom._etap == Etap.TworzenieDiagramuWoronoja && GUILayout.Button("Ustaw wysokoœci"))
+         
+         if (Poziom._etap == Etap.TworzenieMapyWysokosci)
          {
-            _dzialania.UstawWysokosci();
-            return;
-            foreach (GameObject go in  GameObject.FindGameObjectsWithTag("Rog"))
-            {
-               go.transform.position = go.GetComponent<RogUnity>().Rog.Punkt.Pozycja;
-            }
-            foreach (GameObject go in  GameObject.FindGameObjectsWithTag("Komorka"))
-            {
-               go.transform.position = go.GetComponent<KomorkaUnity>().Komorka.Punkt.Pozycja;
-            }
-         }
+            _pokazRogi = GUILayout.Toggle(_pokazRogi, "Pokaz rogi");
 
-         if (GUILayout.Button("Zmieñ kolor komórki"))
+            if (!_pokazRogi)
+               _dzialania.UkryjRogi();
+            else
+               _dzialania.PokazRogi();
+
+            if (GUILayout.Button("Ustaw wysokoœci"))
+            {
+               _dzialania.UstawWysokosci();
+            }
+
+         }
+      }
+
+      private void ObsluzZmianyWeWlasciwosciach()
+      {
+         if (_poziom.warstwa != _ostatniaWarstwa)
          {
-            GameObject komorka = GameObject.FindGameObjectWithTag("Komorka");
-				var nowa = Resources.Load<Material>("prototype_textures/Materials/proto_blue 1");
-            komorka.renderer.material = nowa;
+            _ostatniaWarstwa = _poziom.warstwa;
+            if (_poziom.warstwa == Warstwa.Wysokosci)
+               _dzialania.PokazWarstweWysokosci();
          }
       }
    }
@@ -105,13 +111,12 @@ namespace Assets.Editor
          const float skalaWysokosci = 4f;
          foreach (IPunkt punkt in mapa.Punkty)
          {
-            punkt.Wysokosc = Mathf.PerlinNoise(punkt.Pozycja.x*.5f, punkt.Pozycja.z*.5f) * skalaWysokosci;
+            punkt.Wysokosc = Mathf.PerlinNoise(punkt.Pozycja.x*.05f, punkt.Pozycja.z*.05f) * skalaWysokosci;
          }
 
 
             //punkt.Wysokosc = 6f + Mathf.Sin(punkt.Pozycja.x * .25f)*3f + Mathf.Cos(punkt.Pozycja.z * .25f)*3f;
             //punkt.Pozycja = new Vector3(punkt.Pozycja.x, punkt.Wysokosc, punkt.Pozycja.z);
-
       }
    }
 }

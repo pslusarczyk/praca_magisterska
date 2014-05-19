@@ -1,7 +1,10 @@
-public enum Etap
+namespace Assets.Skrypty.Narzedzia
 {
-   GenerowanieWezlow = 0,
-   ZaburzanieWezlow = 1,
-   TworzenieDiagramuWoronoja = 2,
-   TworzenieMapyWysokosci = 3
+   public enum Etap
+   {
+      GenerowanieWezlow = 0,
+      ZaburzanieWezlow = 1,
+      TworzenieKomorekIRogow = 2,
+      TworzenieMapyWysokosci = 3,
+   }
 }

@@ -1,30 +1,32 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
+using Assets.Skrypty.Narzedzia;
 using LogikaGeneracji;
 using UnityEngine;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 
-public enum CoWyswietlac { Wysokosci, ZiemiaMorze, LadMorzeJezioro }
+public enum Warstwa { Brak, Wysokosci, ZiemiaMorze }
 
 namespace Assets.Skrypty
 {
-   public delegate void ReakcjaNaZmianeWyswietlac();
-
    [ExecuteInEditMode]
    [Serializable]
    public class Poziom : MonoBehaviour
    {
       // chowanie czegoœ — atrybut HideInInspector
-      // pokazywanie w inspektorze nieautomatycznej w³aœciwoœci: na dole http://wiki.unity3d.com/index.php?title=Expose_properties_in_inspector
+      // pokazywanie w inspektorze nieautomatycznej w³aœciwoœci: http://wiki.unity3d.com/index.php?title=Expose_properties_in_inspector
+      // UWAGA! — taka w³aœciwoœæ musi posiadaæ funkcje get i set, nawet jeœli któraœ z nich ma nic nie robiæ
 
       public Etap _etap = Etap.GenerowanieWezlow;
 
-      public CoWyswietlac _coWyswietlac = CoWyswietlac.Wysokosci;
+      [ExposeProperty]
+      public string EtapTekst { get { return _etap.ToString(); } set{} }
+
+      public Warstwa warstwa = Warstwa.Brak;
 
       public HashSet<VoronoiEdge> _krawedzieWoronoja;
-      public bool _pokazDelaunaya = true;
-      public bool _pokazWoronoja = true;
       public bool _pokazSciany = true;
 
       [Range(0f, 1f)] public float _poziomMorza = 0.3f;
@@ -53,25 +55,6 @@ namespace Assets.Skrypty
 
       public void OnDrawGizmos()
       {
-         Gizmos.color = Color.green;
-         if (_pokazDelaunaya)
-            if (_krawedzieWoronoja != null)
-               foreach (VoronoiEdge k in _krawedzieWoronoja)
-               {
-                  var lewy = new Vector3((float) k.LeftData[0], 0f, (float) k.LeftData[1]);
-                  var prawy = new Vector3((float) k.RightData[0], 0f, (float) k.RightData[1]);
-                  Gizmos.DrawLine(lewy, prawy);
-               }
-
-         Gizmos.color = Color.red;
-         if (_pokazWoronoja)
-            if (_krawedzieWoronoja != null)
-               foreach (VoronoiEdge k in _krawedzieWoronoja) 
-               {
-                  var lewy = new Vector3((float) k.VVertexA[0], 0f, (float) k.VVertexA[1]);
-                  var prawy = new Vector3((float) k.VVertexB[0], 0f, (float) k.VVertexB[1]);
-                  Gizmos.DrawLine(lewy, prawy);
-               }
          Gizmos.color = Color.yellow;
          if (_pokazSciany)
             if (_wezly != null && _mapa != null && _mapa.Rogi.Any())
