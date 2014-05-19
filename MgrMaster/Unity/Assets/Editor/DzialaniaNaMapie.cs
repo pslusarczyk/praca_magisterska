@@ -28,12 +28,16 @@ namespace Assets.Editor
          _poziomEditor = poziomEditor;
       }
 
-      public void UstawWysokosci()
+      public void GenerujWysokosci()
       {
-         IPrzetwarzaczMapy wysokosci = new ModyfikatorWysokosciPerlinem {Nastepnik = new AktualizatorNastepstwaMapyWysokosci()};
-         wysokosci.Przetwarzaj(_poziomEditor.Poziom._mapa);
-         AktualizujKomorkiIRogiUnity();
-         PokazWarstweWysokosci();
+         foreach (KomorkaUnity komorkaUnity in _poziomEditor.Poziom._komorkiUnity)
+         {
+            komorkaUnity.MaterialWysokosci = null;
+         }
+         var modyfikator = new ModyfikatorWysokosciPerlinem { Nastepnik = new AktualizatorNastepstwaMapyWysokosci() };
+         modyfikator.Przetwarzaj(_poziomEditor.Poziom._mapa);
+
+         UstawKomorkomMaterialWysokosci();
       }
 
       public void UkryjRogi()
@@ -67,7 +71,7 @@ namespace Assets.Editor
          _poziomEditor.Poziom._krawedzieWoronoja = null;
       }
 
-      private void AktualizujKomorkiIRogiUnity()
+      private void UstawKomorkomMaterialWysokosci()
       {
          foreach (KomorkaUnity komorkaUnity in _poziomEditor.Poziom._komorkiUnity)
          {
@@ -92,7 +96,7 @@ namespace Assets.Editor
             kopiaMaterialu.color = new Color(.3f + wysokosc * .2f, .9f - wysokosc * .2f, .3f);
             komorkaUnity.MaterialWysokosci = kopiaMaterialu;               
             }
-            komorkaUnity.renderer.material = komorkaUnity.MaterialWysokosci;
+            komorkaUnity.renderer.material = komorkaUnity.MaterialWysokosci; 
          }
       }
 
@@ -103,6 +107,31 @@ namespace Assets.Editor
             _poziomEditor.OstatniaWarstwa = _poziomEditor.Poziom.warstwa;
             if (_poziomEditor.Poziom.warstwa == Warstwa.Wysokosci)
                PokazWarstweWysokosci();
+            if (_poziomEditor.Poziom.warstwa == Warstwa.ZiemiaWoda)
+               PokazWarstweZiemiIWody();
+         }
+      }
+
+      public void RozdzielZiemieIWode()
+      {
+         IPrzetwarzaczMapy rozdzielacz = new RozdzielaczWodyIZiemi(1.9f);
+         rozdzielacz.Przetwarzaj(_poziomEditor.Poziom._mapa);
+      }
+
+      public void PokazWarstweZiemiIWody()
+      {
+         foreach (KomorkaUnity komorkaUnity in _poziomEditor.Poziom._komorkiUnity)
+         {
+            if (komorkaUnity.MaterialZiemiWody == null)
+            {
+               var kopiaMaterialu = new Material(komorkaUnity.renderer.sharedMaterial);
+               if(komorkaUnity.Komorka.Dane.Podloze == Podloze.Woda)
+                     kopiaMaterialu.color = new Color(0f, .2f, .7f);
+               else
+                  kopiaMaterialu.color = new Color(.6f, .5f, .1f);
+               komorkaUnity.MaterialZiemiWody = kopiaMaterialu;
+            }
+            komorkaUnity.renderer.material = komorkaUnity.MaterialZiemiWody;
          }
       }
    }

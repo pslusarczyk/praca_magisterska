@@ -97,13 +97,24 @@ namespace Assets.Editor
                _dzialaniaNaMapie.UkryjRogi();
             else
                _dzialaniaNaMapie.PokazRogi();
-
-            if (GUILayout.Button("Ustaw wysokoœci"))
-            {
-               _dzialaniaNaMapie.UstawWysokosci();
-            }
-
          }
+
+         if (Poziom._etap == Etap.TworzenieMapyWysokosci || Poziom._etap == Etap.RozdzielanieZiemiIWody)
+         {
+            if (GUILayout.Button("Generuj wysokoœci"))
+            {
+               _dzialaniaNaMapie.GenerujWysokosci();
+               _dzialaniaNaMapie.PokazWarstweWysokosci();
+               Poziom._etap = Etap.RozdzielanieZiemiIWody;
+            } 
+         }
+
+         if (Poziom._etap == Etap.RozdzielanieZiemiIWody && GUILayout.Button("Rozdziel ziemie i wode"))
+         {
+            _dzialaniaNaMapie.RozdzielZiemieIWode();
+            _dzialaniaNaMapie.PokazWarstweZiemiIWody();
+         }
+
       }
    }
 }

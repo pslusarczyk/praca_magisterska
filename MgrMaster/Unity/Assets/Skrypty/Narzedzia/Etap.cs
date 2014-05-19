@@ -6,5 +6,6 @@ namespace Assets.Skrypty.Narzedzia
       ZaburzanieWezlow = 1,
       TworzenieKomorekIRogow = 2,
       TworzenieMapyWysokosci = 3,
+      RozdzielanieZiemiIWody = 4,
    }
 }

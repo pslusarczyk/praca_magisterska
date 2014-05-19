@@ -7,7 +7,7 @@ using LogikaGeneracji;
 using UnityEngine;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 
-public enum Warstwa { Brak, Wysokosci, ZiemiaMorze }
+public enum Warstwa { Brak, Wysokosci, ZiemiaWoda }
 
 namespace Assets.Skrypty
 {

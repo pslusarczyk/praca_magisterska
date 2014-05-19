@@ -207,11 +207,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 81a4064cbb3661a42bb88abb92a2e1c5, type: 2}
       propertyPath: _rozmiarX
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 81a4064cbb3661a42bb88abb92a2e1c5, type: 2}
       propertyPath: _rozmiarZ
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 81a4064cbb3661a42bb88abb92a2e1c5, type: 2}
       propertyPath: _pokazWoronoja
@@ -646,8 +646,8 @@ MonoBehaviour:
   warstwa: 0
   _pokazSciany: 1
   _poziomMorza: .50999999
-  _rozmiarX: 12
-  _rozmiarZ: 12
+  _rozmiarX: 10
+  _rozmiarZ: 10
   _rozpietosc: 2.42000008
 --- !u!23 &1708760556
 Renderer:

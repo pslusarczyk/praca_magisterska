@@ -22,10 +22,9 @@ namespace Testy
 
       #region Deklaracje
 
-      private class ProstyRozdzielaczWodyILądu : IPrzetwarzaczMapy
+      private class ProstyRozdzielaczWodyILądu : BazaPrzetwarzacza
       {
-         public IPrzetwarzaczMapy Nastepnik { get; set; }
-         public void Przetwarzaj(IMapa mapa)
+         public override void Przetwarzaj(IMapa mapa)
          {
             foreach (IKomorka komorka in mapa.Komorki)
             {
