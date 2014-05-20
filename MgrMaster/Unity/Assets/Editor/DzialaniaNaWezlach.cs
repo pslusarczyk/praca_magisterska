@@ -10,7 +10,7 @@ namespace Assets.Editor
 {
    public class DzialaniaNaWezlach
    {
-      private PoziomEditor _poziomEditor;
+      private readonly PoziomEditor _poziomEditor;
       private Random _random;
 
       public Poziom Poziom
@@ -40,6 +40,8 @@ namespace Assets.Editor
 
       public void GenerujWezly()
       {
+         Poziom.KomponentPojemnika = UtworzPojemnik();
+
          _poziomEditor.Poziom._wezly = new Wezel[_poziomEditor.Poziom._rozmiarX, _poziomEditor.Poziom._rozmiarZ];
          for (int x = 0; x < _poziomEditor.Poziom._rozmiarX; ++x)
             for (int z = 0; z < _poziomEditor.Poziom._rozmiarZ; ++z)
@@ -49,12 +51,25 @@ namespace Assets.Editor
                   (GameObject)
                      Object.Instantiate(Resources.Load("Wezel"), _poziomEditor.Poziom.transform.position + new Vector3(x * rozpietosc, 0f, z * rozpietosc),
                         Quaternion.identity);
-               wezelObject.transform.parent = GameObject.Find("Wezly").transform;
+               wezelObject.transform.parent = Poziom.KomponentPojemnika.Wezly.transform;
                wezelObject.GetComponent<Wezel>().pierwotnaPozycja = wezelObject.transform.position;
                _poziomEditor.Poziom._wezly[x, z] = wezelObject.GetComponent<Wezel>();
                if (x <= 1 || z <= 1 || x >= _poziomEditor.Poziom._rozmiarX - 2 || z >= _poziomEditor.Poziom._rozmiarZ - 2)
                   wezelObject.GetComponent<Wezel>().czySkrajny = true;
             }
+      }
+
+      private Pojemnik UtworzPojemnik()
+      {
+         var pojemnik = (GameObject) Object.Instantiate(Resources.Load("Pojemnik"), _poziomEditor.Poziom.transform.position,
+            Quaternion.identity);
+         pojemnik.name = _poziomEditor.Poziom.name + "_pojemnik";
+         var komponentPojemnika = pojemnik.GetComponent<Pojemnik>();
+         komponentPojemnika.Poziom = _poziomEditor.Poziom;
+         komponentPojemnika.Komorki = komponentPojemnika.gameObject.transform.FindChild("Komorki").gameObject;
+         komponentPojemnika.Rogi = komponentPojemnika.gameObject.transform.FindChild("Rogi").gameObject;
+         komponentPojemnika.Wezly = komponentPojemnika.gameObject.transform.FindChild("Wezly").gameObject;
+         return komponentPojemnika;
       }
 
       public void ZaburzWezly(bool pozostawSkrajne)
@@ -104,7 +119,7 @@ namespace Assets.Editor
          {
             var nowa = (GameObject)Object.Instantiate(Resources.Load("KomorkaUnity"),
                komorka.Punkt.Pozycja, Quaternion.identity);
-            nowa.transform.parent = GameObject.Find("Komorki").transform;
+            nowa.transform.parent = _poziomEditor.Poziom.KomponentPojemnika.Komorki.transform;
             nowa.GetComponent<KomorkaUnity>().Komorka = komorka;
             _poziomEditor.Poziom._komorkiUnity.Add(nowa.GetComponent<KomorkaUnity>());
          }
@@ -116,7 +131,7 @@ namespace Assets.Editor
                continue;
             var nowy = (GameObject)Object.Instantiate(Resources.Load("RogUnity"),
                rog.Punkt.Pozycja, Quaternion.identity);
-            nowy.transform.parent = GameObject.Find("Rogi").transform; // todo pozmieniaæ te find jakoœ ¿eby nie polegaæ na nazwach
+            nowy.transform.parent = _poziomEditor.Poziom.KomponentPojemnika.Rogi.transform;
             nowy.GetComponent<RogUnity>().Rog = rog;
             _poziomEditor.Poziom._rogiUnity.Add(nowy.GetComponent<RogUnity>());
          }

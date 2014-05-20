@@ -42,16 +42,6 @@ namespace Assets.Editor
          m_fields = ExposeProperties.ExposeProperties.GetProperties(_poziom);
       }
 
-      public void OnSceneGUI()
-      {
-         //Event e = Event.current;
-         Handles.BeginGUI();
-         var r = new Rect(0, 0, 120, 75);
-         GUI.Button(new Rect(10, 10, 100, 50), "Przycisk");
-         GUI.Box(r, "Nag³ówek");
-         Handles.EndGUI();
-      }
-
       public override void OnInspectorGUI()
       {
          if (_poziom == null)
@@ -89,7 +79,7 @@ namespace Assets.Editor
             }
          }
 
-         if (Poziom._etap == Etap.TworzenieMapyWysokosci)
+         if (Poziom._etap >= Etap.TworzenieMapyWysokosci)
          {
             _pokazRogi = GUILayout.Toggle(_pokazRogi, "Pokaz rogi");
 

@@ -24,6 +24,8 @@ namespace Assets.Skrypty
       [ExposeProperty]
       public string EtapTekst { get { return _etap.ToString(); } set{} }
 
+      public Pojemnik KomponentPojemnika { get; set; }
+
       public Warstwa warstwa = Warstwa.Brak;
 
       public HashSet<VoronoiEdge> _krawedzieWoronoja;
@@ -31,9 +33,9 @@ namespace Assets.Skrypty
 
       [Range(0f, 1f)] public float _poziomMorza = 0.3f;
 
-      [Range(10, 100)] public int _rozmiarX = 20;
+      [Range(5, 40)] public int _rozmiarX = 20;
 
-      [Range(10, 100)] public int _rozmiarZ = 20;
+      [Range(5, 40)] public int _rozmiarZ = 20;
 
       [Range(1f, 5f)] public float _rozpietosc = 2f;
 

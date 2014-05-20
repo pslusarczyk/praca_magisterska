@@ -49,6 +49,7 @@
      <Compile Include="Assets\Skrypty\ExposePropertyAttribute.cs" />
      <Compile Include="Assets\Skrypty\KomorkaUnity.cs" />
      <Compile Include="Assets\Skrypty\Narzedzia\Etap.cs" />
+     <Compile Include="Assets\Skrypty\Pojemnik.cs" />
      <Compile Include="Assets\Skrypty\Poziom.cs" />
      <Compile Include="Assets\Skrypty\RogUnity.cs" />
      <Compile Include="Assets\Skrypty\Teren.cs" />

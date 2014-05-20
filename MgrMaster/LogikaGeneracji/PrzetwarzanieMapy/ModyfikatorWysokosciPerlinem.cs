@@ -11,8 +11,8 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
       public override void Przetwarzaj(IMapa mapa)
       {
          const float skalaWysokosci = 4f;
-         var przesuniecieX = (float)Rand.NextDouble();
-         var przesuniecieZ = (float)Rand.NextDouble();
+         var przesuniecieX = (float)Rand.NextDouble() * 4096f;
+         var przesuniecieZ = (float)Rand.NextDouble() * 4096f;
          foreach (IPunkt punkt in mapa.Punkty)
          {
             punkt.Wysokosc = Mathf.PerlinNoise(punkt.Pozycja.x*.08f + przesuniecieX, 
