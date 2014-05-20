@@ -6,7 +6,6 @@ Unity/obj
 Unity/Library
 Unity/ProjectSettings
 Unity/Temp
-*.dll
 *.pdb
 *.dll.mdb
 
