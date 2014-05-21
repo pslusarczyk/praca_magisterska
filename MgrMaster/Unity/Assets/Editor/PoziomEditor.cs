@@ -62,7 +62,7 @@ namespace Assets.Editor
       {
          _dzialaniaNaMapie = new DzialaniaNaMapie(this);
          _dzialaniaNaWezlach = new DzialaniaNaWezlach(this);
-         _utworzoneWarstwy = new List<Warstwa> {Warstwa.Brak};
+         _utworzoneWarstwy = new List<Warstwa>();
       }
       
       public void OnEnable()
@@ -78,7 +78,6 @@ namespace Assets.Editor
             return;
          DrawDefaultInspector();
          ExposeProperties.ExposeProperties.Expose(m_fields);
-         //_dzialaniaNaMapie.ObsluzZmianyWeWlasciwosciach();
 
          EditorGUILayout.LabelField("Generator poziomu", Konf.StylNaglowkaInspektora);
 
@@ -149,9 +148,6 @@ namespace Assets.Editor
             });
             if (_utworzoneWarstwy.Count > 0)
             {
-               GUILayout.Label(string.Join(
-                  ",", _utworzoneWarstwy.Select(w => w.ToString()).ToArray()
-                  ));
                GUILayout.Label("Wybierz warstwê:");
                _numerWybranejWarstwy = GUILayout.SelectionGrid(_numerWybranejWarstwy,
                   _utworzoneWarstwy.ToList().Select(w => w.ToString()).ToArray(),
@@ -164,9 +160,16 @@ namespace Assets.Editor
                {
                   PoprzedniaWarstwa = Poziom.AktualnaWarstwa;
                   if (Poziom.AktualnaWarstwa == Warstwa.Wysokosci)
+                  {
                      _dzialaniaNaMapie.PokazWarstweWysokosci();
+                     OdswiezZaznaczenieWarstwy();
+                  }
+
                   if (Poziom.AktualnaWarstwa == Warstwa.ZiemiaWoda)
+                  {
                      _dzialaniaNaMapie.PokazWarstweZiemiIWody();
+                     OdswiezZaznaczenieWarstwy();
+                  }
                   
                }
             }
@@ -176,7 +179,11 @@ namespace Assets.Editor
             if (GUILayout.Button("Generuj wysokoœci"))
             {
                _dzialaniaNaMapie.GenerujWysokosci();
+               if (!_utworzoneWarstwy.Contains(Warstwa.Wysokosci))
+                  _utworzoneWarstwy.Add(Warstwa.Wysokosci);
+               AktualnaWarstwa = Warstwa.Wysokosci;
                _dzialaniaNaMapie.PokazWarstweWysokosci();
+               OdswiezZaznaczenieWarstwy();
                _etap = Etap.RozdzielanieZiemiIWody;
             } 
          }
@@ -184,7 +191,11 @@ namespace Assets.Editor
          if (_etap == Etap.RozdzielanieZiemiIWody && GUILayout.Button("Rozdziel ziemiê i wodê"))
          {
             _dzialaniaNaMapie.RozdzielZiemieIWode();
+            if (!_utworzoneWarstwy.Contains(Warstwa.ZiemiaWoda))
+               _utworzoneWarstwy.Add(Warstwa.ZiemiaWoda);
+            AktualnaWarstwa = Warstwa.ZiemiaWoda;
             _dzialaniaNaMapie.PokazWarstweZiemiIWody();
+            OdswiezZaznaczenieWarstwy();
          }
 
       }

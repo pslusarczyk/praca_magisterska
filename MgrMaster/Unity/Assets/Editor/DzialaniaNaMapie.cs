@@ -13,14 +13,14 @@ namespace Assets.Editor
 {
    public class DzialaniaNaMapie
    {
-      private readonly PoziomEditor PoziomEditor;
+      private readonly PoziomEditor _poziomEditor;
       private Poziom _poziom;
 
-      public Poziom Poziom { get { return _poziom ?? (_poziom = PoziomEditor.Poziom); } }
+      public Poziom Poziom { get { return _poziom ?? (_poziom = _poziomEditor.Poziom); } }
 
       public DzialaniaNaMapie(PoziomEditor poziomEditor)
       {
-         PoziomEditor = poziomEditor;
+         _poziomEditor = poziomEditor;
       }
 
       public void UkryjRogi()
@@ -68,26 +68,18 @@ namespace Assets.Editor
          modyfikator.Przetwarzaj(Poziom._mapa);
 
          UstawKomorkomIRogomMaterialWysokosci();
-         if (!PoziomEditor._utworzoneWarstwy.Contains(Warstwa.Wysokosci))
-            PoziomEditor._utworzoneWarstwy.Add(Warstwa.Wysokosci);
-
-         PoziomEditor.AktualnaWarstwa = Warstwa.Wysokosci;
       }
 
       public void RozdzielZiemieIWode()
       {
-         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
-         {
-            komorkaUnity.MaterialWysokosci = null;
-         }
+         //foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
+         //{
+         //   komorkaUnity.MaterialZiemiWody = null;
+         //}
          IPrzetwarzaczMapy rozdzielacz = new RozdzielaczWodyIZiemi(1.9f);
          rozdzielacz.Przetwarzaj(Poziom._mapa);
 
          UstawKomorkomMaterialZiemiIWody();
-         if (!PoziomEditor._utworzoneWarstwy.Contains(Warstwa.ZiemiaWoda))
-            PoziomEditor._utworzoneWarstwy.Add(Warstwa.ZiemiaWoda);
-
-         PoziomEditor.AktualnaWarstwa = Warstwa.ZiemiaWoda;
       }
 
       private void UstawKomorkomIRogomMaterialWysokosci()
@@ -133,7 +125,6 @@ namespace Assets.Editor
          {
             rogUnity.renderer.material = rogUnity.MaterialWysokosci; 
          }
-         PoziomEditor.OdswiezZaznaczenieWarstwy();
       }
 
       public void PokazWarstweZiemiIWody()
@@ -142,7 +133,6 @@ namespace Assets.Editor
          {
             komorkaUnity.renderer.material = komorkaUnity.MaterialZiemiWody;
          }
-         PoziomEditor.OdswiezZaznaczenieWarstwy();
       }
    }
 }
