@@ -7,6 +7,8 @@ namespace Assets.Skrypty
    {
       public IRog Rog { get; set; }
 
+      public Material MaterialWysokosci { get; set; }
+
       void OnDrawGizmos()
       {
          //Gizmos.color = Color.yellow;

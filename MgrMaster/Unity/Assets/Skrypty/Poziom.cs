@@ -25,7 +25,7 @@ namespace Assets.Skrypty
       public bool _pokazSciany = true;
 
       [HideInInspector]
-      public Warstwa _warstwa = Warstwa.Brak;
+      public Warstwa AktualnaWarstwa = Warstwa.Brak;
       
       public Wezel[,] _wezly;
       public IList<KomorkaUnity> _komorkiUnity;

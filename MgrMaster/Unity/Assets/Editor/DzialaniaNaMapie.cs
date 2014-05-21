@@ -11,26 +11,21 @@ using ZewnetrzneBiblioteki.FortuneVoronoi;
 
 namespace Assets.Editor
 {
-   /// <summary>
-   /// U¿ywanie zasobów: Resources.Load<Material>("prototype_textures/Materials/proto_blue 1");
-   /// </summary>
    public class DzialaniaNaMapie
    {
-      private readonly PoziomEditor _poziomEditor;
+      private readonly PoziomEditor PoziomEditor;
+      private Poziom _poziom;
 
-      public Poziom Poziom {
-         get { return _poziomEditor.Poziom; }
-         set { _poziomEditor.Poziom = value; } 
-      }
+      public Poziom Poziom { get { return _poziom ?? (_poziom = PoziomEditor.Poziom); } }
 
       public DzialaniaNaMapie(PoziomEditor poziomEditor)
       {
-         _poziomEditor = poziomEditor;
+         PoziomEditor = poziomEditor;
       }
 
       public void UkryjRogi()
       {
-         foreach (RogUnity rog in _poziomEditor.Poziom._rogiUnity)
+         foreach (RogUnity rog in Poziom._rogiUnity)
          {
             if (rog != null)
                rog.renderer.enabled = false;
@@ -39,7 +34,7 @@ namespace Assets.Editor
 
       public void PokazRogi()
       {
-         foreach (RogUnity rog in _poziomEditor.Poziom._rogiUnity)
+         foreach (RogUnity rog in Poziom._rogiUnity)
          {
             rog.renderer.enabled = true;
          }
@@ -47,45 +42,57 @@ namespace Assets.Editor
 
       public void UsunWezlyRogiIKomorki()
       {
-         if (_poziomEditor.Poziom.KomponentPojemnika != null)
-            Object.DestroyImmediate(_poziomEditor.Poziom.KomponentPojemnika.gameObject);
-         _poziomEditor.Poziom._wezly = null;
-         _poziomEditor.Poziom._mapa = null;
-         if (_poziomEditor.Poziom._komorkiUnity != null)
-            _poziomEditor.Poziom._komorkiUnity.Clear();
-         if (_poziomEditor.Poziom._rogiUnity != null)
-            _poziomEditor.Poziom._rogiUnity.Clear();
-         if (_poziomEditor.Poziom._krawedzieWoronoja != null)
-            _poziomEditor.Poziom._krawedzieWoronoja.Clear();
+         if (Poziom.KomponentPojemnika != null)
+            Object.DestroyImmediate(Poziom.KomponentPojemnika.gameObject);
+         Poziom._wezly = null;
+         Poziom._mapa = null;
+         if (Poziom._komorkiUnity != null)
+            Poziom._komorkiUnity.Clear();
+         if (Poziom._rogiUnity != null)
+            Poziom._rogiUnity.Clear();
+         if (Poziom._krawedzieWoronoja != null)
+            Poziom._krawedzieWoronoja.Clear();
       }
 
       public void GenerujWysokosci()
       {
-         foreach (KomorkaUnity komorkaUnity in _poziomEditor.Poziom._komorkiUnity)
+         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
             komorkaUnity.MaterialWysokosci = null;
          }
+         foreach (RogUnity rogUnity in Poziom._rogiUnity)
+         {
+            rogUnity.MaterialWysokosci = null;
+         }
          var modyfikator = new ModyfikatorWysokosciPerlinem { Nastepnik = new AktualizatorNastepstwaMapyWysokosci() };
-         modyfikator.Przetwarzaj(_poziomEditor.Poziom._mapa);
+         modyfikator.Przetwarzaj(Poziom._mapa);
 
-         UstawKomorkomMaterialWysokosci();
+         UstawKomorkomIRogomMaterialWysokosci();
+         if (!PoziomEditor._utworzoneWarstwy.Contains(Warstwa.Wysokosci))
+            PoziomEditor._utworzoneWarstwy.Add(Warstwa.Wysokosci);
+
+         PoziomEditor.AktualnaWarstwa = Warstwa.Wysokosci;
       }
 
       public void RozdzielZiemieIWode()
       {
-         foreach (KomorkaUnity komorkaUnity in _poziomEditor.Poziom._komorkiUnity)
+         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
             komorkaUnity.MaterialWysokosci = null;
          }
          IPrzetwarzaczMapy rozdzielacz = new RozdzielaczWodyIZiemi(1.9f);
-         rozdzielacz.Przetwarzaj(_poziomEditor.Poziom._mapa);
+         rozdzielacz.Przetwarzaj(Poziom._mapa);
 
          UstawKomorkomMaterialZiemiIWody();
+         if (!PoziomEditor._utworzoneWarstwy.Contains(Warstwa.ZiemiaWoda))
+            PoziomEditor._utworzoneWarstwy.Add(Warstwa.ZiemiaWoda);
+
+         PoziomEditor.AktualnaWarstwa = Warstwa.ZiemiaWoda;
       }
 
-      private void UstawKomorkomMaterialWysokosci()
+      private void UstawKomorkomIRogomMaterialWysokosci()
       {
-         foreach (KomorkaUnity komorkaUnity in _poziomEditor.Poziom._komorkiUnity)
+         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
             float wysokosc = komorkaUnity.Komorka.Punkt.Wysokosc;
 
@@ -93,11 +100,19 @@ namespace Assets.Editor
             kopiaMaterialu.color = new Color(.3f + wysokosc * .2f, .9f - wysokosc*.2f, .3f);
             komorkaUnity.MaterialWysokosci = kopiaMaterialu;
          }
+         foreach (RogUnity rogUnity in Poziom._rogiUnity)
+         {
+            float wysokosc = rogUnity.Rog.Punkt.Wysokosc;
+
+            var kopiaMaterialu = new Material(rogUnity.renderer.sharedMaterial);
+            kopiaMaterialu.color = new Color(.3f + wysokosc * .2f, .9f - wysokosc*.2f, .3f);
+            rogUnity.MaterialWysokosci = kopiaMaterialu;
+         }
       }
 
       private void UstawKomorkomMaterialZiemiIWody()
       {
-         foreach (KomorkaUnity komorkaUnity in _poziomEditor.Poziom._komorkiUnity)
+         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
             var kopiaMaterialu = new Material(komorkaUnity.renderer.sharedMaterial);
             if (komorkaUnity.Komorka.Dane.Podloze == Podloze.Woda)
@@ -110,30 +125,24 @@ namespace Assets.Editor
 
       public void PokazWarstweWysokosci()
       {
-         foreach (KomorkaUnity komorkaUnity in _poziomEditor.Poziom._komorkiUnity)
+         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
             komorkaUnity.renderer.material = komorkaUnity.MaterialWysokosci; 
          }
+         foreach (RogUnity rogUnity in Poziom._rogiUnity)
+         {
+            rogUnity.renderer.material = rogUnity.MaterialWysokosci; 
+         }
+         PoziomEditor.OdswiezZaznaczenieWarstwy();
       }
 
       public void PokazWarstweZiemiIWody()
       {
-         foreach (KomorkaUnity komorkaUnity in _poziomEditor.Poziom._komorkiUnity)
+         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
             komorkaUnity.renderer.material = komorkaUnity.MaterialZiemiWody;
          }
-      }
-
-      public void ObsluzZmianyWeWlasciwosciach()
-      {
-         if (_poziomEditor.Poziom._warstwa != _poziomEditor.OstatniaWarstwa)
-         {
-            _poziomEditor.OstatniaWarstwa = _poziomEditor.Poziom._warstwa;
-            if (_poziomEditor.Poziom._warstwa == Warstwa.Wysokosci)
-               PokazWarstweWysokosci();
-            if (_poziomEditor.Poziom._warstwa == Warstwa.ZiemiaWoda)
-               PokazWarstweZiemiIWody();
-         }
+         PoziomEditor.OdswiezZaznaczenieWarstwy();
       }
    }
 }
