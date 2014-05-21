@@ -8,7 +8,7 @@ using Random = System.Random;
 
 namespace Assets.Editor
 {
-   public class DzialaniaNaWezlach
+   public class DzialaniaNaWezlach // pilne Uniezale¿niæ od edytora poziomu (wzajemna zale¿noœæ!)
    {
       private readonly PoziomEditor _poziomEditor;
       private Random _random;

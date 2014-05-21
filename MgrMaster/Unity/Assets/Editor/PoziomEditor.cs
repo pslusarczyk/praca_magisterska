@@ -27,6 +27,9 @@ namespace Assets.Editor
       public int _rozmiarZ = Konf.PoczRozmiarZ;
       public float _rozpietosc = Konf.PoczRozpietosc;
 
+      private float _progMorza = Konf.PoczProgMorza;
+      private float _poprzedniProgMorza = Konf.PoczProgMorza;
+
       public bool PokazSciany
       {
          get { return Poziom._pokazSciany; }
@@ -188,14 +191,29 @@ namespace Assets.Editor
             } 
          }
 
-         if (_etap == Etap.RozdzielanieZiemiIWody && GUILayout.Button("Rozdziel ziemiê i wodê"))
+         if (_etap == Etap.RozdzielanieZiemiIWody )
          {
-            _dzialaniaNaMapie.RozdzielZiemieIWode();
-            if (!_utworzoneWarstwy.Contains(Warstwa.ZiemiaWoda))
-               _utworzoneWarstwy.Add(Warstwa.ZiemiaWoda);
-            AktualnaWarstwa = Warstwa.ZiemiaWoda;
-            _dzialaniaNaMapie.PokazWarstweZiemiIWody();
-            OdswiezZaznaczenieWarstwy();
+            _progMorza = EditorGUILayout.Slider("Próg morza", _progMorza, Konf.MinProgMorza, Konf.MaksProgMorza);
+            if (_progMorza != _poprzedniProgMorza)
+            {
+               _dzialaniaNaMapie.RozdzielZiemieIWode(_progMorza);
+               if (!_utworzoneWarstwy.Contains(Warstwa.ZiemiaWoda))
+                  _utworzoneWarstwy.Add(Warstwa.ZiemiaWoda);
+               AktualnaWarstwa = Warstwa.ZiemiaWoda;
+               _dzialaniaNaMapie.PokazWarstweZiemiIWody();
+               OdswiezZaznaczenieWarstwy();
+               Debug.Log("Próg morza!");
+            }
+
+            if (GUILayout.Button("Rozdziel ziemiê i wodê"))
+            {
+               _dzialaniaNaMapie.RozdzielZiemieIWode(_progMorza);
+               if (!_utworzoneWarstwy.Contains(Warstwa.ZiemiaWoda))
+                  _utworzoneWarstwy.Add(Warstwa.ZiemiaWoda);
+               AktualnaWarstwa = Warstwa.ZiemiaWoda;
+               _dzialaniaNaMapie.PokazWarstweZiemiIWody();
+               OdswiezZaznaczenieWarstwy();
+            }
          }
 
       }

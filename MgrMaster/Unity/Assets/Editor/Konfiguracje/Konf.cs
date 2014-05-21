@@ -18,6 +18,9 @@ namespace Assets.Editor.Konfiguracje
       public static float PoczRozpietosc = 2.5f;
       public static float MinRozpietosc = 1f;
       public static float MaksRozpietosc = 5f;
+      public static float PoczProgMorza = 1.9f;
+      public static float MinProgMorza = 0f;
+      public static float MaksProgMorza = 5f;
 
       public const float PoczStopienZaburzeniaWezlow = .5f; // 0–1
    }

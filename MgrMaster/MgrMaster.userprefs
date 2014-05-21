@@ -1,8 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Unity\Assets\Editor\DzialaniaNaMapie.cs">
+    <Files>
+      <File FileName="Unity\Assets\Editor\DzialaniaNaMapie.cs" Line="122" Column="62" />
+      <File FileName="Unity\Assets\Editor\PoziomEditor.cs" Line="79" Column="33" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\pawel.slusarczyk\Documents\GitHub\praca_magisterska\MgrMaster\Unity\Assets\Editor\DzialaniaNaMapie.cs" line="120" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

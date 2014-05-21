@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Editor.Konfiguracje;
 using Assets.Skrypty;
 using Assets.Skrypty.Narzedzia;
 using LogikaGeneracji;
@@ -70,13 +71,13 @@ namespace Assets.Editor
          UstawKomorkomIRogomMaterialWysokosci();
       }
 
-      public void RozdzielZiemieIWode()
+      public void RozdzielZiemieIWode(float prog)
       {
-         //foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
-         //{
-         //   komorkaUnity.MaterialZiemiWody = null;
-         //}
-         IPrzetwarzaczMapy rozdzielacz = new RozdzielaczWodyIZiemi(1.9f);
+         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
+         {
+            komorkaUnity.MaterialZiemiWody = null;
+         }
+         IPrzetwarzaczMapy rozdzielacz = new RozdzielaczWodyIZiemi(prog);
          rozdzielacz.Przetwarzaj(Poziom._mapa);
 
          UstawKomorkomMaterialZiemiIWody();
