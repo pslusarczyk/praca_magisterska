@@ -126,12 +126,12 @@ namespace Assets.Editor
 
       public void ObsluzZmianyWeWlasciwosciach()
       {
-         if (_poziomEditor.Poziom.warstwa != _poziomEditor.OstatniaWarstwa)
+         if (_poziomEditor.Poziom._warstwa != _poziomEditor.OstatniaWarstwa)
          {
-            _poziomEditor.OstatniaWarstwa = _poziomEditor.Poziom.warstwa;
-            if (_poziomEditor.Poziom.warstwa == Warstwa.Wysokosci)
+            _poziomEditor.OstatniaWarstwa = _poziomEditor.Poziom._warstwa;
+            if (_poziomEditor.Poziom._warstwa == Warstwa.Wysokosci)
                PokazWarstweWysokosci();
-            if (_poziomEditor.Poziom.warstwa == Warstwa.ZiemiaWoda)
+            if (_poziomEditor.Poziom._warstwa == Warstwa.ZiemiaWoda)
                PokazWarstweZiemiIWody();
          }
       }

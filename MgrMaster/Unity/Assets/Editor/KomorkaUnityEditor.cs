@@ -13,9 +13,7 @@ namespace Assets.Editor
    {
       PropertyField[] m_fields;
       private KomorkaUnity _komorkaUnity;
-
-      private bool _pokazRogi = false;
-
+      
       public KomorkaUnity KomorkaUnity
       {
          get { return _komorkaUnity ?? (_komorkaUnity = (KomorkaUnity)target); }

@@ -54,6 +54,7 @@
      <Compile Include="Assets\Skrypty\RogUnity.cs" />
      <Compile Include="Assets\Skrypty\Teren.cs" />
      <Compile Include="Assets\Skrypty\Terenoedytor.cs" />
+     <Compile Include="Assets\Skrypty\Warstwa.cs" />
      <Compile Include="Assets\Skrypty\Wezel.cs" />
      <None Include="Assets\Resources\prototype_textures\readme.txt" />
  <Reference Include="LogikaGeneracji">

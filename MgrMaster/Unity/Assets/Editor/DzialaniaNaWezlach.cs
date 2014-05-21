@@ -42,11 +42,11 @@ namespace Assets.Editor
       {
          Poziom.KomponentPojemnika = UtworzPojemnik();
 
-         _poziomEditor.Poziom._wezly = new Wezel[_poziomEditor.Poziom._rozmiarX, _poziomEditor.Poziom._rozmiarZ];
-         for (int x = 0; x < _poziomEditor.Poziom._rozmiarX; ++x)
-            for (int z = 0; z < _poziomEditor.Poziom._rozmiarZ; ++z)
+         _poziomEditor.Poziom._wezly = new Wezel[_poziomEditor._rozmiarX, _poziomEditor._rozmiarZ];
+         for (int x = 0; x < _poziomEditor._rozmiarX; ++x)
+            for (int z = 0; z < _poziomEditor._rozmiarZ; ++z)
             {
-               float rozpietosc = _poziomEditor.Poziom._rozpietosc;
+               float rozpietosc = _poziomEditor._rozpietosc;
                var wezelObject =
                   (GameObject)
                      Object.Instantiate(Resources.Load("Wezel"), _poziomEditor.Poziom.transform.position + new Vector3(x * rozpietosc, 0f, z * rozpietosc),
@@ -54,7 +54,7 @@ namespace Assets.Editor
                wezelObject.transform.parent = Poziom.KomponentPojemnika.Wezly.transform;
                wezelObject.GetComponent<Wezel>().pierwotnaPozycja = wezelObject.transform.position;
                _poziomEditor.Poziom._wezly[x, z] = wezelObject.GetComponent<Wezel>();
-               if (x <= 1 || z <= 1 || x >= _poziomEditor.Poziom._rozmiarX - 2 || z >= _poziomEditor.Poziom._rozmiarZ - 2)
+               if (x <= 1 || z <= 1 || x >= _poziomEditor._rozmiarX - 2 || z >= _poziomEditor._rozmiarZ - 2)
                   wezelObject.GetComponent<Wezel>().czySkrajny = true;
             }
       }
@@ -72,10 +72,10 @@ namespace Assets.Editor
          return komponentPojemnika;
       }
 
-      public void ZaburzWezly(bool pozostawSkrajne)
+      public void ZaburzWezly(float zasieg, bool pozostawSkrajne)
       {
          ZresetujUstawienieWezlow();
-         float limitPrzesuniecia = _poziomEditor.Poziom._rozpietosc * .8f;
+         float limitPrzesuniecia = zasieg * .99f;
          foreach (Wezel w in _poziomEditor.Poziom._wezly)
          {
             if (pozostawSkrajne && w.czySkrajny)
