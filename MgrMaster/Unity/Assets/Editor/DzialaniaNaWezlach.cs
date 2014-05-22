@@ -42,11 +42,11 @@ namespace Assets.Editor
       {
          Poziom.KomponentPojemnika = UtworzPojemnik();
 
-         _poziomEditor.Poziom._wezly = new Wezel[_poziomEditor._rozmiarX, _poziomEditor._rozmiarZ];
-         for (int x = 0; x < _poziomEditor._rozmiarX; ++x)
-            for (int z = 0; z < _poziomEditor._rozmiarZ; ++z)
+         _poziomEditor.Poziom._wezly = new Wezel[_poziomEditor.StanGeneratora._rozmiarX, _poziomEditor.StanGeneratora._rozmiarZ];
+         for (int x = 0; x < _poziomEditor.StanGeneratora._rozmiarX; ++x)
+            for (int z = 0; z < _poziomEditor.StanGeneratora._rozmiarZ; ++z)
             {
-               float rozpietosc = _poziomEditor._rozpietosc;
+               float rozpietosc = _poziomEditor.StanGeneratora._rozpietosc;
                var wezelObject =
                   (GameObject)
                      Object.Instantiate(Resources.Load("Wezel"), _poziomEditor.Poziom.transform.position + new Vector3(x * rozpietosc, 0f, z * rozpietosc),
@@ -54,7 +54,7 @@ namespace Assets.Editor
                wezelObject.transform.parent = Poziom.KomponentPojemnika.Wezly.transform;
                wezelObject.GetComponent<Wezel>().pierwotnaPozycja = wezelObject.transform.position;
                _poziomEditor.Poziom._wezly[x, z] = wezelObject.GetComponent<Wezel>();
-               if (x <= 1 || z <= 1 || x >= _poziomEditor._rozmiarX - 2 || z >= _poziomEditor._rozmiarZ - 2)
+               if (x <= 1 || z <= 1 || x >= _poziomEditor.StanGeneratora._rozmiarX - 2 || z >= _poziomEditor.StanGeneratora._rozmiarZ - 2)
                   wezelObject.GetComponent<Wezel>().czySkrajny = true;
             }
       }

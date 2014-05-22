@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
+using Assets.Skrypty.Generowanie;
 using Assets.Skrypty.Narzedzia;
 using LogikaGeneracji;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace Assets.Skrypty
       // UWAGA! — taka w³aœciwoœæ musi posiadaæ funkcje get i set, nawet jeœli któraœ z nich ma nic nie robiæ
 
       public Pojemnik KomponentPojemnika { get; set; }
+      public StanGeneratora StanGeneratora { get; set; }
 
       public HashSet<VoronoiEdge> _krawedzieWoronoja;
 
@@ -37,6 +39,7 @@ namespace Assets.Skrypty
       {
          _komorkiUnity = new List<KomorkaUnity>();
          _rogiUnity = new List<RogUnity>();
+         StanGeneratora = new StanGeneratora();
       }
 
       public void OnDrawGizmos()

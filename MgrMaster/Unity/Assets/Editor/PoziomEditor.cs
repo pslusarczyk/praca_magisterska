@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Editor.ExposeProperties;
-using Assets.Editor.Konfiguracje;
 using Assets.Skrypty;
+using Assets.Skrypty.Generowanie;
 using Assets.Skrypty.Narzedzia;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Assets.Editor
 {
@@ -15,21 +16,7 @@ namespace Assets.Editor
    {
       PropertyField[] m_fields;
       private Poziom _poziom;
-      private DzialaniaNaMapie _dzialaniaNaMapie;
-      private DzialaniaNaWezlach _dzialaniaNaWezlach;
       private Warstwa _poprzedniaWarstwa;
-      public IList<Warstwa> _utworzoneWarstwy;
-
-      private bool _pokazRogi = false;
-      private bool _pokazRogiPoprzedniaWartosc = true;
-
-      private float _zasiegZaburzenia = Konf.PoczStopienZaburzeniaWezlow;
-      public int _rozmiarX = Konf.PoczRozmiarX;
-      public int _rozmiarZ = Konf.PoczRozmiarZ;
-      public float _rozpietosc = Konf.PoczRozpietosc;
-
-      private float _poziomMorza = Konf.PoczPoziomMorza;
-      private float _poprzedniPoziomMorza = Konf.PoczPoziomMorza;
 
       public bool PokazSciany
       {
@@ -44,11 +31,14 @@ namespace Assets.Editor
          set { _poziom.AktualnaWarstwa = value; }
       }
 
-      private Etap _etap = Etap.GenerowanieWezlow;
-      private int _numerWybranejWarstwy;
+      private readonly DzialaniaNaMapie _dzialaniaNaMapie;
+
+      private readonly DzialaniaNaWezlach _dzialaniaNaWezlach;
+
+      private StanGeneratora _stanGeneratora;
 
       [ExposeProperty]
-      public string EtapTekst { get { return _etap.ToString(); } set {} } // musi byæ set ¿eby siê wyœwietla³o
+      public string EtapTekst { get { return _stanGeneratora.Etap.ToString(); } set {} } // musi byæ set ¿eby siê wyœwietla³o
 
       public Poziom Poziom
       {
@@ -62,16 +52,21 @@ namespace Assets.Editor
          get { return _poprzedniaWarstwa; }
       }
 
+      public StanGeneratora StanGeneratora
+      {
+         get { return _stanGeneratora; }
+      }
+
       public PoziomEditor()
       {
          _dzialaniaNaMapie = new DzialaniaNaMapie(this);
          _dzialaniaNaWezlach = new DzialaniaNaWezlach(this);
-         _utworzoneWarstwy = new List<Warstwa>();
       }
-      
+
       public void OnEnable()
       {
          _poziom = target as Poziom;
+         _stanGeneratora = _poziom.StanGeneratora ?? _stanGeneratora;
          _poprzedniaWarstwa = Warstwa.Brak;
          m_fields = ExposeProperties.ExposeProperties.GetProperties(_poziom);
       }
@@ -88,54 +83,54 @@ namespace Assets.Editor
          GUI.color = new Color(.9f, .1f, .1f);
          if (GUILayout.Button("Resetuj"))
          {
-            _pokazRogi = false;
-            _pokazRogiPoprzedniaWartosc = true;
+            StanGeneratora.PokazRogi = false;
+            StanGeneratora.PokazRogiPoprzedniaWartosc = true;
             PokazSciany = true;
             _dzialaniaNaMapie.UsunWezlyRogiIKomorki();
-            _etap = Etap.GenerowanieWezlow;
-            _utworzoneWarstwy.Clear();
+            _stanGeneratora.Etap = Etap.GenerowanieWezlow;
+            StanGeneratora._utworzoneWarstwy.Clear();
          }
          GUI.color = Color.white;
 
-         if (_etap == Etap.GenerowanieWezlow)
+         if (_stanGeneratora.Etap == Etap.GenerowanieWezlow)
          {
             EditorGUILayout.LabelField("Okreœl wymiary poziomu:", Konf.StylNaglowkaInspektora);
-            _rozmiarX = EditorGUILayout.IntSlider("Rozmiar X", _rozmiarX, Konf.MinRozmiar, Konf.MaksRozmiar);
-            _rozmiarZ = EditorGUILayout.IntSlider("Rozmiar Z", _rozmiarZ, Konf.MinRozmiar, Konf.MaksRozmiar);
-            _rozpietosc = EditorGUILayout.Slider("Rozpiêtoœæ", _rozpietosc, Konf.MinRozpietosc, Konf.MaksRozpietosc);
+            StanGeneratora._rozmiarX = EditorGUILayout.IntSlider("Rozmiar X", StanGeneratora._rozmiarX, Konf.MinRozmiar, Konf.MaksRozmiar);
+            StanGeneratora._rozmiarZ = EditorGUILayout.IntSlider("Rozmiar Z", StanGeneratora._rozmiarZ, Konf.MinRozmiar, Konf.MaksRozmiar);
+            StanGeneratora._rozpietosc = EditorGUILayout.Slider("Rozpiêtoœæ", StanGeneratora._rozpietosc, Konf.MinRozpietosc, Konf.MaksRozpietosc);
             if (GUILayout.Button("Generuj wêz³y"))
             {
                _dzialaniaNaMapie.UsunWezlyRogiIKomorki();
                _dzialaniaNaWezlach.GenerujWezly();
-               _etap = Etap.ZaburzanieWezlow;
+               _stanGeneratora.Etap = Etap.ZaburzanieWezlow;
             }
          }
 
-         if ((_etap == Etap.ZaburzanieWezlow || _etap == Etap.TworzenieKomorekIRogow))
+         if ((_stanGeneratora.Etap == Etap.ZaburzanieWezlow || _stanGeneratora.Etap == Etap.TworzenieKomorekIRogow))
          {
             EditorGUILayout.LabelField("Okreœl stopieñ zaburzenia:", Konf.StylNaglowkaInspektora);
-            _zasiegZaburzenia = EditorGUILayout.Slider("Stopieñ zaburzenia", _zasiegZaburzenia, 0f, 1f);
+            StanGeneratora.ZasiegZaburzenia = EditorGUILayout.Slider("Stopieñ zaburzenia", StanGeneratora.ZasiegZaburzenia, 0f, 1f);
             if (GUILayout.Button("Zaburz wêz³y"))
             {
-               _dzialaniaNaWezlach.ZaburzWezly(_zasiegZaburzenia * _rozpietosc, true);
-               _etap = Etap.TworzenieKomorekIRogow;
+               _dzialaniaNaWezlach.ZaburzWezly(StanGeneratora.ZasiegZaburzenia *StanGeneratora._rozpietosc, true);
+               _stanGeneratora.Etap = Etap.TworzenieKomorekIRogow;
             }
             if (GUILayout.Button("Utwórz komórki i rogi"))
             {
                _dzialaniaNaWezlach.UkryjWezly();
-            _dzialaniaNaWezlach.GenerujKomorkiIRogi();
-            _etap = Etap.TworzenieMapyWysokosci;
+               _dzialaniaNaWezlach.GenerujKomorkiIRogi();
+               _stanGeneratora.Etap = Etap.TworzenieMapyWysokosci;
             }
          }
 
-         if (_etap >= Etap.TworzenieMapyWysokosci)
+         if (_stanGeneratora.Etap >= Etap.TworzenieMapyWysokosci)
          {
             PokazSciany = GUILayout.Toggle(PokazSciany, "Poka¿ œciany");
-            _pokazRogi = GUILayout.Toggle(_pokazRogi, "Poka¿ rogi");
-            if (_pokazRogi != _pokazRogiPoprzedniaWartosc)
+            StanGeneratora.PokazRogi = GUILayout.Toggle(StanGeneratora.PokazRogi, "Poka¿ rogi");
+            if (StanGeneratora.PokazRogi != StanGeneratora.PokazRogiPoprzedniaWartosc)
             {
-               _pokazRogiPoprzedniaWartosc = _pokazRogi;
-               if (!_pokazRogi)
+               StanGeneratora.PokazRogiPoprzedniaWartosc = StanGeneratora.PokazRogi;
+               if (!StanGeneratora.PokazRogi)
                   _dzialaniaNaMapie.UkryjRogi();
                else
                   _dzialaniaNaMapie.PokazRogi();
@@ -143,21 +138,20 @@ namespace Assets.Editor
 
          }
 
-         if (_etap == Etap.TworzenieMapyWysokosci || _etap == Etap.RozdzielanieZiemiIWody)
+         if (_stanGeneratora.Etap == Etap.TworzenieMapyWysokosci || _stanGeneratora.Etap == Etap.RozdzielanieZiemiIWody)
          {
             GUILayout.BeginVertical(new GUIStyle
             {
                alignment = TextAnchor.MiddleCenter,
                margin = new RectOffset(100, 100, 0, 0)
             });
-            if (_utworzoneWarstwy.Count > 0)
+            if (StanGeneratora._utworzoneWarstwy.Count > 0)
             {
                GUILayout.Label("Wybierz warstwê:");
-               _numerWybranejWarstwy = GUILayout.SelectionGrid(_numerWybranejWarstwy,
-                  _utworzoneWarstwy.ToList().Select(w => w.ToString()).ToArray(),
+               _stanGeneratora.NumerWybranejWarstwy = GUILayout.SelectionGrid(_stanGeneratora.NumerWybranejWarstwy, StanGeneratora._utworzoneWarstwy.ToList().Select(w => w.ToString()).ToArray(),
                   1);
 
-               AktualnaWarstwa = _utworzoneWarstwy[_numerWybranejWarstwy];
+               AktualnaWarstwa = StanGeneratora._utworzoneWarstwy[_stanGeneratora.NumerWybranejWarstwy];
                OdswiezZaznaczenieWarstwy();
 
                if (Poziom.AktualnaWarstwa != PoprzedniaWarstwa)
@@ -165,7 +159,7 @@ namespace Assets.Editor
                   PoprzedniaWarstwa = Poziom.AktualnaWarstwa;
                   if (Poziom.AktualnaWarstwa == Warstwa.WysokosciZWoda)
                   {
-                     _dzialaniaNaMapie.PokazWarstweWysokosci();
+                     _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
                      OdswiezZaznaczenieWarstwy();
                   }
                   
@@ -177,41 +171,58 @@ namespace Assets.Editor
             if (GUILayout.Button("Generuj wysokoœci"))
             {
                _dzialaniaNaMapie.GenerujWysokosci();
-               if (!_utworzoneWarstwy.Contains(Warstwa.WysokosciZWoda))
-                  _utworzoneWarstwy.Add(Warstwa.WysokosciZWoda);
+               if (!StanGeneratora._utworzoneWarstwy.Contains(Warstwa.WysokosciZWoda))
+                  StanGeneratora._utworzoneWarstwy.Add(Warstwa.WysokosciZWoda);
                AktualnaWarstwa = Warstwa.WysokosciZWoda;
-               _dzialaniaNaMapie.PokazWarstweWysokosci();
+               _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
                OdswiezZaznaczenieWarstwy();
-               _etap = Etap.RozdzielanieZiemiIWody;
+               _stanGeneratora.Etap = Etap.RozdzielanieZiemiIWody;
             } 
          }
 
-         if (_etap == Etap.RozdzielanieZiemiIWody )
+         if (_stanGeneratora.Etap >= Etap.RozdzielanieZiemiIWody )
          {
             EditorGUILayout.LabelField("Okreœl poziom morza", Konf.StylNaglowkaInspektora);
-            _poziomMorza = EditorGUILayout.Slider("Poziom morza", _poziomMorza, Konf.MinPoziomMorza, Konf.MaksPoziomMorza);
-            if (_poziomMorza != _poprzedniPoziomMorza)
+            StanGeneratora.PoziomMorza = EditorGUILayout.Slider("Poziom morza", StanGeneratora.PoziomMorza, Konf.MinPoziomMorza, Konf.MaksPoziomMorza);
+            if (StanGeneratora.PoziomMorza != StanGeneratora.PoprzedniPoziomMorza)
             {
-               _poprzedniPoziomMorza = _poziomMorza;
-               _dzialaniaNaMapie.RozdzielZiemieIWode(_poziomMorza);
-               if (!_utworzoneWarstwy.Contains(Warstwa.WysokosciZWoda))
-                  _utworzoneWarstwy.Add(Warstwa.WysokosciZWoda);
+               StanGeneratora.PoprzedniPoziomMorza = StanGeneratora.PoziomMorza;
+               _dzialaniaNaMapie.RozdzielZiemieIWode(StanGeneratora.PoziomMorza);
+               if (!StanGeneratora._utworzoneWarstwy.Contains(Warstwa.WysokosciZWoda))
+                  StanGeneratora._utworzoneWarstwy.Add(Warstwa.WysokosciZWoda);
                AktualnaWarstwa = Warstwa.WysokosciZWoda;
-               _dzialaniaNaMapie.PokazWarstweWysokosci();
+               _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
                OdswiezZaznaczenieWarstwy();
             }
-            if (_poziomMorza != Konf.PoczPoziomMorza)
+            if (StanGeneratora.PoziomMorza != Konf.PoczPoziomMorza)
                if (GUILayout.Button("ZatwierdŸ"))
                {
-                  _dzialaniaNaMapie.ZatwierdzRozdzielenieZiemiIWody(_poziomMorza);
+                  _dzialaniaNaMapie.ZatwierdzRozdzielenieZiemiIWody(StanGeneratora.PoziomMorza);
+                  _stanGeneratora.Etap = Etap.WydzielanieMorza;
                }
+         }
+
+         if (_stanGeneratora.Etap == Etap.WydzielanieMorza)
+         {
+            EditorGUILayout.LabelField("Wybierz komórkê inicjuj¹c¹ powódŸ", Konf.StylNaglowkaInspektora);
+            Object wybranyObiekt = EditorGUILayout.ObjectField(_stanGeneratora.InicjatorZalewania, typeof(GameObject), true);
+            if (wybranyObiekt as GameObject)
+            {
+               _stanGeneratora.InicjatorZalewania = ((GameObject)wybranyObiekt).GetComponent<KomorkaUnity>();
+            }
+            if (GUILayout.Button("ZatwierdŸ"))
+            {
+               _dzialaniaNaMapie.RozdzielMorzeIJeziora(_stanGeneratora.InicjatorZalewania);
+               _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
+            }
+
          }
 
       }
 
       public void OdswiezZaznaczenieWarstwy()
       {
-         _numerWybranejWarstwy = _utworzoneWarstwy.IndexOf(AktualnaWarstwa);
+         _stanGeneratora.NumerWybranejWarstwy = StanGeneratora._utworzoneWarstwy.IndexOf(AktualnaWarstwa);
       }
    }
 }

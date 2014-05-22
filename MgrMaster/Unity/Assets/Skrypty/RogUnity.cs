@@ -7,7 +7,7 @@ namespace Assets.Skrypty
    {
       public IRog Rog { get; set; }
 
-      public Material MaterialWysokosci { get; set; }
+      public Material MaterialWysokosciZWoda { get; set; }
 
       void OnDrawGizmos()
       {

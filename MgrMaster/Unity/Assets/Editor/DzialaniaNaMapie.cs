@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Editor.Konfiguracje;
 using Assets.Skrypty;
 using Assets.Skrypty.Narzedzia;
 using LogikaGeneracji;
@@ -63,7 +62,7 @@ namespace Assets.Editor
          }
          foreach (RogUnity rogUnity in Poziom._rogiUnity)
          {
-            rogUnity.MaterialWysokosci = null;
+            rogUnity.MaterialWysokosciZWoda = null;
          }
          var modyfikator = new ModyfikatorWysokosciPerlinem { Nastepnik = new AktualizatorNastepstwaMapyWysokosci() };
          modyfikator.Przetwarzaj(Poziom._mapa);
@@ -81,7 +80,6 @@ namespace Assets.Editor
          rozdzielacz.Przetwarzaj(Poziom._mapa);
 
          UstawKomorkomIRogomMaterialWysokosciIWody(-prog);
-         // by³o: ustaw materia³ ziemi i wody
 
       }
 
@@ -94,8 +92,6 @@ namespace Assets.Editor
          wyrownywaczWody.Przetwarzaj(Poziom._mapa);
          
          UstawKomorkomIRogomMaterialWysokosciIWody();
-
-
       }
 
       private void UstawKomorkomIRogomMaterialWysokosciIWody(float modyfikator = 0f)
@@ -106,7 +102,10 @@ namespace Assets.Editor
 
             var kopiaMaterialu = new Material(komorkaUnity.renderer.sharedMaterial);
             if(komorkaUnity.Komorka.Dane.Podloze == Podloze.Woda)
-               kopiaMaterialu.color = new Color(0f, .3f, .85f);
+            {
+               kopiaMaterialu.color = (komorkaUnity.Komorka.Dane.Typ == TypKomorki.Morze) 
+                                                   ? new Color(0f, .4f, .75f) : new Color(.2f, .3f, .95f);
+            }
             else
                kopiaMaterialu.color = new Color(.3f + wysokosc * .2f, .9f - wysokosc*.2f, .3f);
             komorkaUnity.MaterialWysokosciZWoda = kopiaMaterialu;
@@ -117,11 +116,11 @@ namespace Assets.Editor
 
             var kopiaMaterialu = new Material(rogUnity.renderer.sharedMaterial);
             kopiaMaterialu.color = new Color(.3f + wysokosc * .2f, .9f - wysokosc*.2f, .3f);
-            rogUnity.MaterialWysokosci = kopiaMaterialu;
+            rogUnity.MaterialWysokosciZWoda = kopiaMaterialu;
          }
       }
 
-      public void PokazWarstweWysokosci()
+      public void PokazWarstweWysokosciIWody()
       {
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
@@ -129,8 +128,21 @@ namespace Assets.Editor
          }
          foreach (RogUnity rogUnity in Poziom._rogiUnity)
          {
-            rogUnity.renderer.material = rogUnity.MaterialWysokosci; 
+            rogUnity.renderer.material = rogUnity.MaterialWysokosciZWoda; 
          }
+      }
+
+      public void RozdzielMorzeIJeziora(KomorkaUnity inicjatorZalewania)
+      {
+         var rozdzielaczMorzIJezior = new RozdzielaczMorzIJezior(inicjatorZalewania.Komorka);
+         rozdzielaczMorzIJezior.Przetwarzaj(Poziom._mapa);
+
+         var aktualizatorBrzeznosciKomorek = new AktualizatorBrzeznosciKomorek();
+         aktualizatorBrzeznosciKomorek.Przetwarzaj(Poziom._mapa);
+         var aktualizatorBrzeznosciRogow = new AktualizatorBrzeznosciKomorek();
+         aktualizatorBrzeznosciRogow.Przetwarzaj(Poziom._mapa);
+
+         UstawKomorkomIRogomMaterialWysokosciIWody();
       }
    }
 }
