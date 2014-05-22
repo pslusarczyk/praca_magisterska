@@ -167,6 +167,37 @@ namespace Testy
          _komorki.ElementAt(indeksyJezior.First()).Rogi.ToList().ForEach(r => r.Punkt.Wysokosc.ShouldEqual(minWys));
       }
 
+      [TestCase("1", 1)] // todo uwspólnić cały ten test z analogicznym dotyczącym jezior?
+      [TestCase("2", 1)]
+      [TestCase("3", 2)]
+      [TestCase("4", 3)]
+      [TestCase("5", 4)]
+      [TestCase("1;2", 1)]
+      [TestCase("2;3", 1)]
+      [TestCase("4;5", 3)]
+      [TestCase("1;2;3;4;5", 1)]
+      public void WyrównywaczTerenuWodyOdpowiednioModyfikujeWysokosc(string wodne, float minWys)
+      {
+         _komorki = MockKomorek();
+         _rogi = MockRogow(_komorki);
+         IMapa mapa = MockKlasyMapa(_komorki, _rogi);
+         _komorki.ToList().ForEach(k => k.Dane.Podloze = Podloze.Ziemia);
+         _komorki.ToList().ForEach(k => k.Dane.Typ = TypKomorki.Lad);
+         for (int i = 0; i < 5; ++i) // wysokość punktu = jego numer
+         {
+            _komorki.ElementAt(i).Punkt.Wysokosc = i + 1;
+            _rogi.ElementAt(i).Punkt.Wysokosc = i + 1;
+         }
+         IEnumerable<int> indeksyWodnych = wodne.Split(';').Select(n => int.Parse(n) - 1);
+         foreach (int indeks in indeksyWodnych)
+            _komorki.ElementAt(indeks).Dane.Podloze = Podloze.Woda;
+
+         mapa.ZastosujPrzetwarzanie(new WyrownywaczTerenuWody());
+
+         _komorki.ElementAt(indeksyWodnych.First()).Punkt.Wysokosc.ShouldEqual(minWys);
+         _komorki.ElementAt(indeksyWodnych.First()).Rogi.ToList().ForEach(r => r.Punkt.Wysokosc.ShouldEqual(minWys));
+      }
+
       #endregion
 
       #region Funkcje pomocnicze

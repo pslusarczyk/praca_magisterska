@@ -59,7 +59,7 @@ namespace Assets.Editor
       {
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
-            komorkaUnity.MaterialWysokosci = null;
+            komorkaUnity.MaterialWysokosciZWoda = null;
          }
          foreach (RogUnity rogUnity in Poziom._rogiUnity)
          {
@@ -68,7 +68,7 @@ namespace Assets.Editor
          var modyfikator = new ModyfikatorWysokosciPerlinem { Nastepnik = new AktualizatorNastepstwaMapyWysokosci() };
          modyfikator.Przetwarzaj(Poziom._mapa);
 
-         UstawKomorkomIRogomMaterialWysokosci();
+         UstawKomorkomIRogomMaterialWysokosciIWody();
       }
 
       public void RozdzielZiemieIWode(float prog)
@@ -77,21 +77,39 @@ namespace Assets.Editor
          {
             komorkaUnity.MaterialZiemiWody = null;
          }
-         IPrzetwarzaczMapy rozdzielacz = new RozdzielaczWodyIZiemi(prog);
+         var rozdzielacz = new RozdzielaczWodyIZiemi(prog);
          rozdzielacz.Przetwarzaj(Poziom._mapa);
 
-         UstawKomorkomMaterialZiemiIWody();
+         UstawKomorkomIRogomMaterialWysokosciIWody(-prog);
+         // by³o: ustaw materia³ ziemi i wody
+
       }
 
-      private void UstawKomorkomIRogomMaterialWysokosci()
+      public void ZatwierdzRozdzielenieZiemiIWody(float poziomMorza)
+      {
+         var liniowyModyfikatorWysokosci = new LiniowyModyfikatorWysokosci(-poziomMorza);
+         liniowyModyfikatorWysokosci.Przetwarzaj(Poziom._mapa);
+
+         var wyrownywaczWody = new WyrownywaczTerenuWody();
+         wyrownywaczWody.Przetwarzaj(Poziom._mapa);
+         
+         UstawKomorkomIRogomMaterialWysokosciIWody();
+
+
+      }
+
+      private void UstawKomorkomIRogomMaterialWysokosciIWody(float modyfikator = 0f)
       {
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
-            float wysokosc = komorkaUnity.Komorka.Punkt.Wysokosc;
+            float wysokosc = komorkaUnity.Komorka.Punkt.Wysokosc + modyfikator;
 
             var kopiaMaterialu = new Material(komorkaUnity.renderer.sharedMaterial);
-            kopiaMaterialu.color = new Color(.3f + wysokosc * .2f, .9f - wysokosc*.2f, .3f);
-            komorkaUnity.MaterialWysokosci = kopiaMaterialu;
+            if(komorkaUnity.Komorka.Dane.Podloze == Podloze.Woda)
+               kopiaMaterialu.color = new Color(0f, .3f, .85f);
+            else
+               kopiaMaterialu.color = new Color(.3f + wysokosc * .2f, .9f - wysokosc*.2f, .3f);
+            komorkaUnity.MaterialWysokosciZWoda = kopiaMaterialu;
          }
          foreach (RogUnity rogUnity in Poziom._rogiUnity)
          {
@@ -103,36 +121,15 @@ namespace Assets.Editor
          }
       }
 
-      private void UstawKomorkomMaterialZiemiIWody()
-      {
-         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
-         {
-            var kopiaMaterialu = new Material(komorkaUnity.renderer.sharedMaterial);
-            if (komorkaUnity.Komorka.Dane.Podloze == Podloze.Woda)
-               kopiaMaterialu.color = new Color(0f, .2f, .7f);
-            else
-               kopiaMaterialu.color = new Color(.6f, .5f, .1f);
-            komorkaUnity.MaterialZiemiWody = kopiaMaterialu;
-         }
-      }
-
       public void PokazWarstweWysokosci()
       {
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
-            komorkaUnity.renderer.material = komorkaUnity.MaterialWysokosci; 
+            komorkaUnity.renderer.material = komorkaUnity.MaterialWysokosciZWoda; 
          }
          foreach (RogUnity rogUnity in Poziom._rogiUnity)
          {
             rogUnity.renderer.material = rogUnity.MaterialWysokosci; 
-         }
-      }
-
-      public void PokazWarstweZiemiIWody()
-      {
-         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
-         {
-            komorkaUnity.renderer.material = komorkaUnity.MaterialZiemiWody;
          }
       }
    }

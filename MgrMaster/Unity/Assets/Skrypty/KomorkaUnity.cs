@@ -7,7 +7,7 @@ namespace Assets.Skrypty
    {
       public IKomorka Komorka { get; set; }
 
-      public Material MaterialWysokosci { get; set; }
+      public Material MaterialWysokosciZWoda { get; set; }
       public Material MaterialZiemiWody { get; set; }
       public Material MaterialLaduMorzaJeziora { get; set; }
 

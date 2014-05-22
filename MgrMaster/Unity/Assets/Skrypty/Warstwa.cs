@@ -1,4 +1,4 @@
 namespace Assets.Skrypty
 {
-   public enum Warstwa { Brak, Wysokosci, ZiemiaWoda }
+   public enum Warstwa { Brak, WysokosciZWoda }
 }

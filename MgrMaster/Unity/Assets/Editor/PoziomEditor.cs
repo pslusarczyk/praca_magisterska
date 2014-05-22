@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Editor.ExposeProperties;
@@ -27,8 +28,8 @@ namespace Assets.Editor
       public int _rozmiarZ = Konf.PoczRozmiarZ;
       public float _rozpietosc = Konf.PoczRozpietosc;
 
-      private float _progMorza = Konf.PoczProgMorza;
-      private float _poprzedniProgMorza = Konf.PoczProgMorza;
+      private float _poziomMorza = Konf.PoczPoziomMorza;
+      private float _poprzedniPoziomMorza = Konf.PoczPoziomMorza;
 
       public bool PokazSciany
       {
@@ -44,7 +45,7 @@ namespace Assets.Editor
       }
 
       private Etap _etap = Etap.GenerowanieWezlow;
-      private int _numerWybranejWarstwy = 0;
+      private int _numerWybranejWarstwy;
 
       [ExposeProperty]
       public string EtapTekst { get { return _etap.ToString(); } set {} } // musi byæ set ¿eby siê wyœwietla³o
@@ -162,15 +163,9 @@ namespace Assets.Editor
                if (Poziom.AktualnaWarstwa != PoprzedniaWarstwa)
                {
                   PoprzedniaWarstwa = Poziom.AktualnaWarstwa;
-                  if (Poziom.AktualnaWarstwa == Warstwa.Wysokosci)
+                  if (Poziom.AktualnaWarstwa == Warstwa.WysokosciZWoda)
                   {
                      _dzialaniaNaMapie.PokazWarstweWysokosci();
-                     OdswiezZaznaczenieWarstwy();
-                  }
-
-                  if (Poziom.AktualnaWarstwa == Warstwa.ZiemiaWoda)
-                  {
-                     _dzialaniaNaMapie.PokazWarstweZiemiIWody();
                      OdswiezZaznaczenieWarstwy();
                   }
                   
@@ -182,9 +177,9 @@ namespace Assets.Editor
             if (GUILayout.Button("Generuj wysokoœci"))
             {
                _dzialaniaNaMapie.GenerujWysokosci();
-               if (!_utworzoneWarstwy.Contains(Warstwa.Wysokosci))
-                  _utworzoneWarstwy.Add(Warstwa.Wysokosci);
-               AktualnaWarstwa = Warstwa.Wysokosci;
+               if (!_utworzoneWarstwy.Contains(Warstwa.WysokosciZWoda))
+                  _utworzoneWarstwy.Add(Warstwa.WysokosciZWoda);
+               AktualnaWarstwa = Warstwa.WysokosciZWoda;
                _dzialaniaNaMapie.PokazWarstweWysokosci();
                OdswiezZaznaczenieWarstwy();
                _etap = Etap.RozdzielanieZiemiIWody;
@@ -193,27 +188,23 @@ namespace Assets.Editor
 
          if (_etap == Etap.RozdzielanieZiemiIWody )
          {
-            _progMorza = EditorGUILayout.Slider("Próg morza", _progMorza, Konf.MinProgMorza, Konf.MaksProgMorza);
-            if (_progMorza != _poprzedniProgMorza)
+            EditorGUILayout.LabelField("Okreœl poziom morza", Konf.StylNaglowkaInspektora);
+            _poziomMorza = EditorGUILayout.Slider("Poziom morza", _poziomMorza, Konf.MinPoziomMorza, Konf.MaksPoziomMorza);
+            if (_poziomMorza != _poprzedniPoziomMorza)
             {
-               _dzialaniaNaMapie.RozdzielZiemieIWode(_progMorza);
-               if (!_utworzoneWarstwy.Contains(Warstwa.ZiemiaWoda))
-                  _utworzoneWarstwy.Add(Warstwa.ZiemiaWoda);
-               AktualnaWarstwa = Warstwa.ZiemiaWoda;
-               _dzialaniaNaMapie.PokazWarstweZiemiIWody();
-               OdswiezZaznaczenieWarstwy();
-               Debug.Log("Próg morza!");
-            }
-
-            if (GUILayout.Button("Rozdziel ziemiê i wodê"))
-            {
-               _dzialaniaNaMapie.RozdzielZiemieIWode(_progMorza);
-               if (!_utworzoneWarstwy.Contains(Warstwa.ZiemiaWoda))
-                  _utworzoneWarstwy.Add(Warstwa.ZiemiaWoda);
-               AktualnaWarstwa = Warstwa.ZiemiaWoda;
-               _dzialaniaNaMapie.PokazWarstweZiemiIWody();
+               _poprzedniPoziomMorza = _poziomMorza;
+               _dzialaniaNaMapie.RozdzielZiemieIWode(_poziomMorza);
+               if (!_utworzoneWarstwy.Contains(Warstwa.WysokosciZWoda))
+                  _utworzoneWarstwy.Add(Warstwa.WysokosciZWoda);
+               AktualnaWarstwa = Warstwa.WysokosciZWoda;
+               _dzialaniaNaMapie.PokazWarstweWysokosci();
                OdswiezZaznaczenieWarstwy();
             }
+            if (_poziomMorza != Konf.PoczPoziomMorza)
+               if (GUILayout.Button("ZatwierdŸ"))
+               {
+                  _dzialaniaNaMapie.ZatwierdzRozdzielenieZiemiIWody(_poziomMorza);
+               }
          }
 
       }
