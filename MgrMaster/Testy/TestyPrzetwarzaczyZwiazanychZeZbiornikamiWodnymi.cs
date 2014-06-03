@@ -192,7 +192,7 @@ namespace Testy
          foreach (int indeks in indeksyWodnych)
             _komorki.ElementAt(indeks).Dane.Podloze = Podloze.Woda;
 
-         mapa.ZastosujPrzetwarzanie(new WyrownywaczTerenuWody());
+         mapa.ZastosujPrzetwarzanie(new WyrownywaczTerenuWody(minWys));
 
          _komorki.ElementAt(indeksyWodnych.First()).Punkt.Wysokosc.ShouldEqual(minWys);
          _komorki.ElementAt(indeksyWodnych.First()).Rogi.ToList().ForEach(r => r.Punkt.Wysokosc.ShouldEqual(minWys));

@@ -19,7 +19,11 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          {
             if (komorka.Dane.Podloze == Podloze.Woda)
             {
-               komorka.Punkt.Wysokosc = _poziom;
+               IList<IPunkt> punkty = komorka.Rogi.Select(r => r.Punkt)
+                  .Union(new[] {komorka.Punkt}).ToList();
+
+               foreach (IPunkt punkt in punkty)
+                  punkt.Wysokosc = _poziom;
             }
          }
       }
