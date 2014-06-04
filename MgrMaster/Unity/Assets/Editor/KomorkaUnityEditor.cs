@@ -4,6 +4,7 @@ using Assets.Editor.ExposeProperties;
 using Assets.Skrypty;
 using Assets.Skrypty.Generowanie;
 using Assets.Skrypty.Narzedzia;
+using LogikaGeneracji;
 using UnityEditor;
 using UnityEngine;
 
@@ -37,20 +38,11 @@ namespace Assets.Editor
          {
             foreach (var dana in WyswietlaneDane())
             {
-               GUI.Label(new Rect(0, przesuniecie, 180, 45), String.Format("{0}: {1}", dana.Key, dana.Value));
+               GUILayout.Label(String.Format("{0}: {1}", dana.Key, dana.Value));
                przesuniecie += 25;
             }
-            if (KomorkaUnity.DoPowodzi)
-            {
-               Color oldGuiContentColor = GUI.color;
-               GUI.contentColor = Color.red;
-               GUI.Label(new Rect(0, przesuniecie, 140, 45), "Wybrano do powodzi", Konf.StylWazny);
-               GUI.contentColor = oldGuiContentColor;
-            }
-            else if (GUI.Button(new Rect(0, przesuniecie, 180, 45), "Oznacz do powodzi"))
-            {
-               KomorkaUnity.DoPowodzi = true;
-            }
+            if (KomorkaUnity.PoleInicjatorPowodziWidoczne && KomorkaUnity.Komorka.Dane.Podloze == Podloze.Woda)
+               KomorkaUnity.InicjatorPowodzi = GUILayout.Toggle(KomorkaUnity.InicjatorPowodzi, "Inicjator powodzi morza");
          }
          GUI.EndGroup();
          Handles.EndGUI();

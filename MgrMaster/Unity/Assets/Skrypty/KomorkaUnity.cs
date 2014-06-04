@@ -11,7 +11,8 @@ namespace Assets.Skrypty
       public Material MaterialZiemiWody { get; set; }
       public Material MaterialLaduMorzaJeziora { get; set; }
 
-      public bool DoPowodzi { get; set; }
+      public bool InicjatorPowodzi { get; set; }
+      public bool PoleInicjatorPowodziWidoczne { get; set; }
 
       public Vector3 PozycjaPunktu
       {
@@ -21,14 +22,15 @@ namespace Assets.Skrypty
 
       public KomorkaUnity()
       {
-         DoPowodzi = false;
+         InicjatorPowodzi = false;
+         PoleInicjatorPowodziWidoczne = false;
       }
 
       public void OnDrawGizmos()
       {
-         Gizmos.color = Color.yellow;
-         if(DoPowodzi)
-            Gizmos.DrawSphere(transform.position + Vector3.up*2, .6f);
+         Gizmos.color = Color.magenta;
+         if (PoleInicjatorPowodziWidoczne && InicjatorPowodzi)
+            Gizmos.DrawWireSphere(transform.position, 1.8f);
       }
    }
 }

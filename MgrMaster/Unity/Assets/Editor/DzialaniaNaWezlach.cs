@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using Assets.Skrypty;
 using LogikaGeneracji;
 using LogikaGeneracji.PrzetwarzanieFortunea;
 using UnityEngine;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
+using Debug = UnityEngine.Debug;
 using Random = System.Random;
 
 namespace Assets.Editor
@@ -105,17 +107,32 @@ namespace Assets.Editor
          }
       }
 
-      public void GenerujKomorkiIRogi()
+      public void GenerujKomorkiIRogi() // mierzona wydajnoœæ
       {
-         _poziomEditor.Poziom._krawedzieWoronoja = Fortune.ComputeVoronoiGraph(WezlyNaWektory()).Edges;
+         //float sekcja1 = 0;
+         //float sekcja2 = 0;
+         //float sekcja3 = 0;
+         //float sekcja4 = 0;
+         //var stop = new Stopwatch();
+         //stop.Start();
+
+         _poziomEditor.Poziom._krawedzieWoronoja = Fortune.ComputeVoronoiGraph(WezlyNaWektory()).Edges; // dla mapy 50x50: 0,7 sekundy
+
+         //sekcja1 += stop.ElapsedMilliseconds;
+         //stop.Reset();
+         //stop.Start();
 
          var pf = new PrzetwarzaczFortunea();
 
-         IMapa mapa = pf.Przetwarzaj(_poziomEditor.Poziom._krawedzieWoronoja);
+         IMapa mapa = pf.Przetwarzaj(_poziomEditor.Poziom._krawedzieWoronoja);  // dla mapy 50x50: 7,1 sekundy
+
+         //sekcja2 += stop.ElapsedMilliseconds;
+         //stop.Reset();
+         //stop.Start();
 
          _poziomEditor.Poziom._mapa = mapa;
 
-         foreach (var komorka in mapa.Komorki)
+         foreach (var komorka in mapa.Komorki) // dla mapy 50x50: 0,7 sekundy
          {
             var nowa = (GameObject)Object.Instantiate(Resources.Load("KomorkaUnity"),
                komorka.Punkt.Pozycja, Quaternion.identity);
@@ -123,18 +140,30 @@ namespace Assets.Editor
             nowa.GetComponent<KomorkaUnity>().Komorka = komorka;
             _poziomEditor.Poziom._komorkiUnity.Add(nowa.GetComponent<KomorkaUnity>());
          }
-
-         foreach (var rog in mapa.Rogi)
+         //sekcja3 += stop.ElapsedMilliseconds;
+         //stop.Reset();
+         //stop.Start();
+         foreach (var rog in mapa.Rogi) // dla mapy 50x50: 2 sekundy
          {
-            Vector3 pozycja = rog.Punkt.Pozycja;
-            if (float.IsInfinity(pozycja.x) || float.IsInfinity(pozycja.y) || float.IsInfinity(pozycja.z))
+
+            if (float.IsInfinity(rog.Punkt.Pozycja.x) || float.IsInfinity(rog.Punkt.Pozycja.y) || float.IsInfinity(rog.Punkt.Pozycja.z))
                continue;
+
+               
             var nowy = (GameObject)Object.Instantiate(Resources.Load("RogUnity"),
                rog.Punkt.Pozycja, Quaternion.identity);
+
             nowy.transform.parent = _poziomEditor.Poziom.KomponentPojemnika.Rogi.transform;
+            
             nowy.GetComponent<RogUnity>().Rog = rog;
+
             _poziomEditor.Poziom._rogiUnity.Add(nowy.GetComponent<RogUnity>());
          }
+         //sekcja4 += stop.ElapsedMilliseconds;
+         //Debug.Log(sekcja1);
+         //Debug.Log(sekcja2);
+         //Debug.Log(sekcja3);
+         //Debug.Log(sekcja4);
       }
    }
 }

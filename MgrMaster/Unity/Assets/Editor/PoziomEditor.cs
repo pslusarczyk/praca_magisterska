@@ -15,7 +15,7 @@ namespace Assets.Editor
       PropertyField[] m_fields;
       private Poziom _poziom;
       private Warstwa _poprzedniaWarstwa;
-
+      
       public bool PokazSciany
       {
          get { return Poziom._pokazSciany; }
@@ -164,11 +164,25 @@ namespace Assets.Editor
                }
             }
             GUILayout.EndVertical();
-            
 
+            StanGeneratora.ParametryPerlina.IloscWarstw
+               = EditorGUILayout.IntSlider("IloscWarstw",
+               StanGeneratora.ParametryPerlina.IloscWarstw, 0, 3);
+            StanGeneratora.ParametryPerlina.SkalaPoczatkowa
+               = EditorGUILayout.Slider("SkalaPoczatkowa",
+               StanGeneratora.ParametryPerlina.SkalaPoczatkowa, 0f, 3f);
+            StanGeneratora.ParametryPerlina.StrataSkali
+               = EditorGUILayout.Slider("StrataSkali",
+               StanGeneratora.ParametryPerlina.StrataSkali, 0f, 3f);
+            StanGeneratora.ParametryPerlina.SkokGestosci
+               = EditorGUILayout.Slider("SkokGestosci",
+               StanGeneratora.ParametryPerlina.SkokGestosci, 0f, 3f);
+            StanGeneratora.ParametryPerlina.GestoscPoczatkowa 
+               = EditorGUILayout.Slider("GestoscPoczatkowa", 
+               StanGeneratora.ParametryPerlina.GestoscPoczatkowa, 0f, 3f);
             if (GUILayout.Button("Generuj wysokoœci"))
             {
-               _dzialaniaNaMapie.GenerujWysokosci();
+               _dzialaniaNaMapie.GenerujWysokosci(StanGeneratora.ParametryPerlina);
                if (!StanGeneratora._utworzoneWarstwy.Contains(Warstwa.WysokosciZWoda))
                   StanGeneratora._utworzoneWarstwy.Add(Warstwa.WysokosciZWoda);
                AktualnaWarstwa = Warstwa.WysokosciZWoda;
@@ -193,22 +207,28 @@ namespace Assets.Editor
                OdswiezZaznaczenieWarstwy();
             }
             if (StanGeneratora.PoziomMorza != Konf.PoczPoziomMorza)
-               if (GUILayout.Button("ZatwierdŸ"))
+               if (GUILayout.Button("Dalej"))
                {
                   _dzialaniaNaMapie.ZatwierdzRozdzielenieZiemiIWody(StanGeneratora.PoziomMorza);
                   _stanGeneratora.Etap = Etap.WydzielanieMorza;
+                  _dzialaniaNaMapie.UstawKomorkomWidocznoscPolaInicjatorPowodzi(true);
                }
          }
 
          if (_stanGeneratora.Etap == Etap.WydzielanieMorza)
          {
             EditorGUILayout.LabelField("Wybierz komórki inicjuj¹ce powódŸ", Konf.StylNaglowkaInspektora);
-            _stanGeneratora.InicjatorzyZalewania = Poziom._komorkiUnity.Where(k => k.DoPowodzi);
-            if (GUILayout.Button("ZatwierdŸ"))
+            _stanGeneratora.InicjatorzyZalewania = Poziom._komorkiUnity.Where(k => k.InicjatorPowodzi);
+            if (GUILayout.Button("Rozdziel morze i jeziora"))
             {
                _dzialaniaNaMapie.RozdzielMorzeIJeziora(_stanGeneratora.InicjatorzyZalewania);
                _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
             }
+            if (GUILayout.Button("Dalej"))
+            {
+               _dzialaniaNaMapie.UstawKomorkomWidocznoscPolaInicjatorPowodzi(false);
+            }
+            
          }
 
       }

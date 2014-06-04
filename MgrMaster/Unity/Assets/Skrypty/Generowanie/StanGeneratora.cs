@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Assets.Skrypty.Narzedzia;
+using LogikaGeneracji.PrzetwarzanieMapy;
 using UnityEngine;
 
 namespace Assets.Skrypty.Generowanie
@@ -15,11 +16,19 @@ namespace Assets.Skrypty.Generowanie
       private float _poziomMorza = Konf.PoczPoziomMorza;
       private float _poprzedniPoziomMorza = Konf.PoczPoziomMorza;
       private Etap _etap = Etap.GenerowanieWezlow;
+      private ParametryPerlina _parametryPerlina;
+
+      public ParametryPerlina ParametryPerlina
+      {
+         get { return _parametryPerlina; }
+         set { _parametryPerlina = value; }
+      }
 
       public StanGeneratora()
       {
          PokazRogi = false;
          _utworzoneWarstwy = new List<Warstwa>();
+         ParametryPerlina = new ParametryPerlina();
       }
 
       public bool PokazRogi { get; set; }

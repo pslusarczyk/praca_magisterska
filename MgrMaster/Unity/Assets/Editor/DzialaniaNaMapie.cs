@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Skrypty;
+using Assets.Skrypty.Generowanie;
 using Assets.Skrypty.Narzedzia;
 using LogikaGeneracji;
 using LogikaGeneracji.PrzetwarzanieFortunea;
@@ -54,17 +55,18 @@ namespace Assets.Editor
             Poziom._krawedzieWoronoja.Clear();
       }
 
-      public void GenerujWysokosci()
+      public void GenerujWysokosci(ParametryPerlina parametryPerlina)
       {
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
             komorkaUnity.MaterialWysokosciZWoda = null;
+            komorkaUnity.Komorka.Dane.Podloze = null;
          }
          foreach (RogUnity rogUnity in Poziom._rogiUnity)
          {
             rogUnity.MaterialWysokosciZWoda = null;
          }
-         var modyfikator = new ModyfikatorWysokosciPerlinem { Nastepnik = new AktualizatorNastepstwaMapyWysokosci() };
+         var modyfikator = new ModyfikatorWysokosciPerlinem(parametryPerlina) { Nastepnik = new AktualizatorNastepstwaMapyWysokosci() };
          modyfikator.Przetwarzaj(Poziom._mapa);
 
          UstawKomorkomIRogomMaterialWysokosciIWody();
@@ -143,6 +145,14 @@ namespace Assets.Editor
          aktualizatorBrzeznosciRogow.Przetwarzaj(Poziom._mapa);
 
          UstawKomorkomIRogomMaterialWysokosciIWody();
+      }
+
+      public void UstawKomorkomWidocznoscPolaInicjatorPowodzi(bool wartosc) // todo niezbyt eleganckpo zaprojektowane — to pok³osie problemów z dostêpem do dzia³añ na mapie komórki Unity
+      {
+         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
+         {
+            komorkaUnity.PoleInicjatorPowodziWidoczne = wartosc;
+         }
       }
    }
 }
