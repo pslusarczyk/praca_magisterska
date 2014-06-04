@@ -11,20 +11,24 @@ namespace Assets.Skrypty
       public Material MaterialZiemiWody { get; set; }
       public Material MaterialLaduMorzaJeziora { get; set; }
 
+      public bool DoPowodzi { get; set; }
+
       public Vector3 PozycjaPunktu
       {
          get { return Komorka.Punkt.Pozycja; }
          set { Komorka.Punkt.Pozycja = value; }
       }
 
-      void OnDrawGizmos()
+      public KomorkaUnity()
       {
-         Gizmos.color = Color.magenta;
-         if (Komorka != null)
-            foreach (IKomorka s in Komorka.PrzylegleKomorki)
-            {
-               //Gizmos.DrawLine(Komorka.Punkt.Pozycja, s.Punkt.Pozycja);
-            }
+         DoPowodzi = false;
+      }
+
+      public void OnDrawGizmos()
+      {
+         Gizmos.color = Color.yellow;
+         if(DoPowodzi)
+            Gizmos.DrawSphere(transform.position + Vector3.up*2, .6f);
       }
    }
 }

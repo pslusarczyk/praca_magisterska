@@ -10,8 +10,18 @@ namespace Assets.Skrypty.Generowanie
          alignment = TextAnchor.MiddleCenter,
       };
 
-      public const int PoczRozmiarX = 12;
-      public const int PoczRozmiarZ = 12;
+      public static GUIStyle StylWazny = new GUIStyle
+      {
+         fontSize = 12,
+         alignment = TextAnchor.MiddleCenter,
+         normal = new GUIStyleState
+         {
+            textColor = Color.red
+         }
+      };
+
+      public const int PoczRozmiarX = 18;
+      public const int PoczRozmiarZ = 18;
       public const int MinRozmiar = 8;
       public const int MaksRozmiar = 75;
 
@@ -22,6 +32,6 @@ namespace Assets.Skrypty.Generowanie
       public const float MinPoziomMorza = 0f;
       public const float MaksPoziomMorza = 5f;
 
-      public const float PoczStopienZaburzeniaWezlow = .5f; // 0–1
+      public const float PoczStopienZaburzeniaWezlow = .4f; // 0–1
    }
 }

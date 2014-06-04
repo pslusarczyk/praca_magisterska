@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Assets.Editor.ExposeProperties;
 using Assets.Skrypty;
@@ -125,7 +123,7 @@ namespace Assets.Editor
 
          if (_stanGeneratora.Etap >= Etap.TworzenieMapyWysokosci)
          {
-            PokazSciany = GUILayout.Toggle(PokazSciany, "Poka¿ œciany");
+            PokazSciany = GUILayout.Toggle(PokazSciany, "Poka¿ œciany"); // todo czemu to siê nie zapisuje do stanu generatora?
             StanGeneratora.PokazRogi = GUILayout.Toggle(StanGeneratora.PokazRogi, "Poka¿ rogi");
             if (StanGeneratora.PokazRogi != StanGeneratora.PokazRogiPoprzedniaWartosc)
             {
@@ -180,7 +178,7 @@ namespace Assets.Editor
             } 
          }
 
-         if (_stanGeneratora.Etap >= Etap.RozdzielanieZiemiIWody )
+         if (_stanGeneratora.Etap == Etap.RozdzielanieZiemiIWody )
          {
             EditorGUILayout.LabelField("Okreœl poziom morza", Konf.StylNaglowkaInspektora);
             StanGeneratora.PoziomMorza = EditorGUILayout.Slider("Poziom morza", StanGeneratora.PoziomMorza, Konf.MinPoziomMorza, Konf.MaksPoziomMorza);
@@ -204,18 +202,13 @@ namespace Assets.Editor
 
          if (_stanGeneratora.Etap == Etap.WydzielanieMorza)
          {
-            EditorGUILayout.LabelField("Wybierz komórkê inicjuj¹c¹ powódŸ", Konf.StylNaglowkaInspektora);
-            Object wybranyObiekt = EditorGUILayout.ObjectField(_stanGeneratora.InicjatorZalewania, typeof(GameObject), true);
-            if (wybranyObiekt as GameObject)
-            {
-               _stanGeneratora.InicjatorZalewania = ((GameObject)wybranyObiekt).GetComponent<KomorkaUnity>();
-            }
+            EditorGUILayout.LabelField("Wybierz komórki inicjuj¹ce powódŸ", Konf.StylNaglowkaInspektora);
+            _stanGeneratora.InicjatorzyZalewania = Poziom._komorkiUnity.Where(k => k.DoPowodzi);
             if (GUILayout.Button("ZatwierdŸ"))
             {
-               _dzialaniaNaMapie.RozdzielMorzeIJeziora(_stanGeneratora.InicjatorZalewania);
+               _dzialaniaNaMapie.RozdzielMorzeIJeziora(_stanGeneratora.InicjatorzyZalewania);
                _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
             }
-
          }
 
       }

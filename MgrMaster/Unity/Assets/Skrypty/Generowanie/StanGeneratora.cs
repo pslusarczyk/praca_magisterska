@@ -56,6 +56,6 @@ namespace Assets.Skrypty.Generowanie
          get { return _etap; }
       }
 
-      public KomorkaUnity InicjatorZalewania { get; set; }
+      public IEnumerable<KomorkaUnity> InicjatorzyZalewania { get; set; }
    }
 }

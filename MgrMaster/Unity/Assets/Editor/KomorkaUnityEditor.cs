@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Assets.Editor.ExposeProperties;
 using Assets.Skrypty;
+using Assets.Skrypty.Generowanie;
 using Assets.Skrypty.Narzedzia;
 using UnityEditor;
 using UnityEngine;
@@ -13,13 +14,13 @@ namespace Assets.Editor
    {
       PropertyField[] m_fields;
       private KomorkaUnity _komorkaUnity;
-      
+
       public KomorkaUnity KomorkaUnity
       {
          get { return _komorkaUnity ?? (_komorkaUnity = (KomorkaUnity)target); }
          set { _komorkaUnity = value; }
       }
-      
+
       public void OnEnable()
       {
          _komorkaUnity = target as KomorkaUnity;
@@ -31,13 +32,24 @@ namespace Assets.Editor
          //Event e = Event.current;
          Handles.BeginGUI();
          var tlo = Resources.Load<Texture>("prototype_textures/Textures/tlo");
+         int przesuniecie = 0;
          GUI.BeginGroup(new Rect(0, 50, 180, 250), new GUIContent(tlo));
          {
-            int przesuniecie = 0;
             foreach (var dana in WyswietlaneDane())
             {
                GUI.Label(new Rect(0, przesuniecie, 180, 45), String.Format("{0}: {1}", dana.Key, dana.Value));
                przesuniecie += 25;
+            }
+            if (KomorkaUnity.DoPowodzi)
+            {
+               Color oldGuiContentColor = GUI.color;
+               GUI.contentColor = Color.red;
+               GUI.Label(new Rect(0, przesuniecie, 140, 45), "Wybrano do powodzi", Konf.StylWazny);
+               GUI.contentColor = oldGuiContentColor;
+            }
+            else if (GUI.Button(new Rect(0, przesuniecie, 180, 45), "Oznacz do powodzi"))
+            {
+               KomorkaUnity.DoPowodzi = true;
             }
          }
          GUI.EndGroup();

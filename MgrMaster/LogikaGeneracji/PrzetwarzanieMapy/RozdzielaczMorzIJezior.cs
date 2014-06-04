@@ -6,26 +6,34 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
 {
    public class RozdzielaczMorzIJezior : BazaPrzetwarzacza
    {
-      private readonly IKomorka _inicjatorPowodzi;
+      private readonly IEnumerable<IKomorka> _inicjatorzyPowodzi;
       private HashSet<IKomorka> _zalane;
 
       public RozdzielaczMorzIJezior(IKomorka inicjator)
       {
-         _inicjatorPowodzi = inicjator;
+         _inicjatorzyPowodzi = new IKomorka[]{inicjator};
+      }
+
+      public RozdzielaczMorzIJezior(IEnumerable<IKomorka> inicjatorzy)
+      {
+         _inicjatorzyPowodzi = inicjatorzy;
       }
 
       public override void Przetwarzaj(IMapa mapa)
       {
-         if(!mapa.Komorki.Contains(_inicjatorPowodzi))
-            throw new ArgumentException("Mapa nie zawiera podanego w konstruktorze inicjatora powodzi");
          _zalane = new HashSet<IKomorka>();
+         foreach (IKomorka inicjator in _inicjatorzyPowodzi)
+         {
+            if (!mapa.Komorki.Contains(inicjator))
+               throw new ArgumentException("Mapa nie zawiera podanego w konstruktorze inicjatora powodzi");
+            Rozlewaj(inicjator);
+         }
 
-         Rozlewaj(_inicjatorPowodzi);
+
          foreach (IKomorka komorka in mapa.Komorki)
          {
             PrzypiszKomorceTyp(komorka);
          }
-
 
       }
 

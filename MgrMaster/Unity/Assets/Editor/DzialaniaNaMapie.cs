@@ -103,8 +103,8 @@ namespace Assets.Editor
             var kopiaMaterialu = new Material(komorkaUnity.renderer.sharedMaterial);
             if(komorkaUnity.Komorka.Dane.Podloze == Podloze.Woda)
             {
-               kopiaMaterialu.color = (komorkaUnity.Komorka.Dane.Typ == TypKomorki.Morze) 
-                                                   ? new Color(0f, .4f, .75f) : new Color(.2f, .3f, .95f);
+               kopiaMaterialu.color = (komorkaUnity.Komorka.Dane.Typ == TypKomorki.Jezioro)
+                                                   ? new Color(.35f, .6f, .98f) : new Color(.1f, .3f, .65f);
             }
             else
                kopiaMaterialu.color = new Color(.3f + wysokosc * .2f, .9f - wysokosc*.2f, .3f);
@@ -132,9 +132,9 @@ namespace Assets.Editor
          }
       }
 
-      public void RozdzielMorzeIJeziora(KomorkaUnity inicjatorZalewania)
+      public void RozdzielMorzeIJeziora(IEnumerable<KomorkaUnity> inicjatorzyZalewania)
       {
-         var rozdzielaczMorzIJezior = new RozdzielaczMorzIJezior(inicjatorZalewania.Komorka);
+         var rozdzielaczMorzIJezior = new RozdzielaczMorzIJezior(inicjatorzyZalewania.Select(i => i.Komorka));
          rozdzielaczMorzIJezior.Przetwarzaj(Poziom._mapa);
 
          var aktualizatorBrzeznosciKomorek = new AktualizatorBrzeznosciKomorek();

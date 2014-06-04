@@ -75,7 +75,24 @@ namespace Testy
          _komorki.ElementAt(2).Dane.Typ.ShouldEqual(spodziewanyTypK3);
          _komorki.ElementAt(3).Dane.Typ.ShouldEqual(spodziewanyTypK4);
          _komorki.ElementAt(4).Dane.Typ.ShouldEqual(spodziewanyTypK5);
-         
+      }
+
+      [Test]
+      public void RozdzielaczMorzIJeziorOdpowiednioPrzypisujeTypyDlaDwóchInicjatorów()
+      {
+         _komorki = MockKomorek();
+         IMapa mapa = MockKlasyMapa(_komorki);
+         IKomorka inicjator1 = _komorki.ElementAt(0);
+         IKomorka inicjator2 = _komorki.ElementAt(4);
+         IPrzetwarzaczMapy rozdzielacz = new RozdzielaczMorzIJezior(new IKomorka[]{inicjator1, inicjator2});
+
+         mapa.ZastosujPrzetwarzanie(rozdzielacz);
+
+         _komorki.ElementAt(0).Dane.Typ.ShouldEqual(TypKomorki.Morze);
+         _komorki.ElementAt(1).Dane.Typ.ShouldEqual(TypKomorki.Morze);
+         _komorki.ElementAt(2).Dane.Typ.ShouldEqual(TypKomorki.Lad);
+         _komorki.ElementAt(3).Dane.Typ.ShouldEqual(TypKomorki.Lad);
+         _komorki.ElementAt(4).Dane.Typ.ShouldEqual(TypKomorki.Morze);
       }
 
       [TestCase(0, BrzeznoscKomorki.OtwarteMorze, BrzeznoscKomorki.MorzePrzybrzezne, BrzeznoscKomorki.BrzegMorza,
