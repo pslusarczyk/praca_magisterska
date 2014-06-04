@@ -33,5 +33,19 @@ namespace Assets.Skrypty.Generowanie
       public const float MaksPoziomMorza = 5f;
 
       public const float PoczStopienZaburzeniaWezlow = .4f; // 0–1
+
+      public static class Perlin
+      {
+         public const int MinIloscWarstw = 1;
+         public const int MaksIloscWarstw = 4;
+         public const float MinSkalaPocz = 0.5f;
+         public const float MaksSkalaPocz = 8f;
+         public const float MinStrataSkali = 0.2f;
+         public const float MaksStrataSkali = 0.9f;
+         public const float MinSkokGestosci = 1f;
+         public const float MaksSkokGestosci = 5f;
+         public const float MinGestoscPocz = 0.01f;
+         public const float MaksGestoscPocz = 0.2f;
+      }
    }
 }

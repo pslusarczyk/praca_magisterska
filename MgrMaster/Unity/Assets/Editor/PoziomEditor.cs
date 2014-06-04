@@ -167,19 +167,19 @@ namespace Assets.Editor
 
             StanGeneratora.ParametryPerlina.IloscWarstw
                = EditorGUILayout.IntSlider("IloscWarstw",
-               StanGeneratora.ParametryPerlina.IloscWarstw, 0, 3);
+               StanGeneratora.ParametryPerlina.IloscWarstw, Konf.Perlin.MinIloscWarstw, Konf.Perlin.MaksIloscWarstw);
             StanGeneratora.ParametryPerlina.SkalaPoczatkowa
                = EditorGUILayout.Slider("SkalaPoczatkowa",
-               StanGeneratora.ParametryPerlina.SkalaPoczatkowa, 0f, 3f);
+               StanGeneratora.ParametryPerlina.SkalaPoczatkowa, Konf.Perlin.MinSkalaPocz, Konf.Perlin.MaksSkalaPocz);
             StanGeneratora.ParametryPerlina.StrataSkali
                = EditorGUILayout.Slider("StrataSkali",
-               StanGeneratora.ParametryPerlina.StrataSkali, 0f, 3f);
+               StanGeneratora.ParametryPerlina.StrataSkali, Konf.Perlin.MinStrataSkali, Konf.Perlin.MaksStrataSkali);
             StanGeneratora.ParametryPerlina.SkokGestosci
                = EditorGUILayout.Slider("SkokGestosci",
-               StanGeneratora.ParametryPerlina.SkokGestosci, 0f, 3f);
+               StanGeneratora.ParametryPerlina.SkokGestosci, Konf.Perlin.MinSkokGestosci, Konf.Perlin.MaksSkokGestosci);
             StanGeneratora.ParametryPerlina.GestoscPoczatkowa 
                = EditorGUILayout.Slider("GestoscPoczatkowa", 
-               StanGeneratora.ParametryPerlina.GestoscPoczatkowa, 0f, 3f);
+               StanGeneratora.ParametryPerlina.GestoscPoczatkowa, Konf.Perlin.MinGestoscPocz, Konf.Perlin.MaksGestoscPocz);
             if (GUILayout.Button("Generuj wysokoœci"))
             {
                _dzialaniaNaMapie.GenerujWysokosci(StanGeneratora.ParametryPerlina);

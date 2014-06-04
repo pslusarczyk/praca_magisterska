@@ -28,7 +28,14 @@ namespace Assets.Skrypty.Generowanie
       {
          PokazRogi = false;
          _utworzoneWarstwy = new List<Warstwa>();
-         ParametryPerlina = new ParametryPerlina();
+         ParametryPerlina = new ParametryPerlina
+         {
+            GestoscPoczatkowa = .05f,
+            IloscWarstw = 3,
+            SkalaPoczatkowa = 4f,
+            SkokGestosci = 3f,
+            StrataSkali = .7f
+         };
       }
 
       public bool PokazRogi { get; set; }
