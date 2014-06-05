@@ -14,7 +14,6 @@ namespace Assets.Skrypty.Generowanie
       public int _rozmiarZ = Konf.PoczRozmiarZ;
       public float _rozpietosc = Konf.PoczRozpietosc;
       private float _poziomMorza = Konf.PoczPoziomMorza;
-      private float _poprzedniPoziomMorza = Konf.PoczPoziomMorza;
       private Etap _etap = Etap.GenerowanieWezlow;
       private ParametryPerlina _parametryPerlina;
 
@@ -31,9 +30,9 @@ namespace Assets.Skrypty.Generowanie
          ParametryPerlina = new ParametryPerlina
          {
             Ziarno = 0,
-            GestoscPoczatkowa = Konf.Perlin.PoczGestosc,
+            Gestosc = Konf.Perlin.PoczGestosc,
             IloscWarstw = Konf.Perlin.PoczIloscWarstw,
-            SkalaPoczatkowa = Konf.Perlin.PoczSkala,
+            Skala = Konf.Perlin.PoczSkala,
             SkokGestosci = Konf.Perlin.PoczSkokGestosci,
             StrataSkali = Konf.Perlin.PoczStrataSkali
          };
@@ -57,12 +56,6 @@ namespace Assets.Skrypty.Generowanie
       {
          set { _poziomMorza = value; }
          get { return _poziomMorza; }
-      }
-
-      public float PoprzedniPoziomMorza
-      {
-         set { _poprzedniPoziomMorza = value; }
-         get { return _poprzedniPoziomMorza; }
       }
 
       public int NumerWybranejWarstwy { get; set; }
