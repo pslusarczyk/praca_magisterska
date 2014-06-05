@@ -110,29 +110,12 @@ namespace Assets.Editor
          }
       }
 
-      public void GenerujKomorkiIRogi() // mierzona wydajnoœæ
+      public void GenerujKomorkiIRogi() // w poprzednich wersjach (z 4 VI 2014) 
+                                        // ta funkcja zawiera kod mierz¹cy wydajnoœæ
       {
-         //float sekcja1 = 0;
-         //float sekcja2 = 0;
-         //float sekcja3 = 0;
-         //float sekcja4 = 0;
-         //var stop = new Stopwatch();
-         //stop.Start();
-
          _poziomEditor.Poziom._krawedzieWoronoja = Fortune.ComputeVoronoiGraph(WezlyNaWektory()).Edges; // dla mapy 50x50: 0,7 sekundy
-
-         //sekcja1 += stop.ElapsedMilliseconds;
-         //stop.Reset();
-         //stop.Start();
-
          var pf = new PrzetwarzaczFortunea();
-
          IMapa mapa = pf.Przetwarzaj(_poziomEditor.Poziom._krawedzieWoronoja);  // dla mapy 50x50: 7,1 sekundy
-
-         //sekcja2 += stop.ElapsedMilliseconds;
-         //stop.Reset();
-         //stop.Start();
-
          _poziomEditor.Poziom._mapa = mapa;
 
          foreach (var komorka in mapa.Komorki) // dla mapy 50x50: 0,7 sekundy
@@ -143,9 +126,6 @@ namespace Assets.Editor
             nowa.GetComponent<KomorkaUnity>().Komorka = komorka;
             _poziomEditor.Poziom._komorkiUnity.Add(nowa.GetComponent<KomorkaUnity>());
          }
-         //sekcja3 += stop.ElapsedMilliseconds;
-         //stop.Reset();
-         //stop.Start();
          foreach (var rog in mapa.Rogi) // dla mapy 50x50: 2 sekundy
          {
 
@@ -162,11 +142,6 @@ namespace Assets.Editor
 
             _poziomEditor.Poziom._rogiUnity.Add(nowy.GetComponent<RogUnity>());
          }
-         //sekcja4 += stop.ElapsedMilliseconds;
-         //Debug.Log(sekcja1);
-         //Debug.Log(sekcja2);
-         //Debug.Log(sekcja3);
-         //Debug.Log(sekcja4);
       }
    }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Assets.Editor.ExposeProperties;
 using Assets.Skrypty;
@@ -5,7 +6,6 @@ using Assets.Skrypty.Generowanie;
 using Assets.Skrypty.Narzedzia;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Assets.Editor
 {
@@ -143,7 +143,7 @@ namespace Assets.Editor
                alignment = TextAnchor.MiddleCenter,
                margin = new RectOffset(100, 100, 0, 0)
             });
-            if (StanGeneratora._utworzoneWarstwy.Count > 0)
+            if (false && StanGeneratora._utworzoneWarstwy.Count > 0) // na razie nie pokazujemy
             {
                GUILayout.Label("Wybierz warstwê:");
                _stanGeneratora.NumerWybranejWarstwy = GUILayout.SelectionGrid(_stanGeneratora.NumerWybranejWarstwy, StanGeneratora._utworzoneWarstwy.ToList().Select(w => w.ToString()).ToArray(),
@@ -164,7 +164,8 @@ namespace Assets.Editor
                }
             }
             GUILayout.EndVertical();
-
+            StanGeneratora.ParametryPerlina.Ziarno
+              = EditorGUILayout.IntField("Ziarno", StanGeneratora.ParametryPerlina.Ziarno);
             StanGeneratora.ParametryPerlina.IloscWarstw
                = EditorGUILayout.IntSlider("IloscWarstw",
                StanGeneratora.ParametryPerlina.IloscWarstw, Konf.Perlin.MinIloscWarstw, Konf.Perlin.MaksIloscWarstw);

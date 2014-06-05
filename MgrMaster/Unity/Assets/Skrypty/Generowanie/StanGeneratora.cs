@@ -30,6 +30,7 @@ namespace Assets.Skrypty.Generowanie
          _utworzoneWarstwy = new List<Warstwa>();
          ParametryPerlina = new ParametryPerlina
          {
+            Ziarno = 0,
             GestoscPoczatkowa = Konf.Perlin.PoczGestosc,
             IloscWarstw = Konf.Perlin.PoczIloscWarstw,
             SkalaPoczatkowa = Konf.Perlin.PoczSkala,
