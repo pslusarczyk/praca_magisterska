@@ -36,12 +36,6 @@ namespace Assets.Editor
       private StanGeneratora _stanGeneratora;
 
       private float _poprzedniPoziomMorza = Konf.PoczPoziomMorza;
-      private int _poprzednieZiarno = 0;
-      private int _poprzedniaIloscWarstw = Konf.Perlin.PoczIloscWarstw;
-      private float _poprzedniaSkala = Konf.Perlin.PoczSkala;
-      private float _poprzedniaStrataSkali = Konf.Perlin.PoczStrataSkali;
-      private float _poprzedniSkokGestosci = Konf.Perlin.PoczSkokGestosci;
-      private float _poprzedniaGestosc = Konf.Perlin.PoczGestosc;
 
       [ExposeProperty]
       public string EtapTekst { get { return _stanGeneratora.Etap.ToString(); } set {} } // musi byæ set ¿eby siê wyœwietla³o
@@ -173,55 +167,29 @@ namespace Assets.Editor
             }
             GUILayout.EndVertical();
 
-            bool przesunietoJakisSuwak = false;
             StanGeneratora.ParametryPerlina.Ziarno
               = EditorGUILayout.IntField("Ziarno", StanGeneratora.ParametryPerlina.Ziarno);
-            if (StanGeneratora.ParametryPerlina.Ziarno != _poprzednieZiarno)
-            {
-               _poprzednieZiarno = StanGeneratora.ParametryPerlina.Ziarno;
-               przesunietoJakisSuwak = true;
-            }
+
             StanGeneratora.ParametryPerlina.IloscWarstw
                = EditorGUILayout.IntSlider("IloscWarstw",
                StanGeneratora.ParametryPerlina.IloscWarstw, Konf.Perlin.MinIloscWarstw, Konf.Perlin.MaksIloscWarstw);
-            if (StanGeneratora.ParametryPerlina.IloscWarstw != _poprzedniaIloscWarstw)
-            {
-               _poprzedniaIloscWarstw = StanGeneratora.ParametryPerlina.IloscWarstw;
-               przesunietoJakisSuwak = true;
-            }
+
             StanGeneratora.ParametryPerlina.Skala
                = EditorGUILayout.Slider("Skala",
                StanGeneratora.ParametryPerlina.Skala, Konf.Perlin.MinSkala, Konf.Perlin.MaksSkala);
-            if (StanGeneratora.ParametryPerlina.Skala != _poprzedniaSkala)
-            {
-               _poprzedniaSkala = StanGeneratora.ParametryPerlina.Skala;
-               przesunietoJakisSuwak = true;
-            }
+
             StanGeneratora.ParametryPerlina.StrataSkali
                = EditorGUILayout.Slider("StrataSkali",
                StanGeneratora.ParametryPerlina.StrataSkali, Konf.Perlin.MinStrataSkali, Konf.Perlin.MaksStrataSkali);
-            if (StanGeneratora.ParametryPerlina.StrataSkali != _poprzedniaStrataSkali)
-            {
-               _poprzedniaStrataSkali = StanGeneratora.ParametryPerlina.StrataSkali;
-               przesunietoJakisSuwak = true;
-            }
+
             StanGeneratora.ParametryPerlina.SkokGestosci
                = EditorGUILayout.Slider("SkokGestosci",
                StanGeneratora.ParametryPerlina.SkokGestosci, Konf.Perlin.MinSkokGestosci, Konf.Perlin.MaksSkokGestosci);
-            if (StanGeneratora.ParametryPerlina.SkokGestosci != _poprzedniSkokGestosci)
-            {
-               _poprzedniSkokGestosci = StanGeneratora.ParametryPerlina.SkokGestosci;
-               przesunietoJakisSuwak = true;
-            }
+
             StanGeneratora.ParametryPerlina.Gestosc 
                = EditorGUILayout.Slider("Gestosc",
                StanGeneratora.ParametryPerlina.Gestosc, Konf.Perlin.MinGestosc, Konf.Perlin.MaksGestosc);
-            if (StanGeneratora.ParametryPerlina.Gestosc != _poprzedniaGestosc)
-            {
-               _poprzedniaGestosc = StanGeneratora.ParametryPerlina.Gestosc;
-               przesunietoJakisSuwak = true;
-            }
-            if (przesunietoJakisSuwak ||  GUILayout.Button("Generuj wysokoœci")) // wydajnoœæ: spowalnia
+            if (GUILayout.Button("Generuj wysokoœci"))
             {
                _dzialaniaNaMapie.GenerujWysokosci(StanGeneratora.ParametryPerlina);
                if (!StanGeneratora._utworzoneWarstwy.Contains(Warstwa.WysokosciZWoda))
