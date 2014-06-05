@@ -66,10 +66,10 @@ namespace Assets.Editor
          {
             rogUnity.MaterialWysokosciZWoda = null;
          }
-         var modyfikator = new ModyfikatorWysokosciPerlinem(parametryPerlina) { Nastepnik = new AktualizatorNastepstwaMapyWysokosci() };
+         var modyfikator = new ModyfikatorWysokosciPerlinem(parametryPerlina) { /*Nastepnik = new AktualizatorNastepstwaMapyWysokosci()*/ };
          modyfikator.Przetwarzaj(Poziom._mapa);
 
-         UstawKomorkomIRogomMaterialWysokosciIWody();
+         UstawKomorkomIRogomUnityWysokosciIMaterial();
       }
 
       public void RozdzielZiemieIWode(float prog)
@@ -81,7 +81,7 @@ namespace Assets.Editor
          var rozdzielacz = new RozdzielaczWodyIZiemi(prog);
          rozdzielacz.Przetwarzaj(Poziom._mapa);
 
-         UstawKomorkomIRogomMaterialWysokosciIWody(-prog);
+         UstawKomorkomIRogomUnityWysokosciIMaterial(-prog);
 
       }
 
@@ -93,15 +93,26 @@ namespace Assets.Editor
          var wyrownywaczWody = new WyrownywaczTerenuWody();
          wyrownywaczWody.Przetwarzaj(Poziom._mapa);
          
-         UstawKomorkomIRogomMaterialWysokosciIWody();
+         UstawKomorkomIRogomUnityWysokosciIMaterial();
       }
 
-      private void UstawKomorkomIRogomMaterialWysokosciIWody(float modyfikator = 0f)
+      private void UstawKomorkomIRogomUnityWysokosciIMaterial(float modyfikator = 0f)
       {
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
             float wysokosc = komorkaUnity.Komorka.Punkt.Wysokosc + modyfikator;
-
+            if (komorkaUnity.Komorka.Dane.Podloze != Podloze.Woda)
+            {
+               komorkaUnity.transform.localScale = new Vector3(1f, .01f + wysokosc*2.4f, 1f);
+               komorkaUnity.transform.localPosition = new Vector3(komorkaUnity.transform.localPosition.x, wysokosc*1.2f,
+                  komorkaUnity.transform.localPosition.z);
+            }
+            else
+            {
+               komorkaUnity.transform.localScale = new Vector3(1f, .01f, 1f);
+               komorkaUnity.transform.localPosition = new Vector3(komorkaUnity.transform.localPosition.x, 0f,
+                  komorkaUnity.transform.localPosition.z);
+            }
             var kopiaMaterialu = new Material(komorkaUnity.renderer.sharedMaterial);
             if(komorkaUnity.Komorka.Dane.Podloze == Podloze.Woda)
             {
@@ -144,7 +155,7 @@ namespace Assets.Editor
          var aktualizatorBrzeznosciRogow = new AktualizatorBrzeznosciKomorek();
          aktualizatorBrzeznosciRogow.Przetwarzaj(Poziom._mapa);
 
-         UstawKomorkomIRogomMaterialWysokosciIWody();
+         UstawKomorkomIRogomUnityWysokosciIMaterial();
       }
 
       public void UstawKomorkomWidocznoscPolaInicjatorPowodzi(bool wartosc) // todo niezbyt eleganckpo zaprojektowane — to pok³osie problemów z dostêpem do dzia³añ na mapie komórki Unity

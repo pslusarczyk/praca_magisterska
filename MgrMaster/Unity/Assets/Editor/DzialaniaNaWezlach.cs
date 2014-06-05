@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Assets.Skrypty;
 using LogikaGeneracji;
 using LogikaGeneracji.PrzetwarzanieFortunea;
+using Microsoft.VisualBasic;
 using UnityEngine;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 using Debug = UnityEngine.Debug;
@@ -51,7 +52,7 @@ namespace Assets.Editor
                float rozpietosc = _poziomEditor.StanGeneratora._rozpietosc;
                var wezelObject =
                   (GameObject)
-                     Object.Instantiate(Resources.Load("Wezel"), _poziomEditor.Poziom.transform.position + new Vector3(x * rozpietosc, 0f, z * rozpietosc),
+                     Object.Instantiate(Resources.Load("Wezel"), _poziomEditor.Poziom.KomponentPojemnika.transform.position + new Vector3(x * rozpietosc,  0f, z * rozpietosc),
                         Quaternion.identity);
                wezelObject.transform.parent = Poziom.KomponentPojemnika.Wezly.transform;
                wezelObject.GetComponent<Wezel>().pierwotnaPozycja = wezelObject.transform.position;
@@ -63,7 +64,9 @@ namespace Assets.Editor
 
       private Pojemnik UtworzPojemnik()
       {
-         var pojemnik = (GameObject) Object.Instantiate(Resources.Load("Pojemnik"), _poziomEditor.Poziom.transform.position,
+         Vector3 pozycjaPoziomu = _poziomEditor.Poziom.transform.position;
+         var pojemnik = (GameObject) Object.Instantiate(Resources.Load("Pojemnik"), 
+            new Vector3(pozycjaPoziomu.x, 0f, pozycjaPoziomu.z), 
             Quaternion.identity);
          pojemnik.name = _poziomEditor.Poziom.name + "_pojemnik";
          var komponentPojemnika = pojemnik.GetComponent<Pojemnik>();

@@ -83,7 +83,7 @@ namespace Assets.Editor
          {
             StanGeneratora.PokazRogi = false;
             StanGeneratora.PokazRogiPoprzedniaWartosc = true;
-            PokazSciany = true;
+            PokazSciany = false;
             _dzialaniaNaMapie.UsunWezlyRogiIKomorki();
             _stanGeneratora.Etap = Etap.GenerowanieWezlow;
             StanGeneratora._utworzoneWarstwy.Clear();
@@ -170,7 +170,7 @@ namespace Assets.Editor
                StanGeneratora.ParametryPerlina.IloscWarstw, Konf.Perlin.MinIloscWarstw, Konf.Perlin.MaksIloscWarstw);
             StanGeneratora.ParametryPerlina.SkalaPoczatkowa
                = EditorGUILayout.Slider("SkalaPoczatkowa",
-               StanGeneratora.ParametryPerlina.SkalaPoczatkowa, Konf.Perlin.MinSkalaPocz, Konf.Perlin.MaksSkalaPocz);
+               StanGeneratora.ParametryPerlina.SkalaPoczatkowa, Konf.Perlin.MinSkala, Konf.Perlin.MaksSkala);
             StanGeneratora.ParametryPerlina.StrataSkali
                = EditorGUILayout.Slider("StrataSkali",
                StanGeneratora.ParametryPerlina.StrataSkali, Konf.Perlin.MinStrataSkali, Konf.Perlin.MaksStrataSkali);
@@ -179,13 +179,19 @@ namespace Assets.Editor
                StanGeneratora.ParametryPerlina.SkokGestosci, Konf.Perlin.MinSkokGestosci, Konf.Perlin.MaksSkokGestosci);
             StanGeneratora.ParametryPerlina.GestoscPoczatkowa 
                = EditorGUILayout.Slider("GestoscPoczatkowa", 
-               StanGeneratora.ParametryPerlina.GestoscPoczatkowa, Konf.Perlin.MinGestoscPocz, Konf.Perlin.MaksGestoscPocz);
+               StanGeneratora.ParametryPerlina.GestoscPoczatkowa, Konf.Perlin.MinGestosc, Konf.Perlin.MaksGestosc);
             if (GUILayout.Button("Generuj wysokoœci"))
             {
                _dzialaniaNaMapie.GenerujWysokosci(StanGeneratora.ParametryPerlina);
                if (!StanGeneratora._utworzoneWarstwy.Contains(Warstwa.WysokosciZWoda))
                   StanGeneratora._utworzoneWarstwy.Add(Warstwa.WysokosciZWoda);
                AktualnaWarstwa = Warstwa.WysokosciZWoda;
+
+               _dzialaniaNaMapie.RozdzielZiemieIWode(StanGeneratora.PoziomMorza);
+               AktualnaWarstwa = Warstwa.WysokosciZWoda;
+               _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
+               OdswiezZaznaczenieWarstwy();
+
                _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
                OdswiezZaznaczenieWarstwy();
                _stanGeneratora.Etap = Etap.RozdzielanieZiemiIWody;
@@ -200,19 +206,16 @@ namespace Assets.Editor
             {
                StanGeneratora.PoprzedniPoziomMorza = StanGeneratora.PoziomMorza;
                _dzialaniaNaMapie.RozdzielZiemieIWode(StanGeneratora.PoziomMorza);
-               if (!StanGeneratora._utworzoneWarstwy.Contains(Warstwa.WysokosciZWoda))
-                  StanGeneratora._utworzoneWarstwy.Add(Warstwa.WysokosciZWoda);
                AktualnaWarstwa = Warstwa.WysokosciZWoda;
                _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
                OdswiezZaznaczenieWarstwy();
             }
-            if (StanGeneratora.PoziomMorza != Konf.PoczPoziomMorza)
-               if (GUILayout.Button("Dalej"))
-               {
-                  _dzialaniaNaMapie.ZatwierdzRozdzielenieZiemiIWody(StanGeneratora.PoziomMorza);
-                  _stanGeneratora.Etap = Etap.WydzielanieMorza;
-                  _dzialaniaNaMapie.UstawKomorkomWidocznoscPolaInicjatorPowodzi(true);
-               }
+            if (GUILayout.Button("Dalej"))
+            {
+               _dzialaniaNaMapie.ZatwierdzRozdzielenieZiemiIWody(StanGeneratora.PoziomMorza);
+               _stanGeneratora.Etap = Etap.WydzielanieMorza;
+               _dzialaniaNaMapie.UstawKomorkomWidocznoscPolaInicjatorPowodzi(true);
+            }
          }
 
          if (_stanGeneratora.Etap == Etap.WydzielanieMorza)

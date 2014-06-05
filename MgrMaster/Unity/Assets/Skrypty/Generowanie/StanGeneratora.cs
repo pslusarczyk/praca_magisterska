@@ -30,11 +30,11 @@ namespace Assets.Skrypty.Generowanie
          _utworzoneWarstwy = new List<Warstwa>();
          ParametryPerlina = new ParametryPerlina
          {
-            GestoscPoczatkowa = .05f,
-            IloscWarstw = 3,
-            SkalaPoczatkowa = 4f,
-            SkokGestosci = 3f,
-            StrataSkali = .7f
+            GestoscPoczatkowa = Konf.Perlin.PoczGestosc,
+            IloscWarstw = Konf.Perlin.PoczIloscWarstw,
+            SkalaPoczatkowa = Konf.Perlin.PoczSkala,
+            SkokGestosci = Konf.Perlin.PoczSkokGestosci,
+            StrataSkali = Konf.Perlin.PoczStrataSkali
          };
       }
 
