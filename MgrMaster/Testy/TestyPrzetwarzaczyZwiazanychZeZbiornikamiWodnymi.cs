@@ -215,6 +215,21 @@ namespace Testy
          _komorki.ElementAt(indeksyWodnych.First()).Rogi.ToList().ForEach(r => r.Punkt.Wysokosc.ShouldEqual(minWys));
       }
 
+      [Ignore]
+      [Test]
+      public void GeneratorJeziorTworzyOdpowiedniaIloscJezior() // ważne żeby wybierać losowe niecki jeśli suma komórek jeziornych ma się zgadzać
+      {
+         
+      }
+
+      [Ignore]
+      [Test]
+      public void GeneratorJeziorPosiadaOdpowiedniaInformacjeOSukcesieIPorazce()
+      {
+         
+      }
+
+
       #endregion
 
       #region Funkcje pomocnicze

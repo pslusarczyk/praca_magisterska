@@ -6,7 +6,6 @@ using Assets.Skrypty.Narzedzia;
 using LogikaGeneracji;
 using LogikaGeneracji.PrzetwarzanieFortunea;
 using LogikaGeneracji.PrzetwarzanieMapy;
-using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 using UnityEngine;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
 
@@ -109,7 +108,7 @@ namespace Assets.Editor
          UstawKomorkomIRogomUnityWyglad();
       }
 
-      private void UstawKomorkomIRogomUnityWyglad(float modyfikator = 0f) // pilne zduplikowany kod dla 
+      private void UstawKomorkomIRogomUnityWyglad(float modyfikator = 0f) // pilne zduplikowany kod dla k. i r.
       {
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
@@ -127,7 +126,11 @@ namespace Assets.Editor
                   komorkaUnity.transform.localPosition.z);
             }
             var kopiaMaterialu = new Material(komorkaUnity.renderer.sharedMaterial);
-            if(komorkaUnity.Komorka.Dane.Podloze == Podloze.Woda)
+            if (Poziom._mapa.KomorkiNiecki.Contains(komorkaUnity.Komorka))
+            {
+               kopiaMaterialu.color = new Color(.9f, .4f, .6f);
+            } // pilne poni¿sz¹ posprz¹taæ!
+            else if (komorkaUnity.Komorka.Dane.Podloze == Podloze.Woda || (komorkaUnity.Komorka.Dane.Podloze == Podloze.Ziemia && komorkaUnity.Komorka.Dane.Typ == TypKomorki.Jezioro))
             {
                kopiaMaterialu.color = (komorkaUnity.Komorka.Dane.Typ == TypKomorki.Jezioro)
                                                    ? new Color(.35f, .6f, .98f) : new Color(.1f, .3f, .65f);
@@ -187,6 +190,22 @@ namespace Assets.Editor
       {
          var aktualizator = new AktualizatorNastepstwaMapyWysokosci();
          aktualizator.Przetwarzaj(Poziom._mapa);
+      }
+
+      public void WyznaczKomorkiNiecki()
+      {
+         var wydzielacz = new WydzielaczKomorekNiecek();
+         wydzielacz.Przetwarzaj(Poziom._mapa);
+         UstawKomorkomIRogomUnityWyglad();
+      }
+
+      public void UtworzJezioraWNieckach()
+      {
+         var generatorJezior = new GeneratorJezior(10);
+         generatorJezior.Przetwarzaj(Poziom._mapa);
+         var wyrownywacz = new WyrownywaczTerenuJeziora();
+         wyrownywacz.Przetwarzaj(Poziom._mapa);
+         UstawKomorkomIRogomUnityWyglad();
       }
    }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LogikaGeneracji;
 using LogikaGeneracji.PrzetwarzanieMapy;
@@ -164,6 +165,15 @@ namespace Testy
 
          _mapa.KomorkiNiecki.ShouldContain(k3);
          _mapa.KomorkiNiecki.ShouldNotContain(k1);
+      }     
+      
+      [Test]
+      public void WydzielaczKomórekNiecekRzucaWyjątekGdyNieUstalonoBrzeżności()
+      {
+         _mapa = MapaDoWyznaczaniaNiecek();
+         _mapa.Komorki.ElementAt(0).Dane.Brzeznosc = null;
+         
+         Assert.Throws<InvalidOperationException>(() => new WydzielaczKomorekNiecek().Przetwarzaj(_mapa));
       }
 
 

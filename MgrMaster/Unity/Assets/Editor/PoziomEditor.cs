@@ -92,6 +92,9 @@ namespace Assets.Editor
             SekcjaPoziomuMorza();
          if (_stanGeneratora.Etap == Etap.WydzielanieMorza)
             SekcjaWydzielaniaMorza();
+         if (_stanGeneratora.Etap == Etap.TworzenieJezior)
+            SekcjaTworzeniaJezior();
+
       }
 
       private void SekcjaResetowania()
@@ -220,9 +223,6 @@ namespace Assets.Editor
             AktualnaWarstwa = Warstwa.WysokosciZWoda;
             _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
             OdswiezZaznaczenieWarstwy();
-
-            _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
-            OdswiezZaznaczenieWarstwy();
             _stanGeneratora.Etap = Etap.RozdzielanieZiemiIWody;
          }
       }
@@ -261,6 +261,23 @@ namespace Assets.Editor
          if (GUILayout.Button("Dalej"))
          {
             _dzialaniaNaMapie.UstawKomorkomWidocznoscPolaInicjatorPowodzi(false);
+            _stanGeneratora.Etap = Etap.TworzenieJezior;
+         }
+      }
+
+      private void SekcjaTworzeniaJezior()
+      {
+         if (GUILayout.Button("Wydziel niecki"))
+         {
+            _dzialaniaNaMapie.WyznaczKomorkiNiecki();
+            _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
+            OdswiezZaznaczenieWarstwy();
+         } 
+         if (GUILayout.Button("Utwórz jeziora"))
+         {
+            _dzialaniaNaMapie.UtworzJezioraWNieckach();
+            _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
+            OdswiezZaznaczenieWarstwy();
          }
       }
 

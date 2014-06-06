@@ -31,6 +31,8 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
                   k => k.Dane.Typ == TypKomorki.Morze
                   ))
                   komorka.Dane.Brzeznosc = BrzeznoscKomorki.BrzegMorza;
+               else
+                  komorka.Dane.Brzeznosc = BrzeznoscKomorki.OtwartyLad;
                break;
 
             case TypKomorki.Jezioro:
@@ -38,7 +40,8 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
                   k => k.Dane.Typ == TypKomorki.Morze)
                   )
                   throw new InvalidOperationException("Komórka jeziorna nie powinna s¹siadowaæ z morsk¹!");
-               komorka.Dane.Brzeznosc = BrzeznoscKomorki.OtwartyLad;
+               else 
+                  komorka.Dane.Brzeznosc = BrzeznoscKomorki.OtwartyLad;
                break;
             default:
                throw new InvalidOperationException("Komórce bez typu nie mo¿na przypisaæ brze¿noœci!");

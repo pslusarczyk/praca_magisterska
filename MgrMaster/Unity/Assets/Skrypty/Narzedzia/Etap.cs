@@ -7,6 +7,7 @@ namespace Assets.Skrypty.Narzedzia
       TworzenieKomorekIRogow = 2,
       TworzenieMapyWysokosci = 3,
       RozdzielanieZiemiIWody = 4,
-      WydzielanieMorza = 5
+      WydzielanieMorza = 5,
+      TworzenieJezior = 6
    }
 }
