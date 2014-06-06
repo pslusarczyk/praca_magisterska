@@ -66,10 +66,10 @@ namespace Assets.Editor
          {
             rogUnity.MaterialWysokosciZWoda = null;
          }
-         var modyfikator = new ModyfikatorWysokosciPerlinem(parametryPerlina) { /*Nastepnik = new AktualizatorNastepstwaMapyWysokosci()*/ };
+         var modyfikator = new ModyfikatorWysokosciPerlinem(parametryPerlina);
          modyfikator.Przetwarzaj(Poziom._mapa);
 
-         UstawKomorkomIRogomUnityWysokosciIMaterial();
+         UstawKomorkomIRogomUnityWyglad();
       }
 
       public void RozdzielZiemieIWode(float prog)
@@ -81,7 +81,7 @@ namespace Assets.Editor
          var rozdzielacz = new RozdzielaczWodyIZiemi(prog);
          rozdzielacz.Przetwarzaj(Poziom._mapa);
 
-         UstawKomorkomIRogomUnityWysokosciIMaterial(-prog);
+         UstawKomorkomIRogomUnityWyglad(-prog);
 
       }
 
@@ -93,7 +93,7 @@ namespace Assets.Editor
          var wyrownywaczWody = new WyrownywaczTerenuWody();
          wyrownywaczWody.Przetwarzaj(Poziom._mapa);
          
-         UstawKomorkomIRogomUnityWysokosciIMaterial();
+         UstawKomorkomIRogomUnityWyglad();
       }
 
       public void RozdzielMorzeIJeziora(IEnumerable<KomorkaUnity> inicjatorzyZalewania)
@@ -106,10 +106,10 @@ namespace Assets.Editor
          var aktualizatorBrzeznosciRogow = new AktualizatorBrzeznosciKomorek();
          aktualizatorBrzeznosciRogow.Przetwarzaj(Poziom._mapa);
 
-         UstawKomorkomIRogomUnityWysokosciIMaterial();
+         UstawKomorkomIRogomUnityWyglad();
       }
 
-      private void UstawKomorkomIRogomUnityWysokosciIMaterial(float modyfikator = 0f)
+      private void UstawKomorkomIRogomUnityWyglad(float modyfikator = 0f) // pilne zduplikowany kod dla 
       {
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
@@ -138,10 +138,27 @@ namespace Assets.Editor
          }
          foreach (RogUnity rogUnity in Poziom._rogiUnity)
          {
-            float wysokosc = rogUnity.Rog.Punkt.Wysokosc;
-
+            float wysokosc = rogUnity.Rog.Punkt.Wysokosc + modyfikator;
+            if (rogUnity.Rog.Dane.Brzeznosc != BrzeznoscRogu.OtwarteMorze)
+            {
+               rogUnity.transform.localScale = new Vector3(rogUnity.transform.localScale.x, .01f + wysokosc * 2.4f, rogUnity.transform.localScale.z);
+               rogUnity.transform.localPosition = new Vector3(rogUnity.transform.localPosition.x, wysokosc * 1.2f,
+                  rogUnity.transform.localPosition.z);
+            }
+            else
+            {
+               rogUnity.transform.localScale = new Vector3(rogUnity.transform.localScale.x, .01f, rogUnity.transform.localScale.x);
+               rogUnity.transform.localPosition = new Vector3(rogUnity.transform.localPosition.x, 0f,
+                  rogUnity.transform.localPosition.z);
+            }
             var kopiaMaterialu = new Material(rogUnity.renderer.sharedMaterial);
-            kopiaMaterialu.color = new Color(.3f + wysokosc * .2f, .9f - wysokosc*.2f, .3f);
+            if (rogUnity.Rog.Dane.Brzeznosc == BrzeznoscRogu.OtwarteMorze)
+            {
+               kopiaMaterialu.color = new Color(.35f, .6f, .98f); //(rogUnity.Rog.Dane.Typ == TypKomorki.Jezioro)
+               //? new Color(.35f, .6f, .98f) : new Color(.1f, .3f, .65f);
+            }
+            else
+               kopiaMaterialu.color = new Color(.3f + wysokosc * .2f, .9f - wysokosc * .2f, .3f);
             rogUnity.MaterialWysokosciZWoda = kopiaMaterialu;
          }
       }
@@ -164,6 +181,12 @@ namespace Assets.Editor
          {
             komorkaUnity.PoleInicjatorPowodziWidoczne = wartosc;
          }
+      }
+
+      public void UstawPunktomNastepstwaMapyWysokosci()
+      {
+         var aktualizator = new AktualizatorNastepstwaMapyWysokosci();
+         aktualizator.Przetwarzaj(Poziom._mapa);
       }
    }
 }

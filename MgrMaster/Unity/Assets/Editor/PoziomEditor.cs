@@ -243,6 +243,7 @@ namespace Assets.Editor
          if (GUILayout.Button("Dalej"))
          {
             _dzialaniaNaMapie.ZatwierdzRozdzielenieZiemiIWody(StanGeneratora.PoziomMorza);
+            _dzialaniaNaMapie.UstawPunktomNastepstwaMapyWysokosci();
             _stanGeneratora.Etap = Etap.WydzielanieMorza;
             _dzialaniaNaMapie.UstawKomorkomWidocznoscPolaInicjatorPowodzi(true);
          }

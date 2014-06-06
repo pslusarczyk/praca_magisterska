@@ -52,6 +52,8 @@ namespace Assets.Editor
       {
          if (KomorkaUnity.Komorka == null) 
             yield break;
+         yield return new KeyValuePair<string, string>("Identyfikator", KomorkaUnity.Komorka.Punkt.Id.ToString());
+         yield return new KeyValuePair<string, string>("Nastêpnik", KomorkaUnity.Komorka.Punkt.Nastepnik != null ? KomorkaUnity.Komorka.Punkt.Nastepnik.Id.ToString() : "—");
          yield return new KeyValuePair<string, string>("Wysokoœæ", KomorkaUnity.Komorka.Punkt.Wysokosc.ToString());            
          yield return new KeyValuePair<string, string>("Pod³o¿e", KomorkaUnity.Komorka.Dane.Podloze.ToString());            
          yield return new KeyValuePair<string, string>("Typ", KomorkaUnity.Komorka.Dane.Typ.ToString());            

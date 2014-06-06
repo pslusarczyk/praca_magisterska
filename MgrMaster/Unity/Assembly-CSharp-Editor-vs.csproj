@@ -51,6 +51,7 @@
      <Compile Include="Assets\Editor\ExposeProperties\ExposeProperties.cs" />
      <Compile Include="Assets\Editor\KomorkaUnityEditor.cs" />
      <Compile Include="Assets\Editor\PoziomEditor.cs" />
+     <Compile Include="Assets\Editor\RogUnityEditor.cs" />
      <Compile Include="Assets\Editor\TerenEditor.cs" />
      <None Include="Assets\Resources\prototype_textures\readme.txt" />
  <Reference Include="LogikaGeneracji">
