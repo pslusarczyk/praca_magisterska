@@ -58,6 +58,7 @@
     <Compile Include="PrzetwarzanieMapy\ModyfikatorWysokosciPerlinem.cs" />
     <Compile Include="PrzetwarzanieMapy\ParametryPerlina.cs" />
     <Compile Include="PrzetwarzanieMapy\RozdzielaczWodyIZiemi.cs" />
+    <Compile Include="PrzetwarzanieMapy\WydzielaczKomorekNiecek.cs" />
     <Compile Include="PrzetwarzanieMapy\WyrownywaczTerenuWody.cs" />
     <Compile Include="Rzeka.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorBrzeznosciKomorek.cs" />

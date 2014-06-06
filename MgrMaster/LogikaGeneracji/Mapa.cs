@@ -14,6 +14,7 @@ namespace LogikaGeneracji
       void ZastosujPrzetwarzanie(IPrzetwarzaczMapy przetwarzacz); // todo jak ni¿ej
       List<IPrzetwarzaczMapy> ZastosowanePrzetwarzacze { get; set; } // todo cykliczne referencje, ale przy bardzo prostej interakcji – mo¿e tak byæ?
       IList<IRzeka> Rzeki { get; set; }
+      IList<IKomorka> KomorkiNiecki { get; set; }
 
       void UstawPunktomSasiedztwa();
    }
@@ -26,6 +27,7 @@ namespace LogikaGeneracji
       public HashSet<IRog> Rogi { get; set; }
       public List<IPrzetwarzaczMapy> ZastosowanePrzetwarzacze { get; set; }
       public IList<IRzeka> Rzeki { get; set; }
+      public IList<IKomorka> KomorkiNiecki { get; set; }
 
       public void ZastosujPrzetwarzanie(IPrzetwarzaczMapy przetwarzacz)
       {
@@ -39,6 +41,7 @@ namespace LogikaGeneracji
       {
          ZastosowanePrzetwarzacze = new List<IPrzetwarzaczMapy>();
          Rzeki = new List<IRzeka>();
+         KomorkiNiecki = new List<IKomorka>();
          ZakonczonoTworzenie = false;
       }
 

@@ -90,7 +90,7 @@ namespace Testy
       [Test]
       public void PunktyGeograficznePrzetworzonejMapyMająOdpowiednioPoustawianychNastepnikow()
       {
-         _mapa = MockKlasyMapa();
+         _mapa = MakietaKlasyMapa();
          var modyfikator = new ProstyModyfikatorWysokosci();
          _mapa.ZastosujPrzetwarzanie(modyfikator);
          var punkt1 = _mapa.Punkty.ElementAt(0);
@@ -104,7 +104,7 @@ namespace Testy
       [Test]
       public void ŁańcuchNastępnikówKończySięNaBrzegu()
       {
-         _mapa = MockKlasyMapa();
+         _mapa = MakietaKlasyMapa();
          var modyfikator = new ProstyModyfikatorWysokosci();
          var punkt1 = _mapa.Punkty.ElementAt(0);
          var punkt2 = _mapa.Punkty.ElementAt(1);
@@ -128,7 +128,7 @@ namespace Testy
       [Test]
       public void NastepnicyPunktówGeograficznychSąIchSąsiadami()
       {
-         _mapa = MockKlasyMapa();
+         _mapa = MakietaKlasyMapa();
          var modyfikator = new ProstyModyfikatorWysokosci();
          _mapa.ZastosujPrzetwarzanie(modyfikator);
 
@@ -144,12 +144,28 @@ namespace Testy
          var przetwarzacz = new ModyfikatorWysokosciNaAdekwatneDoPozycji();
          _mapa.ZastosujPrzetwarzanie(przetwarzacz);
          IPunkt p1 = _mapa.Punkty.ElementAt(0);
-         IPunkt p2 = _mapa.Punkty.ElementAt(0);
-         IPunkt p3 = _mapa.Punkty.ElementAt(0);
+         IPunkt p2 = _mapa.Punkty.ElementAt(1);
+         IPunkt p3 = _mapa.Punkty.ElementAt(2);
          p1.Wysokosc.ShouldEqual(p1.Pozycja.y);
          p2.Wysokosc.ShouldEqual(p2.Pozycja.y);
          p3.Wysokosc.ShouldEqual(p3.Pozycja.y);
       }
+
+      [Test]
+      public void WydzielaczKomórekNiecekPoprawnieWyznaczaNiecki() // todo możnaby dodać więcej przypadków
+      {
+         _mapa = MapaDoWyznaczaniaNiecek();
+         IKomorka k1 = _mapa.Komorki.ElementAt(0);
+         IKomorka k3 = _mapa.Komorki.ElementAt(1);
+         new AktualizatorNastepstwaMapyWysokosci().Przetwarzaj(_mapa);
+
+         var wydzielacz = new WydzielaczKomorekNiecek();
+         wydzielacz.Przetwarzaj(_mapa);
+
+         _mapa.KomorkiNiecki.ShouldContain(k3);
+         _mapa.KomorkiNiecki.ShouldNotContain(k1);
+      }
+
 
       [Test] // todo Potrzebne? Przenieść do testów mechanizmu przetwarzania?
       public void PrzetwarzaczZNastępnikiemWywołujeGoPoSobie()
@@ -172,7 +188,7 @@ namespace Testy
          return mock.Object;
       }
 
-      private static IMapa MockKlasyMapa()
+      private static IMapa MakietaKlasyMapa()
       {
          var punkty = MockPunktow();
          var rogi = new HashSet<IRog>();
@@ -180,6 +196,35 @@ namespace Testy
          mock.Setup(m => m.Punkty).Returns(punkty);
          mock.Object.Rogi = rogi;
          return mock.Object;
+      }
+
+      private static IMapa MapaDoWyznaczaniaNiecek()
+      {
+         /*
+          *       K1....
+          *         \   ...K3
+          *          \    /
+          *           \R2/
+          */         
+         var punkty = MockPunktow();
+         IPunkt p1 = punkty.ElementAt(0);
+         IPunkt p2 = punkty.ElementAt(1);
+         IPunkt p3 = punkty.ElementAt(2);
+         p1.Wysokosc = 10f;
+         p2.Wysokosc = 3f;
+         p3.Wysokosc = 7f;
+         var komorki = new HashSet<IKomorka>()
+         {
+            new Komorka {Punkt = p1, Dane =  new DaneKomorki{Brzeznosc = BrzeznoscKomorki.OtwartyLad}},
+            new Komorka {Punkt = p3, Dane =  new DaneKomorki{Brzeznosc = BrzeznoscKomorki.OtwartyLad}}
+         };
+         komorki.First().PrzylegleKomorki = new IKomorka[] { komorki.ElementAt(1) };
+         komorki.ElementAt(1).PrzylegleKomorki = new IKomorka[] { komorki.First() };
+         var rogi = new HashSet<IRog>
+         {
+            new Rog {Punkt = p2}
+         };
+         return new Mapa{Komorki = komorki, Rogi = rogi};
       }
 
       private static IEnumerable<IPunkt> MockPunktow()
