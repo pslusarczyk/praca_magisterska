@@ -96,6 +96,19 @@ namespace Assets.Editor
          UstawKomorkomIRogomUnityWysokosciIMaterial();
       }
 
+      public void RozdzielMorzeIJeziora(IEnumerable<KomorkaUnity> inicjatorzyZalewania)
+      {
+         var rozdzielaczMorzIJezior = new RozdzielaczMorzIJezior(inicjatorzyZalewania.Select(i => i.Komorka));
+         rozdzielaczMorzIJezior.Przetwarzaj(Poziom._mapa);
+
+         var aktualizatorBrzeznosciKomorek = new AktualizatorBrzeznosciKomorek();
+         aktualizatorBrzeznosciKomorek.Przetwarzaj(Poziom._mapa);
+         var aktualizatorBrzeznosciRogow = new AktualizatorBrzeznosciKomorek();
+         aktualizatorBrzeznosciRogow.Przetwarzaj(Poziom._mapa);
+
+         UstawKomorkomIRogomUnityWysokosciIMaterial();
+      }
+
       private void UstawKomorkomIRogomUnityWysokosciIMaterial(float modyfikator = 0f)
       {
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
@@ -143,19 +156,6 @@ namespace Assets.Editor
          {
             rogUnity.renderer.material = rogUnity.MaterialWysokosciZWoda; 
          }
-      }
-
-      public void RozdzielMorzeIJeziora(IEnumerable<KomorkaUnity> inicjatorzyZalewania)
-      {
-         var rozdzielaczMorzIJezior = new RozdzielaczMorzIJezior(inicjatorzyZalewania.Select(i => i.Komorka));
-         rozdzielaczMorzIJezior.Przetwarzaj(Poziom._mapa);
-
-         var aktualizatorBrzeznosciKomorek = new AktualizatorBrzeznosciKomorek();
-         aktualizatorBrzeznosciKomorek.Przetwarzaj(Poziom._mapa);
-         var aktualizatorBrzeznosciRogow = new AktualizatorBrzeznosciKomorek();
-         aktualizatorBrzeznosciRogow.Przetwarzaj(Poziom._mapa);
-
-         UstawKomorkomIRogomUnityWysokosciIMaterial();
       }
 
       public void UstawKomorkomWidocznoscPolaInicjatorPowodzi(bool wartosc) // todo niezbyt eleganckpo zaprojektowane — to pok³osie problemów z dostêpem do dzia³añ na mapie komórki Unity
