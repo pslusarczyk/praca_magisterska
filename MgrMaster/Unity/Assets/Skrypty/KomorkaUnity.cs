@@ -30,7 +30,7 @@ namespace Assets.Skrypty
       public void OnDrawGizmos()
       {
          if (Komorka != null && Selection.activeGameObject && Vector3.Distance(Selection.activeGameObject.transform.position, transform.position) < 4f)
-            Handles.Label(transform.position + Vector3.up * 1.2f, Komorka.Id.ToString(),
+            Handles.Label(transform.position + Vector3.up * 1.2f, Komorka.Punkt.Id.ToString(),
                new GUIStyle{normal = new GUIStyleState{textColor = Color.green}});
           
          Gizmos.color = Color.magenta;

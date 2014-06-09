@@ -99,7 +99,6 @@ namespace Assets.Editor
       {
          var rozdzielaczMorzIJezior = new RozdzielaczMorzIJezior(inicjatorzyZalewania.Select(i => i.Komorka));
          rozdzielaczMorzIJezior.Przetwarzaj(Poziom._mapa);
-         AktualizujBrzeznosci();
          UstawKomorkomIRogomUnityWyglad();
       }
 
@@ -107,7 +106,7 @@ namespace Assets.Editor
       {
          var aktualizatorBrzeznosciKomorek = new AktualizatorBrzeznosciKomorek();
          aktualizatorBrzeznosciKomorek.Przetwarzaj(Poziom._mapa);
-         var aktualizatorBrzeznosciRogow = new AktualizatorBrzeznosciKomorek();
+         var aktualizatorBrzeznosciRogow = new AktualizatorBrzeznosciRogow();
          aktualizatorBrzeznosciRogow.Przetwarzaj(Poziom._mapa);
       }
 

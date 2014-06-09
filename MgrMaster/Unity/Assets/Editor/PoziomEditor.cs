@@ -244,7 +244,6 @@ namespace Assets.Editor
          if (GUILayout.Button("Dalej"))
          {
             _dzialaniaNaMapie.ZatwierdzRozdzielenieZiemiIWody(StanGeneratora.PoziomMorza);
-            _dzialaniaNaMapie.UstawPunktomNastepstwaMapyWysokosci();
             _stanGeneratora.Etap = Etap.WydzielanieMorza;
             _dzialaniaNaMapie.UstawKomorkomWidocznoscPolaInicjatorPowodzi(true);
          }
@@ -257,10 +256,12 @@ namespace Assets.Editor
          if (GUILayout.Button("Rozdziel morze i jeziora"))
          {
             _dzialaniaNaMapie.RozdzielMorzeIJeziora(_stanGeneratora.InicjatorzyZalewania);
+            _dzialaniaNaMapie.AktualizujBrzeznosci();
             _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
          }
          if (GUILayout.Button("Dalej"))
          {
+            _dzialaniaNaMapie.UstawPunktomNastepstwaMapyWysokosci();
             _dzialaniaNaMapie.UstawKomorkomWidocznoscPolaInicjatorPowodzi(false);
             _stanGeneratora.Etap = Etap.TworzenieJezior;
          }

@@ -50,8 +50,8 @@ namespace Assets.Editor
          if (RogUnity.Rog == null) 
             yield break;
          yield return new KeyValuePair<string, string>("Identyfikator", RogUnity.Rog.Punkt.Id.ToString());
-         string idBliskich = String.Join(", ", RogUnity.Rog.BliskieRogi.Select(b => b.Id.ToString()).ToArray());
-         string idKomorek = String.Join(", ", RogUnity.Rog.Komorki.Select(k => k.Id.ToString()).ToArray());
+         string idBliskich = String.Join(", ", RogUnity.Rog.BliskieRogi.Select(b => b.Punkt.Id.ToString()).ToArray());
+         string idKomorek = String.Join(", ", RogUnity.Rog.Komorki.Select(k => k.Punkt.Id.ToString()).ToArray());
          yield return new KeyValuePair<string, string>("Bliskie", idBliskich);
          yield return new KeyValuePair<string, string>("Komórki", idKomorek);
          yield return new KeyValuePair<string, string>("Nastêpnik", RogUnity.Rog.Punkt.Nastepnik != null ? RogUnity.Rog.Punkt.Nastepnik.Id.ToString() : "—");

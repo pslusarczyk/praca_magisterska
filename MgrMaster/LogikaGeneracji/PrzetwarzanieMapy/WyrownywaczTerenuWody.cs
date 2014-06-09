@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 
@@ -19,14 +18,16 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          {
             if (komorka.Dane.Podloze == Podloze.Woda)
             {
-               IList<IPunkt> punkty = komorka.Rogi
-                  .Where(r => r.Komorki.All(k => k.Dane.Podloze != Podloze.Ziemia))
-                  .Select(r => r.Punkt)
-                  .Union(new[] {komorka.Punkt}).ToList();
-
-               foreach (IPunkt punkt in punkty)
-                  punkt.Wysokosc = _poziom;
+               komorka.Punkt.Wysokosc = _poziom;
             }
+         }
+
+         foreach (IRog rog in mapa.Rogi)
+         {
+            if (rog.Komorki.All(k => k.Dane.Podloze != Podloze.Ziemia))
+               rog.Punkt.Wysokosc = _poziom;
+            else if (rog.Punkt.Wysokosc < 0f)
+               rog.Punkt.Wysokosc = 0f;
          }
       }
    }
