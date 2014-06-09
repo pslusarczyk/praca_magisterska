@@ -6,6 +6,7 @@ using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 using NUnit.Framework;
 using Should;
 using UnityEngine;
+using Random = System.Random;
 
 namespace Testy
 {
@@ -179,9 +180,9 @@ namespace Testy
             _komorki.ElementAt(indeks).Dane.Typ = TypKomorki.Jezioro;
          
          mapa.ZastosujPrzetwarzanie(new WyrownywaczTerenuJeziora());
-
-         _komorki.ElementAt(indeksyJezior.First()).Punkt.Wysokosc.ShouldEqual(minWys);
-         _komorki.ElementAt(indeksyJezior.First()).Rogi.ToList().ForEach(r => r.Punkt.Wysokosc.ShouldEqual(minWys));
+         List<IKomorka> doSprawdzenia = _komorki.Where((k, indeks) => indeksyJezior.Contains(indeks)).ToList();
+         doSprawdzenia.ForEach(k => k.Punkt.Wysokosc.ShouldEqual(minWys));
+         doSprawdzenia.ForEach(ds => ds.Rogi.ToList().ForEach(r => r.Punkt.Wysokosc.ShouldEqual(minWys)));
       }
 
       [TestCase("1", 1)] // todo uwspólnić cały ten test z analogicznym dotyczącym jezior?
@@ -211,22 +212,21 @@ namespace Testy
 
          mapa.ZastosujPrzetwarzanie(new WyrownywaczTerenuWody(minWys));
 
-         _komorki.ElementAt(indeksyWodnych.First()).Punkt.Wysokosc.ShouldEqual(minWys);
-         _komorki.ElementAt(indeksyWodnych.First()).Rogi.ToList().ForEach(r => r.Punkt.Wysokosc.ShouldEqual(minWys));
+         List<IKomorka> doSprawdzenia = _komorki.Where((k, indeks) => indeksyWodnych.Contains(indeks)).ToList();
+         doSprawdzenia.ForEach(k => k.Punkt.Wysokosc.ShouldEqual(minWys));
+         doSprawdzenia.ForEach(ds => ds.Rogi.ToList().ForEach(r => r.Punkt.Wysokosc.ShouldEqual(minWys)));
       }
 
-      [Ignore]
       [Test]
       public void GeneratorJeziorTworzyOdpowiedniaIloscJezior() // ważne żeby wybierać losowe niecki jeśli suma komórek jeziornych ma się zgadzać
       {
-         
+         Assert.That(false);
       }
 
-      [Ignore]
       [Test]
       public void GeneratorJeziorPosiadaOdpowiedniaInformacjeOSukcesieIPorazce()
       {
-         
+         Assert.That(false);
       }
 
 
@@ -296,11 +296,16 @@ namespace Testy
          komorki.ElementAt(2).Rogi = new List<IRog> {r2, r4};
          komorki.ElementAt(3).Rogi = new List<IRog> {r3, r5};
          komorki.ElementAt(4).Rogi = new List<IRog> {r4, r5};
+         komorki.ElementAt(0).Punkt.Sasiedzi = komorki.ElementAt(0).Rogi.Select(r => r.Punkt).ToList();
+         komorki.ElementAt(1).Punkt.Sasiedzi = komorki.ElementAt(1).Rogi.Select(r => r.Punkt).ToList();
+         komorki.ElementAt(2).Punkt.Sasiedzi = komorki.ElementAt(2).Rogi.Select(r => r.Punkt).ToList();
+         komorki.ElementAt(3).Punkt.Sasiedzi = komorki.ElementAt(3).Rogi.Select(r => r.Punkt).ToList();
+         komorki.ElementAt(4).Punkt.Sasiedzi = komorki.ElementAt(4).Rogi.Select(r => r.Punkt).ToList();
          r1.Punkt.Sasiedzi = r1.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
-         r2.Punkt.Sasiedzi = r2.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
-         r3.Punkt.Sasiedzi = r3.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
-         r4.Punkt.Sasiedzi = r4.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
-         r5.Punkt.Sasiedzi = r5.BliskieRogi.Select(b => b.Punkt).Union(r1.Komorki.Select(k => k.Punkt)).ToList();
+         r2.Punkt.Sasiedzi = r2.BliskieRogi.Select(b => b.Punkt).Union(r2.Komorki.Select(k => k.Punkt)).ToList();
+         r3.Punkt.Sasiedzi = r3.BliskieRogi.Select(b => b.Punkt).Union(r3.Komorki.Select(k => k.Punkt)).ToList();
+         r4.Punkt.Sasiedzi = r4.BliskieRogi.Select(b => b.Punkt).Union(r4.Komorki.Select(k => k.Punkt)).ToList();
+         r5.Punkt.Sasiedzi = r5.BliskieRogi.Select(b => b.Punkt).Union(r5.Komorki.Select(k => k.Punkt)).ToList();
          return new HashSet<IRog>{r1, r2, r3, r4, r5};
       }
 

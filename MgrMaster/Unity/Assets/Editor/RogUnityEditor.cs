@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Editor.ExposeProperties;
 using Assets.Skrypty;
 using Assets.Skrypty.Generowanie;
@@ -32,7 +33,7 @@ namespace Assets.Editor
          Handles.BeginGUI();
          var tlo = Resources.Load<Texture>("prototype_textures/Textures/tlo");
          int przesuniecie = 0;
-         GUI.BeginGroup(new Rect(0, 50, 180, 250), new GUIContent(tlo));
+         GUI.BeginGroup(new Rect(0, 50, 180, 300), new GUIContent(tlo));
          {
             foreach (var dana in WyswietlaneDane())
             {
@@ -49,6 +50,10 @@ namespace Assets.Editor
          if (RogUnity.Rog == null) 
             yield break;
          yield return new KeyValuePair<string, string>("Identyfikator", RogUnity.Rog.Punkt.Id.ToString());
+         string idBliskich = String.Join(", ", RogUnity.Rog.BliskieRogi.Select(b => b.Id.ToString()).ToArray());
+         string idKomorek = String.Join(", ", RogUnity.Rog.Komorki.Select(k => k.Id.ToString()).ToArray());
+         yield return new KeyValuePair<string, string>("Bliskie", idBliskich);
+         yield return new KeyValuePair<string, string>("Komórki", idKomorek);
          yield return new KeyValuePair<string, string>("Nastêpnik", RogUnity.Rog.Punkt.Nastepnik != null ? RogUnity.Rog.Punkt.Nastepnik.Id.ToString() : "—");
          yield return new KeyValuePair<string, string>("Wysokoœæ", RogUnity.Rog.Punkt.Wysokosc.ToString());
          yield return new KeyValuePair<string, string>("Brze¿noœæ", RogUnity.Rog.Dane.Brzeznosc.ToString());

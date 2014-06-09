@@ -1,4 +1,5 @@
 ﻿using LogikaGeneracji;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Skrypty
@@ -11,12 +12,19 @@ namespace Assets.Skrypty
 
       void OnDrawGizmos()
       {
+         if (Rog != null && Selection.activeGameObject && Vector3.Distance(Selection.activeGameObject.transform.position, transform.position) < 4f)
+            Handles.Label(transform.position + Vector3.up * 1.2f, Rog.Id.ToString(),
+               new GUIStyle { normal = new GUIStyleState { textColor = Color.green } });
+
          //Gizmos.color = Color.yellow;
          if (Rog != null)
             foreach (IRog s in Rog.BliskieRogi)
             {
                //Gizmos.DrawLine(Rog.Punkt.Pozycja, s.Punkt.Pozycja);
             }
+
+         //Handles.Label(transform.position, Rog.Id.ToString());
+         
       }
    }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Assets.Editor.ExposeProperties;
 using Assets.Skrypty;
@@ -86,7 +87,7 @@ namespace Assets.Editor
             SekcjaZaburzaniaITworzeniaKomorekIRogow();
          if (_stanGeneratora.Etap >= Etap.TworzenieMapyWysokosci)
             SekcjaPokazywaniaIUkrywaniaScianIrogow();
-         if (_stanGeneratora.Etap == Etap.TworzenieMapyWysokosci || _stanGeneratora.Etap == Etap.RozdzielanieZiemiIWody)
+         if (_stanGeneratora.Etap >= Etap.TworzenieMapyWysokosci || _stanGeneratora.Etap == Etap.RozdzielanieZiemiIWody)
             SekcjaGenerowaniaMapyWysokosci();
          if (_stanGeneratora.Etap == Etap.RozdzielanieZiemiIWody)
             SekcjaPoziomuMorza();

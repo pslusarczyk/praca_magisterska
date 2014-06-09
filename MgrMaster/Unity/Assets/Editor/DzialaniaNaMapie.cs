@@ -99,13 +99,16 @@ namespace Assets.Editor
       {
          var rozdzielaczMorzIJezior = new RozdzielaczMorzIJezior(inicjatorzyZalewania.Select(i => i.Komorka));
          rozdzielaczMorzIJezior.Przetwarzaj(Poziom._mapa);
+         AktualizujBrzeznosci();
+         UstawKomorkomIRogomUnityWyglad();
+      }
 
+      public void AktualizujBrzeznosci()
+      {
          var aktualizatorBrzeznosciKomorek = new AktualizatorBrzeznosciKomorek();
          aktualizatorBrzeznosciKomorek.Przetwarzaj(Poziom._mapa);
          var aktualizatorBrzeznosciRogow = new AktualizatorBrzeznosciKomorek();
          aktualizatorBrzeznosciRogow.Przetwarzaj(Poziom._mapa);
-
-         UstawKomorkomIRogomUnityWyglad();
       }
 
       private void UstawKomorkomIRogomUnityWyglad(float modyfikator = 0f) // pilne zduplikowany kod dla k. i r.
@@ -201,7 +204,7 @@ namespace Assets.Editor
 
       public void UtworzJezioraWNieckach()
       {
-         var generatorJezior = new GeneratorJezior(10);
+         var generatorJezior = new GeneratorJezior(25);
          generatorJezior.Przetwarzaj(Poziom._mapa);
          var wyrownywacz = new WyrownywaczTerenuJeziora();
          wyrownywacz.Przetwarzaj(Poziom._mapa);

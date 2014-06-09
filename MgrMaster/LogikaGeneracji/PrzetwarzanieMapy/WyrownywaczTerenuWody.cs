@@ -19,7 +19,9 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          {
             if (komorka.Dane.Podloze == Podloze.Woda)
             {
-               IList<IPunkt> punkty = komorka.Rogi.Select(r => r.Punkt)
+               IList<IPunkt> punkty = komorka.Rogi
+                  .Where(r => r.Komorki.All(k => k.Dane.Podloze != Podloze.Ziemia))
+                  .Select(r => r.Punkt)
                   .Union(new[] {komorka.Punkt}).ToList();
 
                foreach (IPunkt punkt in punkty)

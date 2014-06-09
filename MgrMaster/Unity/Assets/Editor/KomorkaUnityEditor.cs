@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Editor.ExposeProperties;
 using Assets.Skrypty;
 using Assets.Skrypty.Generowanie;
@@ -34,7 +35,7 @@ namespace Assets.Editor
          Handles.BeginGUI();
          var tlo = Resources.Load<Texture>("prototype_textures/Textures/tlo");
          int przesuniecie = 0;
-         GUI.BeginGroup(new Rect(0, 50, 180, 250), new GUIContent(tlo));
+         GUI.BeginGroup(new Rect(0, 50, 180, 300), new GUIContent(tlo));
          {
             foreach (var dana in WyswietlaneDane())
             {
@@ -53,6 +54,10 @@ namespace Assets.Editor
          if (KomorkaUnity.Komorka == null) 
             yield break;
          yield return new KeyValuePair<string, string>("Identyfikator", KomorkaUnity.Komorka.Punkt.Id.ToString());
+         string idPrzyleglych = String.Join(", ", KomorkaUnity.Komorka.PrzylegleKomorki.Select(p => p.Id.ToString()).ToArray());
+         string idRogow = String.Join(", ", KomorkaUnity.Komorka.Rogi.Select(r => r.Id.ToString()).ToArray());
+         yield return new KeyValuePair<string, string>("Przyleg³e", idPrzyleglych);
+         yield return new KeyValuePair<string, string>("Rogi", idRogow);
          yield return new KeyValuePair<string, string>("Nastêpnik", KomorkaUnity.Komorka.Punkt.Nastepnik != null ? KomorkaUnity.Komorka.Punkt.Nastepnik.Id.ToString() : "—");
          yield return new KeyValuePair<string, string>("Wysokoœæ", KomorkaUnity.Komorka.Punkt.Wysokosc.ToString());            
          yield return new KeyValuePair<string, string>("Pod³o¿e", KomorkaUnity.Komorka.Dane.Podloze.ToString());            
