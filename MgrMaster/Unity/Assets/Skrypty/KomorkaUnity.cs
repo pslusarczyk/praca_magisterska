@@ -36,6 +36,10 @@ namespace Assets.Skrypty
          Gizmos.color = Color.magenta;
          if (PoleInicjatorPowodziWidoczne && InicjatorPowodzi)
             Gizmos.DrawWireSphere(transform.position, 1.8f);
+
+         Gizmos.color = Color.yellow;
+         if (Komorka != null && Komorka.Punkt.ZawieraRzeke && Komorka.Punkt.Nastepnik != null)
+            Gizmos.DrawLine(Komorka.Punkt.Pozycja + Vector3.up, Komorka.Punkt.Nastepnik.Pozycja + Vector3.up);
       }
 
    }

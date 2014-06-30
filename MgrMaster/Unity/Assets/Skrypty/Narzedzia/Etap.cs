@@ -8,6 +8,7 @@ namespace Assets.Skrypty.Narzedzia
       TworzenieMapyWysokosci = 3,
       RozdzielanieZiemiIWody = 4,
       WydzielanieMorza = 5,
-      TworzenieJezior = 6
+      TworzenieJezior = 6,
+      TworzenieRzek = 7,
    }
 }

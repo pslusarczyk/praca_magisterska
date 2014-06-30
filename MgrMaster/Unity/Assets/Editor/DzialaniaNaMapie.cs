@@ -112,13 +112,16 @@ namespace Assets.Editor
 
       private void UstawKomorkomIRogomUnityWyglad(float modyfikator = 0f) // pilne zduplikowany kod dla k. i r.
       {
+         const float mnoznikWysokosci = 1.2f;
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
             float wysokosc = komorkaUnity.Komorka.Punkt.Wysokosc + modyfikator;
             if (komorkaUnity.Komorka.Dane.Podloze != Podloze.Woda)
             {
-               komorkaUnity.transform.localScale = new Vector3(1f, .01f + wysokosc*2.4f, 1f);
-               komorkaUnity.transform.localPosition = new Vector3(komorkaUnity.transform.localPosition.x, wysokosc*1.2f,
+               float wysokoscFizyczna = .01f + wysokosc*mnoznikWysokosci*2;
+               komorkaUnity.Komorka.Punkt.Pozycja = new Vector3(komorkaUnity.Komorka.Punkt.Pozycja.x, wysokoscFizyczna - .8f, komorkaUnity.Komorka.Punkt.Pozycja.z);
+               komorkaUnity.transform.localScale = new Vector3(1f, wysokoscFizyczna, 1f);
+               komorkaUnity.transform.localPosition = new Vector3(komorkaUnity.transform.localPosition.x, wysokosc * mnoznikWysokosci,
                   komorkaUnity.transform.localPosition.z);
             }
             else
@@ -146,8 +149,10 @@ namespace Assets.Editor
             float wysokosc = rogUnity.Rog.Punkt.Wysokosc + modyfikator;
             if (rogUnity.Rog.Dane.Brzeznosc != BrzeznoscRogu.OtwarteMorze)
             {
-               rogUnity.transform.localScale = new Vector3(rogUnity.transform.localScale.x, .01f + wysokosc * 2.4f, rogUnity.transform.localScale.z);
-               rogUnity.transform.localPosition = new Vector3(rogUnity.transform.localPosition.x, wysokosc * 1.2f,
+               float wysokoscFizyczna = .01f + wysokosc * mnoznikWysokosci * 2;
+               rogUnity.Rog.Punkt.Pozycja = new Vector3(rogUnity.Rog.Punkt.Pozycja.x, wysokoscFizyczna-.8f, rogUnity.Rog.Punkt.Pozycja.z);
+               rogUnity.transform.localScale = new Vector3(rogUnity.transform.localScale.x, wysokoscFizyczna, rogUnity.transform.localScale.z);
+               rogUnity.transform.localPosition = new Vector3(rogUnity.transform.localPosition.x, wysokosc * mnoznikWysokosci,
                   rogUnity.transform.localPosition.z);
             }
             else
@@ -208,6 +213,29 @@ namespace Assets.Editor
          var wyrownywacz = new WyrownywaczTerenuJeziora();
          wyrownywacz.Przetwarzaj(Poziom._mapa);
          UstawKomorkomIRogomUnityWyglad();
+      }
+
+      public void UtworzRzeki(System.Random random)
+      {
+         int utworzonych = 0;
+         for (int i = 0; i < 5; ++ i)
+         {
+            
+
+            var komorkiKandydaci = _poziom._mapa.Komorki.Where(k => k.Dane.Podloze == Podloze.Ziemia
+               && k.Punkt.Wysokosc > .5f).ToList(); // todo parametr
+
+            int indeksKomorki = random.Next(komorkiKandydaci.Count());
+            IPunkt punktPoczatkowy = komorkiKandydaci.ElementAt(indeksKomorki).Punkt;
+            var generatorRzek = new GeneratorRzeki(punktPoczatkowy);
+            generatorRzek.Przetwarzaj(Poziom._mapa);
+
+            if (generatorRzek.UdaloSieUtworzyc == false)
+               Debug.Log("Nie uda³o siê utworzyæ dla punktu o identyfikatorze " + punktPoczatkowy.Id + ". ");
+            if (generatorRzek.UdaloSieUtworzyc == true)
+               ++utworzonych;
+         }
+         Debug.Log("Utworzono " + utworzonych + " rzek.");
       }
    }
 }

@@ -13,7 +13,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          
          foreach (var punkt in mapa.Punkty)
          {
-            if (PunktNalezyDoRoguBedacegoBrzegiemLubMorzem(mapa, punkt))
+            if (PunktNalezyDoRoguBedacegoBrzegiemLubMorzemLubDoKomorkiMorskiej(mapa, punkt))
                continue;
 
             if (!punkt.Sasiedzi.Any(
@@ -27,17 +27,19 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          }
       }
 
-      private static bool PunktNalezyDoRoguBedacegoBrzegiemLubMorzem(IMapa mapa, IPunkt s)
+      private static bool PunktNalezyDoRoguBedacegoBrzegiemLubMorzemLubDoKomorkiMorskiej(IMapa mapa, IPunkt s)
       {
          return mapa.Rogi.Any(r => r.Punkt == s
-            && ((r.Dane.Brzeznosc == BrzeznoscRogu.Brzeg) || (r.Dane.Brzeznosc == BrzeznoscRogu.OtwarteMorze)));
+                     && ((r.Dane.Brzeznosc == BrzeznoscRogu.Brzeg) || (r.Dane.Brzeznosc == BrzeznoscRogu.OtwarteMorze)))
+            || mapa.Komorki.Any(k=>k.Punkt == s && k.Dane.Typ == TypKomorki.Morze);
       }
 
       private static void ObejscieNaDziwnyRog(IMapa mapa) // pilne zlikwidowaæ problem
       {
          IRog winowajca = mapa.Rogi.FirstOrDefault(r => float.IsNaN(r.Punkt.Wysokosc));
-         if (winowajca == null)
-            throw new Exception("Obejœcie usuwaj¹ce dziwny róg s¹siaduj¹cy ze wszystkimi nie znalaz³o tego rogu!");
+         //if (winowajca == null)
+         //   Debug.LogWarning("Obejœcie usuwaj¹ce dziwny róg s¹siaduj¹cy ze wszystkimi nie znalaz³o tego rogu!");
+         //   //throw new Exception("Obejœcie usuwaj¹ce dziwny róg s¹siaduj¹cy ze wszystkimi nie znalaz³o tego rogu!");
          foreach (IPunkt sasiadWinowajcy in winowajca.Punkt.Sasiedzi)
          {
             sasiadWinowajcy.Sasiedzi.Remove(winowajca.Punkt);
@@ -51,7 +53,8 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
             komorkaWinowajcy.Rogi.Remove(winowajca);
          }
          mapa.Rogi.Remove(winowajca);
-         //Debug.Log(mapa.Punkty.Count(p => float.IsNaN(p.Wysokosc)));
+           
+         Debug.Log("Punktów o wysokoœci o wartoœci NotANumber: " +mapa.Punkty.Count(p => float.IsNaN(p.Wysokosc)));
       }
    }
 }

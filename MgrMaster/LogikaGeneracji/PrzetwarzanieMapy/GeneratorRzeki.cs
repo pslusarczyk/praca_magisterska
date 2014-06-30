@@ -50,6 +50,11 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
                PunktA = aktualnyPunkt,
                PunktB = nastepnyPunkt
             });
+            if (_odcinki.Any(o => o.PunktA == nastepnyPunkt))
+            {
+               Debug.Log("cykl! by³ ju¿ odwiedzony punkt: " + nastepnyPunkt.Id);
+               return;
+            }
             kolizyjnaRzeka = _mapa.Rzeki.FirstOrDefault(rz => rz.Odcinki.Any(o => o.PunktA == nastepnyPunkt));
             if (kolizyjnaRzeka != null)
             {
@@ -76,7 +81,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          {
             UdaloSieUtworzyc = true;
             _mapa.Rzeki.Add(new Rzeka {Odcinki = _odcinki});
-            foreach (IPunkt punkt in _mapa.Punkty)
+            foreach (IPunkt punkt in _mapa.Rzeki.SelectMany(rz => rz.Odcinki.Select(o => o.PunktA).Union(rz.Odcinki.Select(o2=>o2.PunktB))))
             {
                punkt.ZawieraRzeke = true;
             }

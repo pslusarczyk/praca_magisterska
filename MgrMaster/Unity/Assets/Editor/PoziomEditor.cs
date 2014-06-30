@@ -36,6 +36,7 @@ namespace Assets.Editor
       private StanGeneratora _stanGeneratora;
 
       private float _poprzedniPoziomMorza = Konf.PoczPoziomMorza;
+      private int _ziarnoGenerowaniaRzek;
 
       [ExposeProperty]
       public string EtapTekst { get { return _stanGeneratora.Etap.ToString(); } set {} } // musi byæ set ¿eby siê wyœwietla³o
@@ -95,6 +96,8 @@ namespace Assets.Editor
             SekcjaWydzielaniaMorza();
          if (_stanGeneratora.Etap == Etap.TworzenieJezior)
             SekcjaTworzeniaJezior();
+         if (_stanGeneratora.Etap == Etap.TworzenieRzek)
+            SekcjaTworzeniaRzek();
 
       }
 
@@ -278,6 +281,21 @@ namespace Assets.Editor
          if (GUILayout.Button("Utwórz jeziora"))
          {
             _dzialaniaNaMapie.UtworzJezioraWNieckach();
+            _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
+            OdswiezZaznaczenieWarstwy();
+         }
+         if (GUILayout.Button("Dalej"))
+         {
+            _stanGeneratora.Etap = Etap.TworzenieRzek;
+         }
+      }
+
+      private void SekcjaTworzeniaRzek()
+      {
+         if (GUILayout.Button("Utwórz rzeki"))
+         {
+            Debug.Log("Ziarno generowania rzek = " + _ziarnoGenerowaniaRzek);
+            _dzialaniaNaMapie.UtworzRzeki(new System.Random(_ziarnoGenerowaniaRzek++));
             _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
             OdswiezZaznaczenieWarstwy();
          }
