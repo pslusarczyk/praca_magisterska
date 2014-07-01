@@ -37,7 +37,8 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
       private static void ObejscieNaDziwnyRog(IMapa mapa) // pilne zlikwidowaæ problem
       {
          IRog winowajca = mapa.Rogi.FirstOrDefault(r => float.IsNaN(r.Punkt.Wysokosc));
-         //if (winowajca == null)
+         if (winowajca == null)
+            return;
          //   Debug.LogWarning("Obejœcie usuwaj¹ce dziwny róg s¹siaduj¹cy ze wszystkimi nie znalaz³o tego rogu!");
          //   //throw new Exception("Obejœcie usuwaj¹ce dziwny róg s¹siaduj¹cy ze wszystkimi nie znalaz³o tego rogu!");
          foreach (IPunkt sasiadWinowajcy in winowajca.Punkt.Sasiedzi)

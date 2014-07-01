@@ -80,6 +80,7 @@ namespace Testy
 
       [TestCase(null,null)]
       [TestCase(Podloze.Ziemia,TypKomorki.Jezioro)]
+      // pilne wywala się, ponieważ poprawiłem ustawianie właściwości ZawieraRzeke — przedtem stawała się prawdą dla wszystkich (sic!)
       public void RzekaSpływającaDoMorzaPrzezKomorkeTworzySięPoprawnie(Podloze podlozeK2, TypKomorki typK2)
       {
          var aktualizator = new AktualizatorNastepstwaMapyWysokosci();

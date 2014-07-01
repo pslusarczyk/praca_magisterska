@@ -205,6 +205,7 @@ namespace Testy
          var mock = new Mock<Mapa>{CallBase = true};
          mock.Setup(m => m.Punkty).Returns(punkty);
          mock.Object.Rogi = rogi;
+         mock.Object.Komorki = new Mock<HashSet<IKomorka> >().Object ;
          return mock.Object;
       }
 
