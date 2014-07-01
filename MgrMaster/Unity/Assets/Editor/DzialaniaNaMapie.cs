@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Skrypty;
@@ -8,6 +9,7 @@ using LogikaGeneracji.PrzetwarzanieFortunea;
 using LogikaGeneracji.PrzetwarzanieMapy;
 using UnityEngine;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
+using Object = UnityEngine.Object;
 
 namespace Assets.Editor
 {
@@ -177,12 +179,39 @@ namespace Assets.Editor
       {
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
-           var kopiaMaterialu = new Material(komorkaUnity.renderer.sharedMaterial);
-           float wilgotnosc = komorkaUnity.Komorka.Dane.Wilgotnosc;
-           kopiaMaterialu.color = new Color(.8f - wilgotnosc*.3f, .1f + wilgotnosc*.08f, .1f + wilgotnosc*.15f);
-           komorkaUnity.MaterialWilgotnosci = kopiaMaterialu;
+            var kopiaMaterialu = new Material(komorkaUnity.renderer.sharedMaterial);
+            if (komorkaUnity.Komorka.Dane.Podloze == Podloze.Woda)
+            {
+               kopiaMaterialu.color = new Color(.1f, .2f, .2f);
+            }
+            else
+            {
+               float wilgotnosc = komorkaUnity.Komorka.Dane.Wilgotnosc;
+               kopiaMaterialu.color = new Color(.8f - wilgotnosc*.3f, .1f + wilgotnosc*.08f, .1f + wilgotnosc*.15f);
+            }
+            komorkaUnity.MaterialWilgotnosci = kopiaMaterialu;
          }
+      }
 
+      private void UstawKomorkomUnityMaterialTemperatury() 
+      {
+         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
+         {
+            var kopiaMaterialu = new Material(komorkaUnity.renderer.sharedMaterial);
+            if (komorkaUnity.Komorka.Dane.Podloze == Podloze.Woda)
+            {
+               kopiaMaterialu.color = new Color(.1f, .2f, .2f);
+            }
+            else
+            {
+               float temperatura = komorkaUnity.Komorka.Dane.Temperatura;
+               float czerwony = .15f + temperatura*.01f + (float)Math.Pow(temperatura, 2)*0.001f;
+               float zielony = 1.1f - Math.Abs(temperatura-20f)*0.06f; 
+               float niebieski = .9f-temperatura*0.04f;
+               kopiaMaterialu.color = new Color(czerwony, zielony, niebieski);
+            }
+           komorkaUnity.MaterialTemperatury = kopiaMaterialu;
+         }
       }
 
       public void PokazWarstweWysokosciIWody()
@@ -203,9 +232,13 @@ namespace Assets.Editor
          {
             komorkaUnity.renderer.material = komorkaUnity.MaterialWilgotnosci; 
          }
-         foreach (RogUnity rogUnity in Poziom._rogiUnity)
+      }
+
+      public void PokazWarstweTemperatury()
+      {
+         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
-            rogUnity.renderer.material = rogUnity.MaterialWilgotnosci; 
+            komorkaUnity.renderer.material = komorkaUnity.MaterialTemperatury; 
          }
       }
 
@@ -273,6 +306,14 @@ namespace Assets.Editor
 
          aktualizator.Przetwarzaj(Poziom._mapa);
          UstawKomorkomUnityMaterialWilgotnosci();
+      }
+
+      public void UtworzMapeTemperatury()
+      {
+         var modyfikator = new ModyfikatorTemperaturyNaPodstawieWysokosci();
+
+         modyfikator.Przetwarzaj(Poziom._mapa);
+         UstawKomorkomUnityMaterialTemperatury();
       }
    }
 }

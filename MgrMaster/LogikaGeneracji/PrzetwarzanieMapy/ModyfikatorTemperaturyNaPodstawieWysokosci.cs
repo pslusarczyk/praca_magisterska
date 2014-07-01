@@ -12,8 +12,8 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
             return _konfig ?? (_konfig =
                new KonfiguracjaModyfikatoraTemperaturyNaPodstawieWysokosci
                {
-                  Baza = 20f,
-                  ZmianaNaJednostke = -3f
+                  Baza = 35f,
+                  ZmianaNaJednostke = -18f
                });
          }
          set { _konfig = value; } }
@@ -22,7 +22,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
       {
          foreach (IKomorka komorka in mapa.Komorki)
          {
-            komorka.Dane.Temperatura +=
+            komorka.Dane.Temperatura =
                Konfiguracja.Baza + komorka.Punkt.Wysokosc*Konfiguracja.ZmianaNaJednostke;
          }
       }

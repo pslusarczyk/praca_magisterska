@@ -11,6 +11,7 @@ namespace Assets.Skrypty.Narzedzia
       TworzenieJezior = 6,
       TworzenieRzek = 7,
       UstalanieWilgotnosci = 8,
-
+      UstalanieTemperatury = 9,
+      UstalanieBiomow = 10,
    }
 }

@@ -88,7 +88,7 @@ namespace Assets.Editor
             SekcjaZaburzaniaITworzeniaKomorekIRogow();
          if (_stanGeneratora.Etap >= Etap.TworzenieMapyWysokosci)
             SekcjaPokazywaniaIUkrywaniaScianIrogow();
-         if (_stanGeneratora.Etap >= Etap.TworzenieMapyWysokosci || _stanGeneratora.Etap == Etap.RozdzielanieZiemiIWody)
+         if (_stanGeneratora.Etap == Etap.TworzenieMapyWysokosci || _stanGeneratora.Etap == Etap.RozdzielanieZiemiIWody)
             SekcjaGenerowaniaMapyWysokosci();
          if (_stanGeneratora.Etap == Etap.RozdzielanieZiemiIWody)
             SekcjaPoziomuMorza();
@@ -96,11 +96,12 @@ namespace Assets.Editor
             SekcjaWydzielaniaMorza();
          if (_stanGeneratora.Etap == Etap.TworzenieJezior)
             SekcjaTworzeniaJezior();
-         if (_stanGeneratora.Etap >= Etap.TworzenieRzek)
+         if (_stanGeneratora.Etap == Etap.TworzenieRzek)
             SekcjaTworzeniaRzek();
          if (_stanGeneratora.Etap == Etap.UstalanieWilgotnosci)
             SekcjaUstalaniaWilgotnosci();
-
+         if (_stanGeneratora.Etap == Etap.UstalanieTemperatury)
+            SekcjaUstalaniaTemperatury();
       }
 
       private void SekcjaResetowania()
@@ -306,7 +307,24 @@ namespace Assets.Editor
             AktualnaWarstwa = Warstwa.Wilgotnosc;
             _stanGeneratora.NumerWybranejWarstwy = StanGeneratora._utworzoneWarstwy.IndexOf(AktualnaWarstwa);
             _dzialaniaNaMapie.PokazWarstweWilgotnosci();
-            StanGeneratora.Etap = Etap.UstalanieWilgotnosci;
+            StanGeneratora.Etap = Etap.UstalanieTemperatury;
+         }
+      }
+
+      private void SekcjaUstalaniaTemperatury()
+      {
+         PokazPanelWarstw();
+
+         if (GUILayout.Button("Utwórz mapê temperatury"))
+         {
+            _dzialaniaNaMapie.UtworzMapeTemperatury();
+
+            if (!StanGeneratora._utworzoneWarstwy.Contains(Warstwa.Temperatura))
+               StanGeneratora._utworzoneWarstwy.Add(Warstwa.Temperatura);
+            AktualnaWarstwa = Warstwa.Temperatura;
+            _stanGeneratora.NumerWybranejWarstwy = StanGeneratora._utworzoneWarstwy.IndexOf(AktualnaWarstwa);
+            _dzialaniaNaMapie.PokazWarstweTemperatury();
+            //StanGeneratora.Etap = Etap.UstalanieBiomow;
          }
       }
 
@@ -331,6 +349,11 @@ namespace Assets.Editor
             if (Poziom.AktualnaWarstwa == Warstwa.Wilgotnosc)
             {
                _dzialaniaNaMapie.PokazWarstweWilgotnosci();
+               OdswiezZaznaczenieWarstwy();
+            }
+            if (Poziom.AktualnaWarstwa == Warstwa.Temperatura)
+            {
+               _dzialaniaNaMapie.PokazWarstweTemperatury();
                OdswiezZaznaczenieWarstwy();
             }
          }
