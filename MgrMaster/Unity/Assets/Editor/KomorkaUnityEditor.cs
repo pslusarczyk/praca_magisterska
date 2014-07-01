@@ -35,7 +35,7 @@ namespace Assets.Editor
          Handles.BeginGUI();
          var tlo = Resources.Load<Texture>("prototype_textures/Textures/tlo");
          int przesuniecie = 0;
-         GUI.BeginGroup(new Rect(0, 50, 180, 300), new GUIContent(tlo));
+         GUI.BeginGroup(new Rect(0, 50, 200, 350), new GUIContent(tlo));
          {
             foreach (var dana in WyswietlaneDane())
             {
@@ -65,6 +65,7 @@ namespace Assets.Editor
          yield return new KeyValuePair<string, string>("Brze¿noœæ", KomorkaUnity.Komorka.Dane.Brzeznosc.ToString());            
          yield return new KeyValuePair<string, string>("Temperatura", KomorkaUnity.Komorka.Dane.Temperatura.ToString());            
          yield return new KeyValuePair<string, string>("Wilgotnoœæ", KomorkaUnity.Komorka.Dane.Wilgotnosc.ToString());
+         yield return new KeyValuePair<string, string>("Biom", KomorkaUnity.Komorka.Dane.Biom.ToString());
       }
 
       public override void OnInspectorGUI()

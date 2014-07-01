@@ -2,13 +2,16 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Unity\Assets\Editor\DzialaniaNaMapie.cs">
     <Files>
-      <File FileName="Unity\Assets\Editor\DzialaniaNaMapie.cs" Line="122" Column="62" />
-      <File FileName="Unity\Assets\Editor\PoziomEditor.cs" Line="79" Column="33" />
+      <File FileName="Unity\Assets\Editor\PoziomEditor.cs" Line="1" Column="1" />
+      <File FileName="LogikaGeneracji\PrzetwarzanieMapy\RozdzielaczMorzIJezior.cs" Line="1" Column="1" />
+      <File FileName="Unity\Assets\Editor\DzialaniaNaWezlach.cs" Line="1" Column="1" />
+      <File FileName="Unity\Assets\Editor\DzialaniaNaMapie.cs" Line="211" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="C:\Users\pawel.slusarczyk\Documents\GitHub\praca_magisterska\MgrMaster\Unity\Assets\Editor\DzialaniaNaMapie.cs" line="120" />
+      <Breakpoint file="C:\Users\pawel.slusarczyk\Documents\GitHub\praca_magisterska\MgrMaster\LogikaGeneracji\PrzetwarzanieMapy\ModyfikatorWysokosciPerlinem.cs" line="30" />
+      <Breakpoint file="C:\Users\pawel.slusarczyk\Documents\GitHub\praca_magisterska\MgrMaster\LogikaGeneracji\PrzetwarzanieMapy\AktualizatorNastepstwaMapyWysokosci.cs" line="24" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

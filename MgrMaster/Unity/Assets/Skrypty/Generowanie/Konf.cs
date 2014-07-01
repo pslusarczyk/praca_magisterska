@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using LogikaGeneracji;
+using LogikaGeneracji.PrzetwarzanieMapy;
 using UnityEngine;
 
 namespace Assets.Skrypty.Generowanie
@@ -73,5 +76,28 @@ namespace Assets.Skrypty.Generowanie
          public const float MnoznikWartosci = .5f;
 
       }
+
+      public static KonfigAktualizatoraBiomow KonfiguracjaBiomow = new KonfigAktualizatoraBiomow(
+         4f, .5f, new Biom[,]
+         {
+            {Biom.GoleGory,Biom.Tundra,Biom.WiecznySnieg},
+            {Biom.Tajga,Biom.LasUmiarkowany,Biom.LasUmiarkowany},
+            {Biom.Sawanna,Biom.Step,Biom.LasWilgotny},
+            {Biom.Pustynia,Biom.Sawanna,Biom.LasWilgotny},
+         }
+         );
+
+      public static readonly Dictionary<Biom, Color> KolorBiomu = new Dictionary<Biom,Color>
+      {
+         {Biom.WiecznySnieg, new Color(1f, 1f, 1f)},
+         {Biom.GoleGory, new Color(.3f, .3f, .3f)},
+         {Biom.Tundra, new Color(.35f, .8f, .5f)},
+         {Biom.Tajga, new Color(.2f, .37f, .25f)},
+         {Biom.LasUmiarkowany, new Color(.25f, .3f, .12f)},
+         {Biom.Step, new Color(.6f, .9f, .18f)},
+         {Biom.Pustynia, new Color(.9f, 1f, .24f)},
+         {Biom.Sawanna, new Color(.52f, .58f, .18f)},
+         {Biom.LasWilgotny, new Color(.23f, .7f, .02f)},
+      }; 
    }
 }

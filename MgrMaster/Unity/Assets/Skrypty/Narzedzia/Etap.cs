@@ -10,8 +10,8 @@ namespace Assets.Skrypty.Narzedzia
       WydzielanieMorza = 5,
       TworzenieJezior = 6,
       TworzenieRzek = 7,
-      UstalanieWilgotnosci = 8,
-      UstalanieTemperatury = 9,
-      UstalanieBiomow = 10,
+      WyznaczanieWilgotnosci = 8,
+      WyznaczanieTemperatury = 9,
+      WyznaczanieBiomow = 10,
    }
 }

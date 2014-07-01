@@ -17,6 +17,9 @@ namespace Assets.Skrypty.Generowanie
       private float _poziomMorza = Konf.PoczPoziomMorza;
       private Etap _etap = Etap.GenerowanieWezlow;
 
+      private float normTemp = .5f;
+      private float normWilg = 4f;
+
       public ParametryPerlina ParametryPerlina { get; set; }
       public ParametryWilgotnosci ParametryWilgotnosci { get; set; }
 
@@ -71,13 +74,17 @@ namespace Assets.Skrypty.Generowanie
       }
 
       public IEnumerable<KomorkaUnity> InicjatorzyZalewania { get; set; }
-   }
 
-   public class ParametryWilgotnosci
-   {
-      public int GlebokoscPrzeszukiwania;
-      public float WartoscJeziora;
-      public float WartoscRzeki;
-      public float WartoscMorza;
+      public float NormTemp
+      {
+         get { return normTemp; }
+         set { normTemp = value; }
+      }
+
+      public float NormWilg
+      {
+         get { return normWilg; }
+         set { normWilg = value; }
+      }
    }
 }

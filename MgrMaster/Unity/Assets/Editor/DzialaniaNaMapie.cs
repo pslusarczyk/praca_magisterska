@@ -214,6 +214,23 @@ namespace Assets.Editor
          }
       }
 
+      private void UstawKomorkomUnityMaterialBiomow() 
+      {
+         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
+         {
+            var kopiaMaterialu = new Material(komorkaUnity.renderer.sharedMaterial);
+            if (komorkaUnity.Komorka.Dane.Podloze == Podloze.Woda)
+            {
+               kopiaMaterialu.color = new Color(.35f, .6f, .98f);
+            }
+            else
+            {
+               kopiaMaterialu.color = Konf.KolorBiomu[komorkaUnity.Komorka.Dane.Biom];
+            }
+           komorkaUnity.MaterialBiomu = kopiaMaterialu;
+         }
+      }
+
       public void PokazWarstweWysokosciIWody()
       {
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
@@ -239,6 +256,14 @@ namespace Assets.Editor
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
             komorkaUnity.renderer.material = komorkaUnity.MaterialTemperatury; 
+         }
+      }
+
+      public void PokazWarstweBiomow()
+      {
+         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
+         {
+            komorkaUnity.renderer.material = komorkaUnity.MaterialBiomu; 
          }
       }
 
@@ -314,6 +339,17 @@ namespace Assets.Editor
 
          modyfikator.Przetwarzaj(Poziom._mapa);
          UstawKomorkomUnityMaterialTemperatury();
+      }
+
+      public void UtworzMapeBiomow(float normTemp, float normWilg) 
+      // todo konfig ma byæ sta³y, a parametry normalizacji podawane z zewn¹trz
+      {
+         var konfig = Konf.KonfiguracjaBiomow;
+         konfig._normalizacjaTemperatury = normTemp;
+         konfig._normalizacjaWilgotnosci = normWilg;
+         var aktualizator = new AktualizatorBiomow(konfig);
+         aktualizator.Przetwarzaj(Poziom._mapa);
+         UstawKomorkomUnityMaterialBiomow();
       }
    }
 }

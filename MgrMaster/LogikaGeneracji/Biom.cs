@@ -7,7 +7,6 @@ namespace LogikaGeneracji
       Tundra,
       Tajga,
       LasUmiarkowany,
-      LasTwardolistny,
       Step,
       Pustynia,
       Sawanna,

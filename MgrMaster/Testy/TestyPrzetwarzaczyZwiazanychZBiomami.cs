@@ -40,14 +40,11 @@ namespace Testy
       [TestCase(1f, 1f, Biom.Tajga)]
       public void AktualizatorBiomówPoprawniePrzypisujeBiomy(float temp, float wilg, Biom oczekiwanyBiom)
       {
-         var aktualizator = new AktualizatorBiomow
+         var aktualizator = new AktualizatorBiomow(new KonfigAktualizatoraBiomow(1, 1, new Biom[,]
          {
-           Konfiguracja = new KonfigAktualizatoraBiomow(1, new Biom[,]
-           {
-              {Biom.Sawanna, Biom.Pustynia},
-              {Biom.GoleGory, Biom.Tajga}
-           })
-         };
+            {Biom.Sawanna, Biom.Pustynia},
+            {Biom.GoleGory, Biom.Tajga}
+         }));
          var k1 = _mapa.Komorki.ElementAt(0);
          k1.Dane.Temperatura = temp;
          k1.Dane.Wilgotnosc = wilg;

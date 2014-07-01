@@ -98,10 +98,12 @@ namespace Assets.Editor
             SekcjaTworzeniaJezior();
          if (_stanGeneratora.Etap == Etap.TworzenieRzek)
             SekcjaTworzeniaRzek();
-         if (_stanGeneratora.Etap == Etap.UstalanieWilgotnosci)
-            SekcjaUstalaniaWilgotnosci();
-         if (_stanGeneratora.Etap == Etap.UstalanieTemperatury)
-            SekcjaUstalaniaTemperatury();
+         if (_stanGeneratora.Etap == Etap.WyznaczanieWilgotnosci)
+            SekcjaWyznaczaniaWilgotnosci();
+         if (_stanGeneratora.Etap == Etap.WyznaczanieTemperatury)
+            SekcjaWyznaczaniaTemperatury();
+         if (_stanGeneratora.Etap == Etap.WyznaczanieBiomow)
+            SekcjaWyznaczaniaBiomow();
       }
 
       private void SekcjaResetowania()
@@ -281,11 +283,14 @@ namespace Assets.Editor
             _dzialaniaNaMapie.UtworzRzeki(new System.Random(_ziarnoGenerowaniaRzek++));
             _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
             OdswiezZaznaczenieWarstwy();
-            StanGeneratora.Etap = Etap.UstalanieWilgotnosci;
+         }
+         if (GUILayout.Button("Dalej"))
+         {
+            _stanGeneratora.Etap = Etap.WyznaczanieWilgotnosci;
          }
       }
 
-      private void SekcjaUstalaniaWilgotnosci()
+      private void SekcjaWyznaczaniaWilgotnosci()
       {
          PokazPanelWarstw();
 
@@ -307,11 +312,11 @@ namespace Assets.Editor
             AktualnaWarstwa = Warstwa.Wilgotnosc;
             _stanGeneratora.NumerWybranejWarstwy = StanGeneratora._utworzoneWarstwy.IndexOf(AktualnaWarstwa);
             _dzialaniaNaMapie.PokazWarstweWilgotnosci();
-            StanGeneratora.Etap = Etap.UstalanieTemperatury;
+            StanGeneratora.Etap = Etap.WyznaczanieTemperatury;
          }
       }
 
-      private void SekcjaUstalaniaTemperatury()
+      private void SekcjaWyznaczaniaTemperatury()
       {
          PokazPanelWarstw();
 
@@ -324,7 +329,27 @@ namespace Assets.Editor
             AktualnaWarstwa = Warstwa.Temperatura;
             _stanGeneratora.NumerWybranejWarstwy = StanGeneratora._utworzoneWarstwy.IndexOf(AktualnaWarstwa);
             _dzialaniaNaMapie.PokazWarstweTemperatury();
-            //StanGeneratora.Etap = Etap.UstalanieBiomow;
+            StanGeneratora.Etap = Etap.WyznaczanieBiomow;
+         }
+      }
+
+      private void SekcjaWyznaczaniaBiomow()
+      {
+         PokazPanelWarstw();
+
+         StanGeneratora.NormTemp = EditorGUILayout.Slider("Norm temp", StanGeneratora.NormTemp, 0f, 5f);
+         StanGeneratora.NormWilg = EditorGUILayout.Slider("Norm wilg", StanGeneratora.NormWilg, 0f, 5f);
+
+         if (GUILayout.Button("Wyznacz biomy"))
+         {
+            _dzialaniaNaMapie.UtworzMapeBiomow(StanGeneratora.NormTemp, StanGeneratora.NormWilg);
+
+            if (!StanGeneratora._utworzoneWarstwy.Contains(Warstwa.Biomy))
+               StanGeneratora._utworzoneWarstwy.Add(Warstwa.Biomy);
+            AktualnaWarstwa = Warstwa.Biomy;
+            _stanGeneratora.NumerWybranejWarstwy = StanGeneratora._utworzoneWarstwy.IndexOf(AktualnaWarstwa);
+            _dzialaniaNaMapie.PokazWarstweBiomow();
+            StanGeneratora.Etap = Etap.WyznaczanieBiomow;
          }
       }
 
@@ -333,7 +358,8 @@ namespace Assets.Editor
          GUILayout.Label("Wybierz warstwê:");
          _stanGeneratora.NumerWybranejWarstwy = GUILayout.SelectionGrid(_stanGeneratora.NumerWybranejWarstwy,
             StanGeneratora._utworzoneWarstwy.ToList().Select(w => w.ToString()).ToArray(),
-            1);
+            1,GUILayout.Width(200));
+         GUILayout.Space(20);
 
          AktualnaWarstwa = StanGeneratora._utworzoneWarstwy[_stanGeneratora.NumerWybranejWarstwy];
          OdswiezZaznaczenieWarstwy();
@@ -354,6 +380,11 @@ namespace Assets.Editor
             if (Poziom.AktualnaWarstwa == Warstwa.Temperatura)
             {
                _dzialaniaNaMapie.PokazWarstweTemperatury();
+               OdswiezZaznaczenieWarstwy();
+            }
+            if (Poziom.AktualnaWarstwa == Warstwa.Biomy)
+            {
+               _dzialaniaNaMapie.PokazWarstweBiomow();
                OdswiezZaznaczenieWarstwy();
             }
          }

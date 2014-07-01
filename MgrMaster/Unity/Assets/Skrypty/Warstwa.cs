@@ -4,6 +4,7 @@ namespace Assets.Skrypty
       Brak, 
       WysokosciZWoda,
       Wilgotnosc,
-      Temperatura
+      Temperatura,
+      Biomy
    }
 }
