@@ -19,7 +19,12 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
 
       public override void Przetwarzaj(IMapa mapa)
       {
-         foreach (IKomorka modyfikowana in mapa.Komorki.Where(k => k.Dane.Podloze == Podloze.Ziemia))
+         var komorkiLadowe = mapa.Komorki.Where(k => k.Dane.Podloze == Podloze.Ziemia);
+         foreach (IKomorka komorka in komorkiLadowe)
+         {
+            komorka.Dane.Wilgotnosc = 0f;
+         }
+         foreach (IKomorka modyfikowana in komorkiLadowe)
          {
             _odwiedzone = new HashSet<IKomorka>();
             _oczekujace = new HashSet<IKomorka>{modyfikowana};

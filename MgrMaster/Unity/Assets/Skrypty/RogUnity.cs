@@ -9,6 +9,7 @@ namespace Assets.Skrypty
       public IRog Rog { get; set; }
 
       public Material MaterialWysokosciZWoda { get; set; }
+      public Material MaterialWilgotnosci { get; set; }
 
       void OnDrawGizmos()
       {

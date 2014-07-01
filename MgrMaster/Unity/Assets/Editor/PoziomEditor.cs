@@ -96,8 +96,10 @@ namespace Assets.Editor
             SekcjaWydzielaniaMorza();
          if (_stanGeneratora.Etap == Etap.TworzenieJezior)
             SekcjaTworzeniaJezior();
-         if (_stanGeneratora.Etap == Etap.TworzenieRzek)
+         if (_stanGeneratora.Etap >= Etap.TworzenieRzek)
             SekcjaTworzeniaRzek();
+         if (_stanGeneratora.Etap == Etap.UstalanieWilgotnosci)
+            SekcjaUstalaniaWilgotnosci();
 
       }
 
@@ -172,26 +174,6 @@ namespace Assets.Editor
             alignment = TextAnchor.MiddleCenter,
             margin = new RectOffset(100, 100, 0, 0)
          });
-         if (false && StanGeneratora._utworzoneWarstwy.Count > 0) // na razie nie pokazujemy
-         {
-            GUILayout.Label("Wybierz warstwê:");
-            _stanGeneratora.NumerWybranejWarstwy = GUILayout.SelectionGrid(_stanGeneratora.NumerWybranejWarstwy,
-               StanGeneratora._utworzoneWarstwy.ToList().Select(w => w.ToString()).ToArray(),
-               1);
-
-            AktualnaWarstwa = StanGeneratora._utworzoneWarstwy[_stanGeneratora.NumerWybranejWarstwy];
-            OdswiezZaznaczenieWarstwy();
-
-            if (Poziom.AktualnaWarstwa != PoprzedniaWarstwa)
-            {
-               PoprzedniaWarstwa = Poziom.AktualnaWarstwa;
-               if (Poziom.AktualnaWarstwa == Warstwa.WysokosciZWoda)
-               {
-                  _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
-                  OdswiezZaznaczenieWarstwy();
-               }
-            }
-         }
          GUILayout.EndVertical();
 
          StanGeneratora.ParametryPerlina.Ziarno
@@ -298,6 +280,59 @@ namespace Assets.Editor
             _dzialaniaNaMapie.UtworzRzeki(new System.Random(_ziarnoGenerowaniaRzek++));
             _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
             OdswiezZaznaczenieWarstwy();
+            StanGeneratora.Etap = Etap.UstalanieWilgotnosci;
+         }
+      }
+
+      private void SekcjaUstalaniaWilgotnosci()
+      {
+         PokazPanelWarstw();
+
+         StanGeneratora.ParametryWilgotnosci.GlebokoscPrzeszukiwania = EditorGUILayout.IntSlider("G³êbokoœæ przeszukiwania",
+      StanGeneratora.ParametryWilgotnosci.GlebokoscPrzeszukiwania, Konf.Wilg.MinGlebokoscPrzeszukiwania, Konf.Wilg.MaksGlebokoscPrzeszukiwania);
+         StanGeneratora.ParametryWilgotnosci.WartoscJeziora = EditorGUILayout.Slider("Wilgotnoœæ jeziora",
+      StanGeneratora.ParametryWilgotnosci.WartoscJeziora, Konf.Wilg.MinWartoscJezioraRzekiMorza, Konf.Wilg.MaksWartoscJezioraRzekiMorza);
+         StanGeneratora.ParametryWilgotnosci.WartoscMorza = EditorGUILayout.Slider("Wilgotnoœæ morza",
+      StanGeneratora.ParametryWilgotnosci.WartoscMorza, Konf.Wilg.MinWartoscJezioraRzekiMorza, Konf.Wilg.MaksWartoscJezioraRzekiMorza);
+         StanGeneratora.ParametryWilgotnosci.WartoscRzeki = EditorGUILayout.Slider("Wilgotnoœæ rzeki",
+      StanGeneratora.ParametryWilgotnosci.WartoscRzeki, Konf.Wilg.MinWartoscJezioraRzekiMorza, Konf.Wilg.MaksWartoscJezioraRzekiMorza);
+         
+         if (GUILayout.Button("Utwórz mapê wilgotnoœci"))
+         {
+            _dzialaniaNaMapie.UtworzMapeWilgotnosci(StanGeneratora.ParametryWilgotnosci);
+
+            if (!StanGeneratora._utworzoneWarstwy.Contains(Warstwa.Wilgotnosc))
+               StanGeneratora._utworzoneWarstwy.Add(Warstwa.Wilgotnosc);
+            AktualnaWarstwa = Warstwa.Wilgotnosc;
+            _stanGeneratora.NumerWybranejWarstwy = StanGeneratora._utworzoneWarstwy.IndexOf(AktualnaWarstwa);
+            _dzialaniaNaMapie.PokazWarstweWilgotnosci();
+            StanGeneratora.Etap = Etap.UstalanieWilgotnosci;
+         }
+      }
+
+      private void PokazPanelWarstw()
+      {
+         GUILayout.Label("Wybierz warstwê:");
+         _stanGeneratora.NumerWybranejWarstwy = GUILayout.SelectionGrid(_stanGeneratora.NumerWybranejWarstwy,
+            StanGeneratora._utworzoneWarstwy.ToList().Select(w => w.ToString()).ToArray(),
+            1);
+
+         AktualnaWarstwa = StanGeneratora._utworzoneWarstwy[_stanGeneratora.NumerWybranejWarstwy];
+         OdswiezZaznaczenieWarstwy();
+
+         if (Poziom.AktualnaWarstwa != PoprzedniaWarstwa)
+         {
+            PoprzedniaWarstwa = Poziom.AktualnaWarstwa;
+            if (Poziom.AktualnaWarstwa == Warstwa.WysokosciZWoda)
+            {
+               _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
+               OdswiezZaznaczenieWarstwy();
+            }
+            if (Poziom.AktualnaWarstwa == Warstwa.Wilgotnosc)
+            {
+               _dzialaniaNaMapie.PokazWarstweWilgotnosci();
+               OdswiezZaznaczenieWarstwy();
+            }
          }
       }
 

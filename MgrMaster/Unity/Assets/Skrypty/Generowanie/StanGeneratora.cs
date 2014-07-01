@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using Assets.Skrypty.Narzedzia;
 using LogikaGeneracji.PrzetwarzanieMapy;
 using UnityEngine;
@@ -15,13 +16,9 @@ namespace Assets.Skrypty.Generowanie
       public float _rozpietosc = Konf.PoczRozpietosc;
       private float _poziomMorza = Konf.PoczPoziomMorza;
       private Etap _etap = Etap.GenerowanieWezlow;
-      private ParametryPerlina _parametryPerlina;
 
-      public ParametryPerlina ParametryPerlina
-      {
-         get { return _parametryPerlina; }
-         set { _parametryPerlina = value; }
-      }
+      public ParametryPerlina ParametryPerlina { get; set; }
+      public ParametryWilgotnosci ParametryWilgotnosci { get; set; }
 
       public StanGeneratora()
       {
@@ -35,6 +32,13 @@ namespace Assets.Skrypty.Generowanie
             Skala = Konf.Perlin.PoczSkala,
             SkokGestosci = Konf.Perlin.PoczSkokGestosci,
             StrataSkali = Konf.Perlin.PoczStrataSkali
+         };
+         ParametryWilgotnosci = new ParametryWilgotnosci
+         {
+            GlebokoscPrzeszukiwania = Konf.Wilg.PoczGlebokoscPrzeszukiwania,
+            WartoscJeziora = Konf.Wilg.PoczWartoscJeziora,
+            WartoscRzeki = Konf.Wilg.PoczWartoscRzeki,
+            WartoscMorza = Konf.Wilg.PoczWartoscMorza
          };
       }
 
@@ -67,5 +71,13 @@ namespace Assets.Skrypty.Generowanie
       }
 
       public IEnumerable<KomorkaUnity> InicjatorzyZalewania { get; set; }
+   }
+
+   public class ParametryWilgotnosci
+   {
+      public int GlebokoscPrzeszukiwania;
+      public float WartoscJeziora;
+      public float WartoscRzeki;
+      public float WartoscMorza;
    }
 }

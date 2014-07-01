@@ -141,9 +141,10 @@ namespace Assets.Editor
                                                    ? new Color(.35f, .6f, .98f) : new Color(.1f, .3f, .65f);
             }
             else
-               kopiaMaterialu.color = new Color(.3f + wysokosc * .2f, .9f - wysokosc*.2f, .3f);
+               kopiaMaterialu.color = new Color(.3f + wysokosc * .3f, .9f - wysokosc*.2f, .3f);
             komorkaUnity.MaterialWysokosciZWoda = kopiaMaterialu;
          }
+
          foreach (RogUnity rogUnity in Poziom._rogiUnity)
          {
             float wysokosc = rogUnity.Rog.Punkt.Wysokosc + modyfikator;
@@ -164,13 +165,24 @@ namespace Assets.Editor
             var kopiaMaterialu = new Material(rogUnity.renderer.sharedMaterial);
             if (rogUnity.Rog.Dane.Brzeznosc == BrzeznoscRogu.OtwarteMorze)
             {
-               kopiaMaterialu.color = new Color(.35f, .6f, .98f); //(rogUnity.Rog.Dane.Typ == TypKomorki.Jezioro)
-               //? new Color(.35f, .6f, .98f) : new Color(.1f, .3f, .65f);
+               kopiaMaterialu.color = new Color(.35f, .6f, .98f); 
             }
             else
-               kopiaMaterialu.color = new Color(.3f + wysokosc * .2f, .9f - wysokosc * .2f, .3f);
+               kopiaMaterialu.color = new Color(.3f + wysokosc * .3f, .9f - wysokosc * .2f, .3f);
             rogUnity.MaterialWysokosciZWoda = kopiaMaterialu;
          }
+      }
+
+      private void UstawKomorkomUnityMaterialWilgotnosci() 
+      {
+         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
+         {
+           var kopiaMaterialu = new Material(komorkaUnity.renderer.sharedMaterial);
+           float wilgotnosc = komorkaUnity.Komorka.Dane.Wilgotnosc;
+           kopiaMaterialu.color = new Color(.8f - wilgotnosc*.3f, .1f + wilgotnosc*.08f, .1f + wilgotnosc*.15f);
+           komorkaUnity.MaterialWilgotnosci = kopiaMaterialu;
+         }
+
       }
 
       public void PokazWarstweWysokosciIWody()
@@ -182,6 +194,18 @@ namespace Assets.Editor
          foreach (RogUnity rogUnity in Poziom._rogiUnity)
          {
             rogUnity.renderer.material = rogUnity.MaterialWysokosciZWoda; 
+         }
+      }
+
+      public void PokazWarstweWilgotnosci()
+      {
+         foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
+         {
+            komorkaUnity.renderer.material = komorkaUnity.MaterialWilgotnosci; 
+         }
+         foreach (RogUnity rogUnity in Poziom._rogiUnity)
+         {
+            rogUnity.renderer.material = rogUnity.MaterialWilgotnosci; 
          }
       }
 
@@ -218,11 +242,9 @@ namespace Assets.Editor
       public void UtworzRzeki(System.Random random)
       {
          int utworzonych = 0;
-         for (int i = 0; i < 5; ++ i)
+         for (int i = 0; i < 20; ++ i)
          {
-            
-
-            var komorkiKandydaci = _poziom._mapa.Komorki.Where(k => k.Dane.Podloze == Podloze.Ziemia
+            var komorkiKandydaci = Poziom._mapa.Komorki.Where(k => k.Dane.Podloze == Podloze.Ziemia
                && k.Punkt.Wysokosc > .5f).ToList(); // todo parametr
 
             int indeksKomorki = random.Next(komorkiKandydaci.Count());
@@ -236,6 +258,21 @@ namespace Assets.Editor
                ++utworzonych;
          }
          Debug.Log("Utworzono " + utworzonych + " rzek.");
+      }
+
+      public void UtworzMapeWilgotnosci(ParametryWilgotnosci parametry)
+      {
+         var aktualizator = new AktualizatorWilgotnosci
+         {
+            GlebokoscPrzeszukiwania = parametry.GlebokoscPrzeszukiwania,
+            WartoscJeziora = parametry.WartoscJeziora,
+            WartoscRzeki = parametry.WartoscRzeki,
+            WartoscMorza = parametry.WartoscMorza,
+            MnoznikWartosci = Konf.Wilg.MnoznikWartosci
+         };
+
+         aktualizator.Przetwarzaj(Poziom._mapa);
+         UstawKomorkomUnityMaterialWilgotnosci();
       }
    }
 }

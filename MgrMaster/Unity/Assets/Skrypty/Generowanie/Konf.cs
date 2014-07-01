@@ -56,5 +56,22 @@ namespace Assets.Skrypty.Generowanie
          public const float MaksGestosc = 0.2f;
          public const float PoczGestosc = 0.05f;
       }
+
+      public static class Wilg
+      {
+         public const int PoczGlebokoscPrzeszukiwania = 10;
+         public const int MinGlebokoscPrzeszukiwania = 4;
+         public const int MaksGlebokoscPrzeszukiwania = 15;
+
+         public const float PoczWartoscJeziora = 3f;
+         public const float PoczWartoscRzeki = 2f;
+         public const float PoczWartoscMorza = 1f;
+
+         public const float MinWartoscJezioraRzekiMorza = 1f;
+         public const float MaksWartoscJezioraRzekiMorza = 5f;
+
+         public const float MnoznikWartosci = .5f;
+
+      }
    }
 }

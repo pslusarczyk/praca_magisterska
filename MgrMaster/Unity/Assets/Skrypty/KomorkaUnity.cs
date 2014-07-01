@@ -11,6 +11,7 @@ namespace Assets.Skrypty
       public Material MaterialWysokosciZWoda { get; set; }
       public Material MaterialZiemiWody { get; set; }
       public Material MaterialLaduMorzaJeziora { get; set; }
+      public Material MaterialWilgotnosci { get; set; }
 
       public bool InicjatorPowodzi { get; set; }
       public bool PoleInicjatorPowodziWidoczne { get; set; }
