@@ -66,9 +66,6 @@
  <Reference Include="ZewnetrzneBiblioteki">
  <HintPath>Assets\ZewnetrzneBiblioteki.dll</HintPath>
  </Reference>
- <Reference Include="LogikaGeneracji 1">
- <HintPath>Assets\LogikaGeneracji 1.dll</HintPath>
- </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

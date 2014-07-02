@@ -24,7 +24,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
 
       public override void Przetwarzaj(IMapa mapa)
       {
-         foreach (IKomorka komorka in mapa.Komorki.Where(k => k.Dane.Podloze == Podloze.Ziemia))
+         foreach (IKomorka komorka in mapa.Komorki.Where(k => k.Dane.Typ == TypKomorki.Lad))
          {
             float normTemp = Mathf.Clamp01(     (komorka.Dane.Temperatura + _minTemp)/(_maksTemp - _minTemp));
             float normWilg = Mathf.Clamp01(     (komorka.Dane.Wilgotnosc + _minWilg) / (_maksWilg - _minWilg));

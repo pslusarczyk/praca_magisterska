@@ -53,7 +53,7 @@ namespace Testy
          var k1 = _mapa.Komorki.ElementAt(0);
          k1.Dane.Temperatura = temp;
          k1.Dane.Wilgotnosc = wilg;
-         k1.Dane.Podloze = Podloze.Ziemia;
+         k1.Dane.Typ = TypKomorki.Lad;
 
          aktualizator.Przetwarzaj(_mapa);
 
