@@ -80,7 +80,6 @@ namespace Testy
 
       [TestCase(null,null)]
       [TestCase(Podloze.Ziemia,TypKomorki.Jezioro)]
-      // pilne wywala się, ponieważ poprawiłem ustawianie właściwości ZawieraRzeke — przedtem stawała się prawdą dla wszystkich (sic!)
       public void RzekaSpływającaDoMorzaPrzezKomorkeTworzySięPoprawnie(Podloze podlozeK2, TypKomorki typK2)
       {
          var aktualizator = new AktualizatorNastepstwaMapyWysokosci();
@@ -98,9 +97,9 @@ namespace Testy
          _mapa.Rzeki.Count().ShouldEqual(1);
          _mapa.Rzeki.First().Odcinki.Last().PunktB.ShouldEqual(brzeg.Punkt);
          _mapa.Rzeki.First().Odcinki.Count.ShouldEqual(2); // k3-r2-r1
-         _mapa.Komorki.ElementAt(0).Punkt.ZawieraRzeke.ShouldBeTrue();
-         _mapa.Komorki.ElementAt(1).Punkt.ZawieraRzeke.ShouldBeTrue();
          _mapa.Komorki.ElementAt(2).Punkt.ZawieraRzeke.ShouldBeTrue();
+         _mapa.Rogi.ElementAt(1).Punkt.ZawieraRzeke.ShouldBeTrue();
+         _mapa.Rogi.ElementAt(0).Punkt.ZawieraRzeke.ShouldBeTrue();
       }
 
       [TestCase(true)]

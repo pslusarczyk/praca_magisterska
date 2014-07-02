@@ -13,6 +13,9 @@ namespace ZewnetrzneBiblioteki.FortuneVoronoi
       /// </summary>
       public static int Precision = 10;
 
+      // Pawe³
+      public bool Skrajny { get; set; }
+
       public object Tag = null;
       private double[] data;
 

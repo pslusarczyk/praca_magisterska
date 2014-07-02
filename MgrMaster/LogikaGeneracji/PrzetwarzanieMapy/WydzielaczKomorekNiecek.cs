@@ -13,7 +13,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
             if(komorka.Dane.Brzeznosc == null)
                throw new InvalidOperationException("Komórka musi posiadaæ brze¿noœæ, " +
                                                    "by móc sprawdziæ, czy jest nieck¹");
-            if(LezyWNiecce(komorka))
+            if(!komorka.Skrajna && LezyWNiecce(komorka))
                mapa.KomorkiNiecki.Add(komorka);
          }
       }

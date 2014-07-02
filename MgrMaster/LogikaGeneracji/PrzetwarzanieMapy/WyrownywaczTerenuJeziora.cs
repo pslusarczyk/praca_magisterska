@@ -6,54 +6,59 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
 {
    public class WyrownywaczTerenuJeziora : BazaPrzetwarzacza
    {
-      private Dictionary<IPunkt, List<IPunkt>> _grupy;
-      private IEnumerable<IPunkt> _punktyJeziorne;
-      private HashSet<IPunkt> _odwiedzone;
+      private Dictionary<IKomorka, List<IPunkt>> _grupy;
+      private IEnumerable<IKomorka> _komorkiJeziorne;
+      private HashSet<IKomorka> _odwiedzone;
 
       public override void Przetwarzaj(IMapa mapa)
       {
-         _grupy = new Dictionary<IPunkt, List<IPunkt>>();
-         _punktyJeziorne = mapa.Komorki
+         _grupy = new Dictionary<IKomorka, List<IPunkt>>();
+         _komorkiJeziorne = mapa.Komorki
             .Where(k => k.Dane.Typ == TypKomorki.Jezioro)
-            .SelectMany(k => k.Rogi.Select(r => r.Punkt).Union(new[] {k.Punkt}))
             .ToList();
-         _odwiedzone = new HashSet<IPunkt>();
+         _odwiedzone = new HashSet<IKomorka>();
 
-         foreach (IPunkt punkt in _punktyJeziorne)
+         foreach (IKomorka komorka in _komorkiJeziorne)
          {
-            if (!_odwiedzone.Contains(punkt))
-               Odwiedz(punkt, null);
+            if (!_odwiedzone.Contains(komorka))
+               Odwiedz(komorka, null);
          }
-
+         
          foreach (List<IPunkt> grupa in _grupy.Values)
          {
-            float minimalnaWysokosc = grupa.Min(p => p.Wysokosc);
-            grupa.ToList().ForEach(p => p.Wysokosc = minimalnaWysokosc);
+            float minimalnaWysokosc = grupa.Min(k => k.Wysokosc);
+            grupa.ToList().ForEach(k => k.Wysokosc = minimalnaWysokosc);
          }
       }
 
-      private void Odwiedz(IPunkt odwiedzany, IPunkt reprezentantGrupy)
+      private void Odwiedz(IKomorka odwiedzana, IKomorka reprezentantGrupy)
       {
-         _odwiedzone.Add(odwiedzany);
+         _odwiedzone.Add(odwiedzana);
 
          if (reprezentantGrupy == null)
          {
-            reprezentantGrupy = odwiedzany;
+            reprezentantGrupy = odwiedzana;
             _grupy.Add(reprezentantGrupy, new List<IPunkt>());
          }
-        _grupy[reprezentantGrupy].Add(odwiedzany);
-         
-         IEnumerable<IPunkt> sasiedzi = JeziorniSasiedziPunktu(_punktyJeziorne, odwiedzany).ToList();
-         foreach (IPunkt sasiad in sasiedzi.Where(s => !_odwiedzone.Contains(s))) 
+        _grupy[reprezentantGrupy].Add(odwiedzana.Punkt);
+         foreach (var rog in odwiedzana.Rogi)
          {
-               Odwiedz(sasiad, reprezentantGrupy);
+            if(!_grupy[reprezentantGrupy].Contains(rog.Punkt) 
+               && rog.Komorki.All(k=>k.Dane.Typ==TypKomorki.Jezioro))
+               _grupy[reprezentantGrupy].Add(rog.Punkt);
+         }
+         
+         IEnumerable<IKomorka> przylegle = JeziornePrzylegleKomorki(_komorkiJeziorne, odwiedzana).ToList();
+         foreach (IKomorka przylegla in przylegle.Where(s => !_odwiedzone.Contains(s))) 
+         {
+               Odwiedz(przylegla, reprezentantGrupy);
          }
       }
 
-      private IEnumerable<IPunkt> JeziorniSasiedziPunktu(
-         IEnumerable<IPunkt> jeziorne, IPunkt punkt)
+      private IEnumerable<IKomorka> JeziornePrzylegleKomorki(
+         IEnumerable<IKomorka> jeziorne, IKomorka komorka)
       {
-         return punkt.Sasiedzi.Where(s => jeziorne.Contains(s));
+         return komorka.PrzylegleKomorki.Where(s => jeziorne.Contains(s));
       }
    }
 }

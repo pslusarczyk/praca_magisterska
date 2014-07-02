@@ -7,6 +7,7 @@ namespace Assets.Skrypty
    public class KomorkaUnity : MonoBehaviour
    {
       private readonly PomocePrzyRysowaniu _pomocePrzyRysowaniu;
+      private bool WyswietlajIdentyfikatoryWPoblizu = false;
       public IKomorka Komorka { get; set; }
 
       public Material MaterialWysokosciZWoda { get; set; }
@@ -33,6 +34,7 @@ namespace Assets.Skrypty
 
       public void OnDrawGizmos()
       {
+         if(WyswietlajIdentyfikatoryWPoblizu)
          if (Komorka != null && Selection.activeGameObject && Vector3.Distance(Selection.activeGameObject.transform.position, transform.position) < 4f)
             Handles.Label(transform.position + Vector3.up * 1.2f, Komorka.Punkt.Id.ToString(),
                new GUIStyle{normal = new GUIStyleState{textColor = Color.green}});

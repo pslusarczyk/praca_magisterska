@@ -106,7 +106,10 @@ namespace Assets.Editor
       {
          foreach (Wezel w in _poziomEditor.Poziom._wezly)
          {
-            yield return new Vector(w.transform.position.x, w.transform.position.z);
+            yield return new Vector(w.transform.position.x, w.transform.position.z)
+            {
+               Skrajny = w.czySkrajny
+            };
          }
       }
 

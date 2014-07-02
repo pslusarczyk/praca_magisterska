@@ -51,11 +51,17 @@ namespace LogikaGeneracji.PrzetwarzanieFortunea
       private void UtworzSkladoweDwukrawedzi(VoronoiEdge woro, Dwukrawedz dwukrawedz)
       {
          if (!_komorkiZVectorami.ContainsKey(woro.LeftData))
-            _komorkiZVectorami[woro.LeftData] = new Komorka(woro.LeftData);
+            _komorkiZVectorami[woro.LeftData] = new Komorka(woro.LeftData)
+            {
+               Skrajna = woro.LeftData.Skrajny
+            };
          dwukrawedz.Lewa = _komorkiZVectorami[woro.LeftData];
 
          if (!_komorkiZVectorami.ContainsKey(woro.RightData))
-            _komorkiZVectorami[woro.RightData] = new Komorka(woro.RightData);
+            _komorkiZVectorami[woro.RightData] = new Komorka(woro.RightData)
+            {
+               Skrajna = woro.RightData.Skrajny
+            };
          dwukrawedz.Prawa = _komorkiZVectorami[woro.RightData];
 
          if (!_rogiZVectorami.ContainsKey(woro.VVertexA))

@@ -9,7 +9,7 @@ namespace Assets.Skrypty
          for (int i = 0; i < grubosc; ++i)
          {
             float przesuniecie = ((float) i)/30f;
-            Gizmos.DrawLine(zrodlo + Vector3.left * przesuniecie, cel + Vector3.up * przesuniecie);
+            Gizmos.DrawLine(zrodlo + Vector3.left * przesuniecie, cel);
          }
       }
    }

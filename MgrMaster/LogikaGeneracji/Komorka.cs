@@ -11,6 +11,7 @@ namespace LogikaGeneracji
       int Id { get; set; }
       DaneKomorki Dane { get; set; }
       IPunkt Punkt { get; set; }
+      bool Skrajna { get; set; }
       IList<IRog> Rogi { get; set; }
       IList<IKomorka> PrzylegleKomorki { get; set; }
       void DodajRogi(IRog pierwszy, IRog drugi);
@@ -33,6 +34,7 @@ namespace LogikaGeneracji
       }
 
       public int Id { get; set; }
+      public bool Skrajna { get; set; }
       public IList<IKomorka> PrzylegleKomorki { get; set; }
       public HashSet<OdcinekRzeki> OdcinkiRzek { get; set; }
       public IPunkt NajnizszySasiad { get; set; }

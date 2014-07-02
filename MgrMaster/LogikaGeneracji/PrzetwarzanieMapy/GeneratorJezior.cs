@@ -20,7 +20,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
             throw new InvalidOperationException(
                String.Format("Mapa zawiera mniej niecek ({0}), ni¿ jest jezior do wygenerowania ({1})!",
                   mapa.KomorkiNiecki.Count, _liczbaJezior));
-         IList nieckiDoObsluzenia = mapa.KomorkiNiecki.OrderBy(n => Guid.NewGuid()).Take(_liczbaJezior).ToList();
+         IList nieckiDoObsluzenia = mapa.KomorkiNiecki.OrderBy(n => new Random(_liczbaJezior+1).Next()).Take(_liczbaJezior).ToList();
          foreach (IKomorka komorkaNiecka in nieckiDoObsluzenia)
          {
             komorkaNiecka.Dane.Typ = TypKomorki.Jezioro;

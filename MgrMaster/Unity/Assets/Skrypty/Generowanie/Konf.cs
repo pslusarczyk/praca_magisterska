@@ -88,7 +88,7 @@ namespace Assets.Skrypty.Generowanie
             new KonfiguracjaBiomu(0.6f, 0.25f, Biom.LasUmiarkowany),
             new KonfiguracjaBiomu(0.4f, 0.6f, Biom.LasUmiarkowany),
             new KonfiguracjaBiomu(0.35f, 0.7f, Biom.Step),
-            new KonfiguracjaBiomu(0.22f, 0.9f, Biom.Pustynia),
+            new KonfiguracjaBiomu(0.12f, 0.9f, Biom.Pustynia),
             new KonfiguracjaBiomu(0.9f, 0.5f, Biom.Bagna),
             new KonfiguracjaBiomu(0.8f, 0.8f, Biom.LasWilgotny),
          }

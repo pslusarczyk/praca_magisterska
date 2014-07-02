@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Skrypty;
 using Assets.Skrypty.Generowanie;
-using Assets.Skrypty.Narzedzia;
 using LogikaGeneracji;
-using LogikaGeneracji.PrzetwarzanieFortunea;
 using LogikaGeneracji.PrzetwarzanieMapy;
 using UnityEngine;
-using ZewnetrzneBiblioteki.FortuneVoronoi;
 using Object = UnityEngine.Object;
 
 namespace Assets.Editor
@@ -112,7 +109,7 @@ namespace Assets.Editor
          aktualizatorBrzeznosciRogow.Przetwarzaj(Poziom._mapa);
       }
 
-      private void UstawKomorkomIRogomUnityWyglad(float modyfikator = 0f) // pilne zduplikowany kod dla k. i r.
+      private void UstawKomorkomIRogomUnityWyglad(float modyfikator = 0f) // todo zduplikowany kod dla k. i r.
       {
          const float mnoznikWysokosci = 1.2f;
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
@@ -219,16 +216,13 @@ namespace Assets.Editor
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
             var kopiaMaterialu = new Material(komorkaUnity.renderer.sharedMaterial);
-            if (komorkaUnity.Komorka.Dane.Podloze == Podloze.Woda)
-            {
+            if (komorkaUnity.Komorka.Dane.Typ == TypKomorki.Morze)
+               kopiaMaterialu.color = new Color(.1f, .3f, .65f);
+            else if (komorkaUnity.Komorka.Dane.Typ == TypKomorki.Jezioro)
                kopiaMaterialu.color = new Color(.35f, .6f, .98f);
-            }
-            else
-            {
-               if (komorkaUnity.Komorka.Dane.Biom.HasValue)
-                  kopiaMaterialu.color = Konf.KolorBiomu[komorkaUnity.Komorka.Dane.Biom.Value];
-            }
-           komorkaUnity.MaterialBiomu = kopiaMaterialu;
+            else if (komorkaUnity.Komorka.Dane.Biom.HasValue)
+               kopiaMaterialu.color = Konf.KolorBiomu[komorkaUnity.Komorka.Dane.Biom.Value];
+            komorkaUnity.MaterialBiomu = kopiaMaterialu;
          }
       }
 
@@ -300,7 +294,6 @@ namespace Assets.Editor
 
       public void UtworzRzeki(System.Random random)
       {
-         int utworzonych = 0;
          for (int i = 0; i < 20; ++ i)
          {
             var komorkiKandydaci = Poziom._mapa.Komorki.Where(k => k.Dane.Podloze == Podloze.Ziemia
@@ -310,13 +303,7 @@ namespace Assets.Editor
             IPunkt punktPoczatkowy = komorkiKandydaci.ElementAt(indeksKomorki).Punkt;
             var generatorRzek = new GeneratorRzeki(punktPoczatkowy);
             generatorRzek.Przetwarzaj(Poziom._mapa);
-
-            if (generatorRzek.UdaloSieUtworzyc == false)
-               Debug.Log("Nie uda³o siê utworzyæ dla punktu o identyfikatorze " + punktPoczatkowy.Id + ". ");
-            if (generatorRzek.UdaloSieUtworzyc == true)
-               ++utworzonych;
          }
-         Debug.Log("Utworzono " + utworzonych + " rzek.");
       }
 
       public void UtworzMapeWilgotnosci(ParametryWilgotnosci parametry)
