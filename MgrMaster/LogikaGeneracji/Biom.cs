@@ -4,12 +4,12 @@ namespace LogikaGeneracji
    {
       WiecznySnieg,
       GoleGory,
-      Tundra,
+      Kosodrzewina,
       Tajga,
       LasUmiarkowany,
+      Bagna,
       Step,
       Pustynia,
-      Sawanna,
       LasWilgotny
    }
 }

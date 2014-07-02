@@ -78,12 +78,17 @@ namespace Assets.Skrypty.Generowanie
       }
 
       public static KonfigAktualizatoraBiomow KonfiguracjaBiomow = new KonfigAktualizatoraBiomow(
-         4f, .5f, new Biom[,]
+         new List<KonfiguracjaBiomu>
          {
-            {Biom.GoleGory,Biom.Tundra,Biom.WiecznySnieg},
-            {Biom.Tajga,Biom.LasUmiarkowany,Biom.LasUmiarkowany},
-            {Biom.Sawanna,Biom.Step,Biom.LasWilgotny},
-            {Biom.Pustynia,Biom.Sawanna,Biom.LasWilgotny},
+            new KonfiguracjaBiomu(0.4f, 0.2f, Biom.WiecznySnieg),
+            new KonfiguracjaBiomu(0.3f, 0.1f, Biom.GoleGory),
+            new KonfiguracjaBiomu(0.3f, 0.2f, Biom.Kosodrzewina),
+            new KonfiguracjaBiomu(0.3f, 0.3f, Biom.Tajga),
+            new KonfiguracjaBiomu(0.4f, 0.6f, Biom.LasUmiarkowany),
+            new KonfiguracjaBiomu(0.3f, 0.8f, Biom.Step),
+            new KonfiguracjaBiomu(0.2f, 0.8f, Biom.Pustynia),
+            new KonfiguracjaBiomu(0.9f, 0.5f, Biom.Bagna),
+            new KonfiguracjaBiomu(0.8f, 0.8f, Biom.LasWilgotny),
          }
          );
 
@@ -91,12 +96,12 @@ namespace Assets.Skrypty.Generowanie
       {
          {Biom.WiecznySnieg, new Color(1f, 1f, 1f)},
          {Biom.GoleGory, new Color(.3f, .3f, .3f)},
-         {Biom.Tundra, new Color(.35f, .8f, .5f)},
+         {Biom.Kosodrzewina, new Color(.35f, .8f, .5f)},
          {Biom.Tajga, new Color(.2f, .37f, .25f)},
          {Biom.LasUmiarkowany, new Color(.25f, .3f, .12f)},
          {Biom.Step, new Color(.6f, .9f, .18f)},
          {Biom.Pustynia, new Color(.9f, 1f, .24f)},
-         {Biom.Sawanna, new Color(.52f, .58f, .18f)},
+         {Biom.Bagna, new Color(.43f, .44f, .20f)},
          {Biom.LasWilgotny, new Color(.23f, .7f, .02f)},
       }; 
    }

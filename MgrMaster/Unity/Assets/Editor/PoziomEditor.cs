@@ -342,14 +342,13 @@ namespace Assets.Editor
 
          if (GUILayout.Button("Wyznacz biomy"))
          {
-            _dzialaniaNaMapie.UtworzMapeBiomow(StanGeneratora.NormTemp, StanGeneratora.NormWilg);
+            _dzialaniaNaMapie.UtworzMapeBiomow();
 
             if (!StanGeneratora._utworzoneWarstwy.Contains(Warstwa.Biomy))
                StanGeneratora._utworzoneWarstwy.Add(Warstwa.Biomy);
             AktualnaWarstwa = Warstwa.Biomy;
             _stanGeneratora.NumerWybranejWarstwy = StanGeneratora._utworzoneWarstwy.IndexOf(AktualnaWarstwa);
             _dzialaniaNaMapie.PokazWarstweBiomow();
-            StanGeneratora.Etap = Etap.WyznaczanieBiomow;
          }
       }
 

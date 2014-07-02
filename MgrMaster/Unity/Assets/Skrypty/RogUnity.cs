@@ -25,9 +25,9 @@ namespace Assets.Skrypty
 
          //Handles.Label(transform.position, Rog.Id.ToString());
 
-         Gizmos.color = Color.yellow;
+         Gizmos.color = Color.white;
          if (Rog!= null && Rog.Punkt.ZawieraRzeke && Rog.Punkt.Nastepnik != null)
-            Gizmos.DrawLine(Rog.Punkt.Pozycja + Vector3.up, Rog.Punkt.Nastepnik.Pozycja + Vector3.up);
+            PomocePrzyRysowaniu.GrubaLinia(Rog.Punkt.Pozycja + Vector3.up, Rog.Punkt.Nastepnik.Pozycja + Vector3.up);
       
 
       }

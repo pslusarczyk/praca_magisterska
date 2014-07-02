@@ -35,7 +35,7 @@ namespace Assets.Editor
          Handles.BeginGUI();
          var tlo = Resources.Load<Texture>("prototype_textures/Textures/tlo");
          int przesuniecie = 0;
-         GUI.BeginGroup(new Rect(0, 50, 200, 350), new GUIContent(tlo));
+         GUI.BeginGroup(new Rect(0, 50, 250, 400), new GUIContent(tlo));
          {
             foreach (var dana in WyswietlaneDane())
             {

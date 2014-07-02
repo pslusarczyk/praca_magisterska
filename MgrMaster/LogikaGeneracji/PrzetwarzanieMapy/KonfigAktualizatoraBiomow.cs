@@ -1,42 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {
    public class KonfigAktualizatoraBiomow
    {
-      /// <summary>
-      /// Pierwszy indeks to temperatura, drugi — wilgotność
-      /// </summary>
-      private Biom[,] TabelaBiomow { get; set; }
+      private List<KonfiguracjaBiomu> KonfiguracjeBiomow { get; set; }
 
-      public float _normalizacjaWilgotnosci;
-      public float _normalizacjaTemperatury;
-
-      public KonfigAktualizatoraBiomow(float normalizacjaWilgotnosci, float normalizacjaTemperatury, Biom[,] tabelaBiomów = null)
+      public KonfigAktualizatoraBiomow(List<KonfiguracjaBiomu> dane)
       {
-         _normalizacjaWilgotnosci = normalizacjaWilgotnosci;
-         _normalizacjaTemperatury = normalizacjaTemperatury;
-         TabelaBiomow = tabelaBiomów;
+         KonfiguracjeBiomow = dane;
       }
 
-      public Biom PobierzBiom(float temperatura, float wilgotnosc)
+      public Biom PobierzBiom(float temp, float wilg)
       {
-         var indeksTemperatury = (int)(temperatura / _normalizacjaTemperatury);
-         indeksTemperatury = Mathf.Clamp(indeksTemperatury, 0, TabelaBiomow.GetLength(0)-1);
-
-         var indeksWilgotnosci = (int)(wilgotnosc / _normalizacjaWilgotnosci);
-         indeksWilgotnosci = Mathf.Clamp(indeksWilgotnosci, 0, TabelaBiomow.GetLength(1)-1);
-
-         //Debug.Log(TabelaBiomow.GetLength(0));
-         //Debug.Log(TabelaBiomow.GetLength(1));
-         //Debug.Log(indeksTemperatury);
-         //Debug.Log(indeksWilgotnosci);
-
-         return TabelaBiomow[indeksTemperatury, indeksWilgotnosci];
+         return KonfiguracjeBiomow.Aggregate(
+            (poprzednia, nastepna) => 
+               (poprzednia == null || poprzednia.OdlegloscDo2(wilg, temp) > nastepna.OdlegloscDo2(wilg, temp) 
+                       ? nastepna : poprzednia)).Biom;
       }
 
+   }
+
+   public class KonfiguracjaBiomu
+   {
+      public Biom Biom { get; set; }
+      public float Wilgotnosc { get; set; }
+      public float Temperatura { get; set; }
+
+      public KonfiguracjaBiomu(float wilg, float temp, Biom biom)
+      {
+         Wilgotnosc = wilg;
+         Temperatura = temp;
+         Biom = biom;
+      }
+
+      public float OdlegloscDo2(float wilg, float temp)
+      {
+         return (Wilgotnosc - wilg)*(Wilgotnosc - wilg) + (Temperatura - temp)*(Temperatura - temp);
+      }
    }
 
 }

@@ -6,6 +6,7 @@ namespace Assets.Skrypty
 {
    public class KomorkaUnity : MonoBehaviour
    {
+      private readonly PomocePrzyRysowaniu _pomocePrzyRysowaniu;
       public IKomorka Komorka { get; set; }
 
       public Material MaterialWysokosciZWoda { get; set; }
@@ -40,10 +41,9 @@ namespace Assets.Skrypty
          if (PoleInicjatorPowodziWidoczne && InicjatorPowodzi)
             Gizmos.DrawWireSphere(transform.position, 1.8f);
 
-         Gizmos.color = Color.yellow;
+         Gizmos.color = Color.white;
          if (Komorka != null && Komorka.Punkt.ZawieraRzeke && Komorka.Punkt.Nastepnik != null)
-            Gizmos.DrawLine(Komorka.Punkt.Pozycja + Vector3.up, Komorka.Punkt.Nastepnik.Pozycja + Vector3.up);
+            PomocePrzyRysowaniu.GrubaLinia(Komorka.Punkt.Pozycja + Vector3.up, Komorka.Punkt.Nastepnik.Pozycja + Vector3.up);
       }
-
    }
 }

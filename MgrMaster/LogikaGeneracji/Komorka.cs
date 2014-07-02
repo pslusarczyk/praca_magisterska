@@ -62,6 +62,6 @@ namespace LogikaGeneracji
       public BrzeznoscKomorki? Brzeznosc { get; set; }
       public float Temperatura { get; set; }
       public float Wilgotnosc { get; set; }
-      public Biom Biom { get; set; }
+      public Biom? Biom { get; set; }
    }
 }

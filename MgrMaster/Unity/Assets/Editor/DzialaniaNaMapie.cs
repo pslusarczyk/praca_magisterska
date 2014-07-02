@@ -225,7 +225,8 @@ namespace Assets.Editor
             }
             else
             {
-               kopiaMaterialu.color = Konf.KolorBiomu[komorkaUnity.Komorka.Dane.Biom];
+               if (komorkaUnity.Komorka.Dane.Biom.HasValue)
+                  kopiaMaterialu.color = Konf.KolorBiomu[komorkaUnity.Komorka.Dane.Biom.Value];
             }
            komorkaUnity.MaterialBiomu = kopiaMaterialu;
          }
@@ -341,13 +342,9 @@ namespace Assets.Editor
          UstawKomorkomUnityMaterialTemperatury();
       }
 
-      public void UtworzMapeBiomow(float normTemp, float normWilg) 
-      // todo konfig ma byæ sta³y, a parametry normalizacji podawane z zewn¹trz
+      public void UtworzMapeBiomow() 
       {
-         var konfig = Konf.KonfiguracjaBiomow;
-         konfig._normalizacjaTemperatury = normTemp;
-         konfig._normalizacjaWilgotnosci = normWilg;
-         var aktualizator = new AktualizatorBiomow(konfig);
+         var aktualizator = new AktualizatorBiomow(Konf.KonfiguracjaBiomow, -5f, 35f, 0f, 16f);
          aktualizator.Przetwarzaj(Poziom._mapa);
          UstawKomorkomUnityMaterialBiomow();
       }
