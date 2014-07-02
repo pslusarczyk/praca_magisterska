@@ -60,6 +60,10 @@ namespace Assets.Skrypty.Generowanie
          public const float PoczGestosc = 0.05f;
       }
 
+      public const float PoczMnoznikTemperatury = 1f;
+      public const float MnoznikTemperaturyMin = 0f;
+      public const float MnoznikTemperaturyMaks = 2f;
+
       public static class Wilg
       {
          public const int PoczGlebokoscPrzeszukiwania = 10;
@@ -70,14 +74,13 @@ namespace Assets.Skrypty.Generowanie
          public const float PoczWartoscRzeki = 2f;
          public const float PoczWartoscMorza = 1f;
 
-         public const float MinWartoscJezioraRzekiMorza = 1f;
+         public const float MinWartoscJezioraRzekiMorza = 0f;
          public const float MaksWartoscJezioraRzekiMorza = 5f;
 
          public const float MnoznikWartosci = .5f;
-
       }
 
-      public static KonfigAktualizatoraBiomow KonfiguracjaBiomow = new KonfigAktualizatoraBiomow(
+      public static readonly KonfigAktualizatoraBiomow KonfiguracjaBiomow = new KonfigAktualizatoraBiomow(
          new List<KonfiguracjaBiomu>
          {
             new KonfiguracjaBiomu(0.5f, 0.18f, Biom.WiecznySnieg),
@@ -94,7 +97,7 @@ namespace Assets.Skrypty.Generowanie
          }
          );
 
-      public static readonly Dictionary<Biom, Color> KolorBiomu = new Dictionary<Biom,Color>
+      public static readonly Dictionary<Biom, Color> KolorBiomu = new Dictionary<Biom, Color>
       {
          {Biom.WiecznySnieg, new Color(1f, 1f, 1f)},
          {Biom.GoleGory, new Color(.3f, .3f, .3f)},
@@ -105,6 +108,6 @@ namespace Assets.Skrypty.Generowanie
          {Biom.Pustynia, new Color(.9f, 1f, .24f)},
          {Biom.Bagna, new Color(.43f, .44f, .20f)},
          {Biom.LasUmiarkowany, new Color(.23f, .7f, .02f)},
-      }; 
+      };
    }
 }

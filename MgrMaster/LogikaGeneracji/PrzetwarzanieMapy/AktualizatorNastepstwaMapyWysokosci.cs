@@ -55,7 +55,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          }
          mapa.Rogi.Remove(winowajca);
            
-         Debug.Log("Punktów o wysokoœci o wartoœci NotANumber: " +mapa.Punkty.Count(p => float.IsNaN(p.Wysokosc)));
+         //Debug.Log("Punktów o wysokoœci o wartoœci NotANumber: " +mapa.Punkty.Count(p => float.IsNaN(p.Wysokosc)));
       }
    }
 }

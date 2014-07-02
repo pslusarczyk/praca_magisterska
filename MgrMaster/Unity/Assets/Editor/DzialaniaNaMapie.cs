@@ -321,17 +321,17 @@ namespace Assets.Editor
          UstawKomorkomUnityMaterialWilgotnosci();
       }
 
-      public void UtworzMapeTemperatury()
+      public void UtworzMapeTemperatury(float mnoznikTemperatury)
       {
-         var modyfikator = new ModyfikatorTemperaturyNaPodstawieWysokosci();
+         var modyfikator = new ModyfikatorTemperaturyNaPodstawieWysokosci(mnoznikTemperatury);
 
          modyfikator.Przetwarzaj(Poziom._mapa);
          UstawKomorkomUnityMaterialTemperatury();
       }
 
-      public void UtworzMapeBiomow() 
+      public void UtworzMapeBiomow(KonfigAktualizatoraBiomow konfiguracjaBiomow) 
       {
-         var aktualizator = new AktualizatorBiomow(Konf.KonfiguracjaBiomow, -5f, 35f, 0f, 16f);
+         var aktualizator = new AktualizatorBiomow(konfiguracjaBiomow, -5f, 35f, 0f, 16f);
          aktualizator.Przetwarzaj(Poziom._mapa);
          UstawKomorkomUnityMaterialBiomow();
       }

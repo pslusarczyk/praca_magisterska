@@ -5,6 +5,12 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
    public class ModyfikatorTemperaturyNaPodstawieWysokosci : BazaPrzetwarzacza
    {
       private KonfiguracjaModyfikatoraTemperaturyNaPodstawieWysokosci _konfig;
+      private float _mnoznikTemperatury;
+
+      public ModyfikatorTemperaturyNaPodstawieWysokosci(float mnoznikTemperatury = 1f)
+      {
+         _mnoznikTemperatury = mnoznikTemperatury;
+      }
 
       public KonfiguracjaModyfikatoraTemperaturyNaPodstawieWysokosci Konfiguracja { 
          get
@@ -23,7 +29,8 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          foreach (IKomorka komorka in mapa.Komorki)
          {
             komorka.Dane.Temperatura =
-               Konfiguracja.Baza + komorka.Punkt.Wysokosc*Konfiguracja.ZmianaNaJednostke;
+               (Konfiguracja.Baza + komorka.Punkt.Wysokosc*Konfiguracja.ZmianaNaJednostke)
+               * _mnoznikTemperatury;
          }
       }
    }

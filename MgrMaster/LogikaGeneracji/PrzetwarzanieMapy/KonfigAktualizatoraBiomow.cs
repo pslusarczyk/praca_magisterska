@@ -6,16 +6,16 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
 {
    public class KonfigAktualizatoraBiomow
    {
-      private List<KonfiguracjaBiomu> KonfiguracjeBiomow { get; set; }
+      public List<KonfiguracjaBiomu> ParametryBiomow { get; set; }
 
       public KonfigAktualizatoraBiomow(List<KonfiguracjaBiomu> dane)
       {
-         KonfiguracjeBiomow = dane;
+         ParametryBiomow = dane;
       }
 
       public Biom PobierzBiom(float temp, float wilg)
       {
-         return KonfiguracjeBiomow.Aggregate(
+         return ParametryBiomow.Aggregate(
             (poprzednia, nastepna) => 
                (poprzednia == null || poprzednia.OdlegloscDo2(wilg, temp) > nastepna.OdlegloscDo2(wilg, temp) 
                        ? nastepna : poprzednia)).Biom;

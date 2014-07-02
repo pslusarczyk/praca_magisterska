@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Assets.Skrypty.Narzedzia;
+using LogikaGeneracji;
 using LogikaGeneracji.PrzetwarzanieMapy;
 using UnityEngine;
 
@@ -16,12 +18,11 @@ namespace Assets.Skrypty.Generowanie
       public float _rozpietosc = Konf.PoczRozpietosc;
       private float _poziomMorza = Konf.PoczPoziomMorza;
       private Etap _etap = Etap.GenerowanieWezlow;
-
-      private float normTemp = .5f;
-      private float normWilg = 4f;
+      public float MnoznikTemperatury = Konf.PoczMnoznikTemperatury;
 
       public ParametryPerlina ParametryPerlina { get; set; }
       public ParametryWilgotnosci ParametryWilgotnosci { get; set; }
+      public KonfigAktualizatoraBiomow KonfiguracjaBiomow { get; set; }
 
       public StanGeneratora()
       {
@@ -43,6 +44,8 @@ namespace Assets.Skrypty.Generowanie
             WartoscRzeki = Konf.Wilg.PoczWartoscRzeki,
             WartoscMorza = Konf.Wilg.PoczWartoscMorza
          };
+         KonfiguracjaBiomow = new KonfigAktualizatoraBiomow(Konf.KonfiguracjaBiomow.ParametryBiomow.
+            Select(p => new KonfiguracjaBiomu(p.Wilgotnosc, p.Temperatura, p.Biom)).ToList());
       }
 
       public bool PokazRogi { get; set; }
@@ -74,17 +77,5 @@ namespace Assets.Skrypty.Generowanie
       }
 
       public IEnumerable<KomorkaUnity> InicjatorzyZalewania { get; set; }
-
-      public float NormTemp
-      {
-         get { return normTemp; }
-         set { normTemp = value; }
-      }
-
-      public float NormWilg
-      {
-         get { return normWilg; }
-         set { normWilg = value; }
-      }
    }
 }
