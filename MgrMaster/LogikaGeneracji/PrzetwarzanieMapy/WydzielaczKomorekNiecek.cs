@@ -8,6 +8,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
    {
       public override void Przetwarzaj(IMapa mapa)
       {
+         mapa.KomorkiNiecki.Clear();
          foreach (IKomorka komorka in mapa.Komorki)
          {
             if(komorka.Dane.Brzeznosc == null)

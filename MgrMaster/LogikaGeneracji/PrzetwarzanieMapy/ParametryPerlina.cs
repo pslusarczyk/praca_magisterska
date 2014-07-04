@@ -5,7 +5,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
       public int Ziarno;
       public int IloscWarstw;
       public float Skala;
-      public float StrataSkali;
+      public float ZachowanieSkali;
       public float SkokGestosci;
       public float Gestosc;
    }

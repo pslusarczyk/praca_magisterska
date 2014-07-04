@@ -10,15 +10,17 @@ namespace Assets.Skrypty.Generowanie
 {
    public class StanGeneratora
    {
-      public IList<Warstwa> _utworzoneWarstwy;
+      public IList<Warstwa> UtworzoneWarstwy;
       private bool _pokazRogiPoprzedniaWartosc = true;
       private float _zasiegZaburzenia = Konf.PoczStopienZaburzeniaWezlow;
-      public int _rozmiarX = Konf.PoczRozmiarX;
-      public int _rozmiarZ = Konf.PoczRozmiarZ;
-      public float _rozpietosc = Konf.PoczRozpietosc;
+      public int RozmiarX = Konf.PoczRozmiarX;
+      public int RozmiarZ = Konf.PoczRozmiarZ;
+      public float Rozpietosc = Konf.PoczRozpietosc;
       private float _poziomMorza = Konf.PoczPoziomMorza;
       private Etap _etap = Etap.GenerowanieWezlow;
       public float MnoznikTemperatury = Konf.PoczMnoznikTemperatury;
+      public int LiczbaJeziorDoWygenerowania;
+      public int LiczbaRzekDoWygenerowania;
 
       public ParametryPerlina ParametryPerlina { get; set; }
       public ParametryWilgotnosci ParametryWilgotnosci { get; set; }
@@ -27,7 +29,8 @@ namespace Assets.Skrypty.Generowanie
       public StanGeneratora()
       {
          PokazRogi = false;
-         _utworzoneWarstwy = new List<Warstwa>();
+         UtworzoneWarstwy = new List<Warstwa> {Warstwa.Brak};
+         ;
          ParametryPerlina = new ParametryPerlina
          {
             Ziarno = 0,
@@ -35,7 +38,7 @@ namespace Assets.Skrypty.Generowanie
             IloscWarstw = Konf.Perlin.PoczIloscWarstw,
             Skala = Konf.Perlin.PoczSkala,
             SkokGestosci = Konf.Perlin.PoczSkokGestosci,
-            StrataSkali = Konf.Perlin.PoczStrataSkali
+            ZachowanieSkali = Konf.Perlin.PoczZachowanieSkali
          };
          ParametryWilgotnosci = new ParametryWilgotnosci
          {
@@ -46,6 +49,7 @@ namespace Assets.Skrypty.Generowanie
          };
          KonfiguracjaBiomow = new KonfigAktualizatoraBiomow(Konf.KonfiguracjaBiomow.ParametryBiomow.
             Select(p => new KonfiguracjaBiomu(p.Wilgotnosc, p.Temperatura, p.Biom)).ToList());
+         InicjatorzyZalewania = new List<KomorkaUnity>();
       }
 
       public bool PokazRogi { get; set; }
@@ -77,5 +81,6 @@ namespace Assets.Skrypty.Generowanie
       }
 
       public IEnumerable<KomorkaUnity> InicjatorzyZalewania { get; set; }
+
    }
 }

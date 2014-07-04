@@ -23,7 +23,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
          float wspolczynnik = 1f;
          for (int warstwa = 2; warstwa <= _parametryPerlina.IloscWarstw; ++warstwa)
          {
-            wspolczynnik += Mathf.Pow(_parametryPerlina.StrataSkali, warstwa);
+            wspolczynnik += Mathf.Pow(_parametryPerlina.ZachowanieSkali, warstwa);
             }
          float znormalizowanaSkalaPoczatkowa = _parametryPerlina.Skala/wspolczynnik;
 
@@ -33,7 +33,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
             for (int warstwa = 0; warstwa < _parametryPerlina.IloscWarstw; ++warstwa)
             {
                float gestosc = _parametryPerlina.Gestosc * Mathf.Pow(_parametryPerlina.SkokGestosci, warstwa); // rosnie
-               float skala = znormalizowanaSkalaPoczatkowa * Mathf.Pow(_parametryPerlina.StrataSkali, warstwa); // maleje
+               float skala = znormalizowanaSkalaPoczatkowa * Mathf.Pow(_parametryPerlina.ZachowanieSkali, warstwa); // maleje
                wysokosc += Mathf.PerlinNoise((punkt.Pozycja.x + przesuniecieX) * gestosc,
                                              (punkt.Pozycja.z + przesuniecieZ) * gestosc)
                                                       *skala;

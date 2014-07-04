@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 
@@ -20,7 +21,9 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
             throw new InvalidOperationException(
                String.Format("Mapa zawiera mniej niecek ({0}), ni¿ jest jezior do wygenerowania ({1})!",
                   mapa.KomorkiNiecki.Count, _liczbaJezior));
-         IList nieckiDoObsluzenia = mapa.KomorkiNiecki.OrderBy(n => new Random(_liczbaJezior+1).Next()).Take(_liczbaJezior).ToList();
+         var gen = new Random();
+         List<IKomorka> nieckiDoObsluzenia = mapa.KomorkiNiecki.OrderBy(n => gen.Next()).Take(_liczbaJezior).ToList();
+         nieckiDoObsluzenia.ForEach(n => mapa.KomorkiNiecki.Remove(n));
          foreach (IKomorka komorkaNiecka in nieckiDoObsluzenia)
          {
             komorkaNiecka.Dane.Typ = TypKomorki.Jezioro;

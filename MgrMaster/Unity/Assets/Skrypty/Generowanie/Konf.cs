@@ -37,6 +37,11 @@ namespace Assets.Skrypty.Generowanie
 
       public const float PoczStopienZaburzeniaWezlow = .4f; // 0–1
 
+      public const int MaksLiczbaRzekDoWygenerowaniaNaraz = 10;
+      public const float PoczMnoznikTemperatury = 1f;
+      public const float MnoznikTemperaturyMin = 0f;
+      public const float MnoznikTemperaturyMaks = 2f;
+
       public static class Perlin
       {
          public const int MinIloscWarstw = 1;
@@ -47,9 +52,9 @@ namespace Assets.Skrypty.Generowanie
          public const float MaksSkala = 8f;
          public const float PoczSkala = 4.4f;
 
-         public const float MinStrataSkali = 0.2f;
-         public const float MaksStrataSkali = 0.9f;
-         public const float PoczStrataSkali = 0.4f;
+         public const float MinZachowanieSkali = 0.2f;
+         public const float MaksZachowanieSkali = 0.9f;
+         public const float PoczZachowanieSkali = 0.4f;
 
          public const float MinSkokGestosci = 1f;
          public const float MaksSkokGestosci = 5f;
@@ -59,10 +64,6 @@ namespace Assets.Skrypty.Generowanie
          public const float MaksGestosc = 0.2f;
          public const float PoczGestosc = 0.05f;
       }
-
-      public const float PoczMnoznikTemperatury = 1f;
-      public const float MnoznikTemperaturyMin = 0f;
-      public const float MnoznikTemperaturyMaks = 2f;
 
       public static class Wilg
       {
@@ -109,5 +110,6 @@ namespace Assets.Skrypty.Generowanie
          {Biom.Bagna, new Color(.43f, .44f, .20f)},
          {Biom.LasUmiarkowany, new Color(.23f, .7f, .02f)},
       };
+
    }
 }

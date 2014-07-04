@@ -7,6 +7,7 @@ using LogikaGeneracji;
 using LogikaGeneracji.PrzetwarzanieMapy;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Random = System.Random;
 
 namespace Assets.Editor
 {
@@ -129,15 +130,19 @@ namespace Assets.Editor
                komorkaUnity.transform.localPosition = new Vector3(komorkaUnity.transform.localPosition.x, 0f,
                   komorkaUnity.transform.localPosition.z);
             }
+
             var kopiaMaterialu = new Material(komorkaUnity.renderer.sharedMaterial);
             if (Poziom._mapa.KomorkiNiecki.Contains(komorkaUnity.Komorka))
             {
                kopiaMaterialu.color = new Color(.9f, .4f, .6f);
             } // pilne poni¿sz¹ posprz¹taæ!
-            else if (komorkaUnity.Komorka.Dane.Podloze == Podloze.Woda || (komorkaUnity.Komorka.Dane.Podloze == Podloze.Ziemia && komorkaUnity.Komorka.Dane.Typ == TypKomorki.Jezioro))
+            else if (komorkaUnity.Komorka.Dane.Typ == TypKomorki.Jezioro || komorkaUnity.Komorka.Dane.Podloze == null)
             {
-               kopiaMaterialu.color = (komorkaUnity.Komorka.Dane.Typ == TypKomorki.Jezioro)
-                                                   ? new Color(.35f, .6f, .98f) : new Color(.1f, .3f, .65f);
+               kopiaMaterialu.color = new Color(.35f, .6f, .98f);
+            }
+            else if (komorkaUnity.Komorka.Dane.Podloze == Podloze.Woda)
+            {
+               kopiaMaterialu.color = new Color(.1f, .3f, .65f);
             }
             else
                kopiaMaterialu.color = new Color(.3f + wysokosc * .3f, .9f - wysokosc*.2f, .3f);
@@ -283,23 +288,23 @@ namespace Assets.Editor
          UstawKomorkomIRogomUnityWyglad();
       }
 
-      public void UtworzJezioraWNieckach()
+      public void UtworzJezioraWNieckach(int ile)
       {
-         var generatorJezior = new GeneratorJezior(25);
+         var generatorJezior = new GeneratorJezior(ile);
          generatorJezior.Przetwarzaj(Poziom._mapa);
          var wyrownywacz = new WyrownywaczTerenuJeziora();
          wyrownywacz.Przetwarzaj(Poziom._mapa);
          UstawKomorkomIRogomUnityWyglad();
       }
 
-      public void UtworzRzeki(System.Random random)
+      public void UtworzRzeki(int ile, Random gen)
       {
-         for (int i = 0; i < 20; ++ i)
+         for (int i = 0; i < ile; ++i)
          {
             var komorkiKandydaci = Poziom._mapa.Komorki.Where(k => k.Dane.Podloze == Podloze.Ziemia
                && k.Punkt.Wysokosc > .5f).ToList(); // todo parametr
 
-            int indeksKomorki = random.Next(komorkiKandydaci.Count());
+            int indeksKomorki = gen.Next(komorkiKandydaci.Count());
             IPunkt punktPoczatkowy = komorkiKandydaci.ElementAt(indeksKomorki).Punkt;
             var generatorRzek = new GeneratorRzeki(punktPoczatkowy);
             generatorRzek.Przetwarzaj(Poziom._mapa);

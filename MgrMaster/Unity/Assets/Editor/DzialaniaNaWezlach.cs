@@ -1,17 +1,14 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using Assets.Skrypty;
 using LogikaGeneracji;
 using LogikaGeneracji.PrzetwarzanieFortunea;
-using Microsoft.VisualBasic;
 using UnityEngine;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
-using Debug = UnityEngine.Debug;
 using Random = System.Random;
 
 namespace Assets.Editor
 {
-   public class DzialaniaNaWezlach // pilne Uniezale¿niæ od edytora poziomu (wzajemna zale¿noœæ!)
+   public class DzialaniaNaWezlach // pilne Uniezale¿niæ od edytora poziomu (wzajemna zale¿noœæ)?
    {
       private readonly PoziomEditor _poziomEditor;
       private Random _random;
@@ -45,11 +42,11 @@ namespace Assets.Editor
       {
          Poziom.KomponentPojemnika = UtworzPojemnik();
 
-         _poziomEditor.Poziom._wezly = new Wezel[_poziomEditor.StanGeneratora._rozmiarX, _poziomEditor.StanGeneratora._rozmiarZ];
-         for (int x = 0; x < _poziomEditor.StanGeneratora._rozmiarX; ++x)
-            for (int z = 0; z < _poziomEditor.StanGeneratora._rozmiarZ; ++z)
+         _poziomEditor.Poziom._wezly = new Wezel[_poziomEditor.StanGeneratora.RozmiarX, _poziomEditor.StanGeneratora.RozmiarZ];
+         for (int x = 0; x < _poziomEditor.StanGeneratora.RozmiarX; ++x)
+            for (int z = 0; z < _poziomEditor.StanGeneratora.RozmiarZ; ++z)
             {
-               float rozpietosc = _poziomEditor.StanGeneratora._rozpietosc;
+               float rozpietosc = _poziomEditor.StanGeneratora.Rozpietosc;
                var wezelObject =
                   (GameObject)
                      Object.Instantiate(Resources.Load("Wezel"), _poziomEditor.Poziom.KomponentPojemnika.transform.position + new Vector3(x * rozpietosc,  0f, z * rozpietosc),
@@ -57,7 +54,7 @@ namespace Assets.Editor
                wezelObject.transform.parent = Poziom.KomponentPojemnika.Wezly.transform;
                wezelObject.GetComponent<Wezel>().pierwotnaPozycja = wezelObject.transform.position;
                _poziomEditor.Poziom._wezly[x, z] = wezelObject.GetComponent<Wezel>();
-               if (x <= 1 || z <= 1 || x >= _poziomEditor.StanGeneratora._rozmiarX - 2 || z >= _poziomEditor.StanGeneratora._rozmiarZ - 2)
+               if (x <= 1 || z <= 1 || x >= _poziomEditor.StanGeneratora.RozmiarX - 2 || z >= _poziomEditor.StanGeneratora.RozmiarZ - 2)
                   wezelObject.GetComponent<Wezel>().czySkrajny = true;
             }
       }
