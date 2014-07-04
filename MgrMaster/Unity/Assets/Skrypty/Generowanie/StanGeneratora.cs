@@ -29,8 +29,7 @@ namespace Assets.Skrypty.Generowanie
       public StanGeneratora()
       {
          PokazRogi = false;
-         UtworzoneWarstwy = new List<Warstwa> {Warstwa.Brak};
-         ;
+         UtworzoneWarstwy = new List<Warstwa>();
          ParametryPerlina = new ParametryPerlina
          {
             Ziarno = 0,

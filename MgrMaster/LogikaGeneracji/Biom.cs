@@ -8,7 +8,7 @@ namespace LogikaGeneracji
       Tajga,
       LasUmiarkowany,
       Bagna,
-      Step,
+      Laki,
       Pustynia,
       LasWilgotny
    }

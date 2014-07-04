@@ -42,6 +42,9 @@ namespace Assets.Skrypty.Generowanie
       public const float MnoznikTemperaturyMin = 0f;
       public const float MnoznikTemperaturyMaks = 2f;
 
+      public const int LimitProbUtworzeniaSrednioJednejRzeki = 10;
+      public const float MinimalnaWysokoscZrodlaRzeki = .5f;
+
       public static class Perlin
       {
          public const int MinIloscWarstw = 1;
@@ -84,14 +87,14 @@ namespace Assets.Skrypty.Generowanie
       public static readonly KonfigAktualizatoraBiomow KonfiguracjaBiomow = new KonfigAktualizatoraBiomow(
          new List<KonfiguracjaBiomu>
          {
-            new KonfiguracjaBiomu(0.5f, 0.18f, Biom.WiecznySnieg),
+            new KonfiguracjaBiomu(0.4f, 0.13f, Biom.WiecznySnieg),
             new KonfiguracjaBiomu(0.3f, 0.18f, Biom.GoleGory),
             new KonfiguracjaBiomu(0.3f, 0.22f, Biom.Kosodrzewina),
             new KonfiguracjaBiomu(0.4f, 0.24f, Biom.Tajga),
             new KonfiguracjaBiomu(0.3f, 0.29f, Biom.LasUmiarkowany),
             new KonfiguracjaBiomu(0.6f, 0.25f, Biom.LasUmiarkowany),
             new KonfiguracjaBiomu(0.4f, 0.6f, Biom.LasUmiarkowany),
-            new KonfiguracjaBiomu(0.35f, 0.7f, Biom.Step),
+            new KonfiguracjaBiomu(0.35f, 0.7f, Biom.Laki),
             new KonfiguracjaBiomu(0.12f, 0.9f, Biom.Pustynia),
             new KonfiguracjaBiomu(0.9f, 0.5f, Biom.Bagna),
             new KonfiguracjaBiomu(0.8f, 0.8f, Biom.LasWilgotny),
@@ -105,11 +108,10 @@ namespace Assets.Skrypty.Generowanie
          {Biom.Kosodrzewina, new Color(.35f, .8f, .5f)},
          {Biom.Tajga, new Color(.2f, .37f, .25f)},
          {Biom.LasWilgotny, new Color(.25f, .3f, .12f)},
-         {Biom.Step, new Color(.6f, .9f, .18f)},
+         {Biom.Laki, new Color(.6f, .9f, .18f)},
          {Biom.Pustynia, new Color(.9f, 1f, .24f)},
          {Biom.Bagna, new Color(.43f, .44f, .20f)},
          {Biom.LasUmiarkowany, new Color(.23f, .7f, .02f)},
       };
-
    }
 }

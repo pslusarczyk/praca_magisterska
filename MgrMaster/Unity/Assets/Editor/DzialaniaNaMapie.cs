@@ -5,6 +5,7 @@ using Assets.Skrypty;
 using Assets.Skrypty.Generowanie;
 using LogikaGeneracji;
 using LogikaGeneracji.PrzetwarzanieMapy;
+using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = System.Random;
@@ -299,15 +300,25 @@ namespace Assets.Editor
 
       public void UtworzRzeki(int ile, Random gen)
       {
-         for (int i = 0; i < ile; ++i)
+         int wykonanychProb = 0;
+         for (int utworzonych = 0; utworzonych < ile; ++wykonanychProb)
          {
+            if (wykonanychProb > ile*Konf.LimitProbUtworzeniaSrednioJednejRzeki)
+            {
+               Debug.LogWarning("Przekroczono dopuszczaln¹ iloœæ prób wygenerowania rzeki.");
+               return;
+            }
             var komorkiKandydaci = Poziom._mapa.Komorki.Where(k => k.Dane.Podloze == Podloze.Ziemia
-               && k.Punkt.Wysokosc > .5f).ToList(); // todo parametr
+               && k.Punkt.Wysokosc > Konf.MinimalnaWysokoscZrodlaRzeki).ToList(); 
 
             int indeksKomorki = gen.Next(komorkiKandydaci.Count());
             IPunkt punktPoczatkowy = komorkiKandydaci.ElementAt(indeksKomorki).Punkt;
             var generatorRzek = new GeneratorRzeki(punktPoczatkowy);
             generatorRzek.Przetwarzaj(Poziom._mapa);
+            if (generatorRzek.UdaloSieUtworzyc == true)
+            {
+               ++utworzonych;
+            }
          }
       }
 

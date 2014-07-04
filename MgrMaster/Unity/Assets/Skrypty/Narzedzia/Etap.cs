@@ -1,4 +1,4 @@
-namespace Assets.Skrypty.Narzedzia
+ namespace Assets.Skrypty.Narzedzia
 {
    public enum Etap
    {
@@ -13,5 +13,6 @@ namespace Assets.Skrypty.Narzedzia
       WyznaczanieWilgotnosci = 8,
       WyznaczanieTemperatury = 9,
       WyznaczanieBiomow = 10,
+      Koniec = 11
    }
 }

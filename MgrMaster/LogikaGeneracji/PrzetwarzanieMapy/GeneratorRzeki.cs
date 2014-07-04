@@ -52,7 +52,7 @@ namespace LogikaGeneracji.PrzetwarzanieMapy
             });
             if (_odcinki.Any(o => o.PunktA == nastepnyPunkt))
             {
-               Debug.Log("cykl! by³ ju¿ odwiedzony punkt: " + nastepnyPunkt.Id);
+               //Debug.Log("cykl! by³ ju¿ odwiedzony punkt: " + nastepnyPunkt.Id);
                return;
             }
             kolizyjnaRzeka = _mapa.Rzeki.FirstOrDefault(rz => rz.Odcinki.Any(o => o.PunktA == nastepnyPunkt));

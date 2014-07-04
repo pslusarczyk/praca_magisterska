@@ -106,11 +106,11 @@ namespace Assets.Editor
             SekcjaTworzeniaJezior();
          if (_stanGeneratora.Etap == Etap.TworzenieRzek)
             SekcjaTworzeniaRzek();
-         if (_stanGeneratora.Etap == Etap.WyznaczanieWilgotnosci)// || AktualnaWarstwa == Warstwa.Wilgotnosc)
+         if (_stanGeneratora.Etap == Etap.WyznaczanieWilgotnosci)
             SekcjaWyznaczaniaWilgotnosci();
-         if (_stanGeneratora.Etap == Etap.WyznaczanieTemperatury)// || AktualnaWarstwa == Warstwa.Temperatura)
+         if (_stanGeneratora.Etap == Etap.WyznaczanieTemperatury)
             SekcjaWyznaczaniaTemperatury();
-         if (_stanGeneratora.Etap == Etap.WyznaczanieBiomow)//|| AktualnaWarstwa == Warstwa.Biomy)
+         if (_stanGeneratora.Etap >= Etap.WyznaczanieBiomow || (AktualnaWarstwa == Warstwa.Biomy))
             SekcjaWyznaczaniaBiomow();
       }
       
@@ -125,7 +125,7 @@ namespace Assets.Editor
             _dzialaniaNaMapie.UsunWezlyRogiIKomorki();
             _stanGeneratora.Etap = Etap.GenerowanieWezlow;
             StanGeneratora.UtworzoneWarstwy.Clear();
-            StanGeneratora.UtworzoneWarstwy.Add(Warstwa.Brak);
+            //StanGeneratora.UtworzoneWarstwy.Add();
          }
          GUI.color = Color.white;
       }
@@ -242,24 +242,21 @@ namespace Assets.Editor
          {
             _dzialaniaNaMapie.ZatwierdzRozdzielenieZiemiIWody(StanGeneratora.PoziomMorza);
             _stanGeneratora.Etap = Etap.WydzielanieMorza;
-            //_dzialaniaNaMapie.RozdzielMorzeIJeziora(_stanGeneratora.InicjatorzyZalewania);
-            //_dzialaniaNaMapie.AktualizujBrzeznosci();
-            //_dzialaniaNaMapie.PokazWarstweWysokosciIWody();
             _dzialaniaNaMapie.UstawKomorkomWidocznoscPolaInicjatorPowodzi(true);
          }
       }
 
       private void SekcjaWydzielaniaMorza()
       {
-         EditorGUILayout.LabelField("Wybierz komórki inicjuj¹ce powódŸ", Konf.StylNaglowkaInspektora);
+         EditorGUILayout.LabelField("Oznacz komórki inicjuj¹ce morza", Konf.StylNaglowkaInspektora);
          _stanGeneratora.InicjatorzyZalewania = Poziom._komorkiUnity.Where(k => k.InicjatorPowodzi);
-         if (GUILayout.Button("Rozdziel morze i jeziora"))
+         if (GUILayout.Button("Rozdziel morza i jeziora"))
          {
             _dzialaniaNaMapie.RozdzielMorzeIJeziora(_stanGeneratora.InicjatorzyZalewania);
             _dzialaniaNaMapie.AktualizujBrzeznosci();
             _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
          }
-         if (GUILayout.Button("Dalej"))
+         if (Poziom._mapa.Komorki.Any(k => k.Dane.Typ != null) && GUILayout.Button("Dalej"))
          {
             _dzialaniaNaMapie.UstawPunktomNastepstwaMapyWysokosci();
             _dzialaniaNaMapie.UstawKomorkomWidocznoscPolaInicjatorPowodzi(false);
@@ -286,6 +283,8 @@ namespace Assets.Editor
                OdswiezZaznaczenieWarstwy();
             }
          }
+         else
+            EditorGUILayout.LabelField("Brak miejsc na wygenerowanie jezior.", Konf.StylNaglowkaInspektora);
 
          if (GUILayout.Button("Dalej"))
          {
@@ -371,7 +370,7 @@ namespace Assets.Editor
                EditorGUILayout.Slider(konfiguracjaBiomu.Biom.ToString()+" wilg.", konfiguracjaBiomu.Wilgotnosc, 0f, 1f);
             }
 
-         if (GUILayout.Button("Wyznacz biomy"))
+         if (GUILayout.Button("Utwórz mapê biomów"))
          {
             _dzialaniaNaMapie.UtworzMapeBiomow(StanGeneratora.KonfiguracjaBiomow);
 
@@ -380,6 +379,7 @@ namespace Assets.Editor
             AktualnaWarstwa = Warstwa.Biomy;
             _stanGeneratora.NumerWybranejWarstwy = StanGeneratora.UtworzoneWarstwy.IndexOf(AktualnaWarstwa);
             _dzialaniaNaMapie.PokazWarstweBiomow();
+            StanGeneratora.Etap = Etap.Koniec;
          }
       }
 
@@ -392,6 +392,7 @@ namespace Assets.Editor
             1,GUILayout.Width(200));
          GUILayout.Space(20);
          GUI.color = Color.white;
+
          AktualnaWarstwa = StanGeneratora.UtworzoneWarstwy[_stanGeneratora.NumerWybranejWarstwy];
          OdswiezZaznaczenieWarstwy();
 
@@ -424,6 +425,8 @@ namespace Assets.Editor
       public void OdswiezZaznaczenieWarstwy()
       {
          _stanGeneratora.NumerWybranejWarstwy = StanGeneratora.UtworzoneWarstwy.IndexOf(AktualnaWarstwa);
+         if (_stanGeneratora.NumerWybranejWarstwy == -1)
+            _stanGeneratora.NumerWybranejWarstwy = 0;
       }
    }
 }
