@@ -43,7 +43,7 @@ namespace Assets.Skrypty.Generowanie
       public const float MnoznikTemperaturyMaks = 2f;
 
       public const int LimitProbUtworzeniaSrednioJednejRzeki = 10;
-      public const float MinimalnaWysokoscZrodlaRzeki = .5f;
+      public const float MinimalnaWysokoscZrodlaRzeki = .3f;
 
       public static class Perlin
       {

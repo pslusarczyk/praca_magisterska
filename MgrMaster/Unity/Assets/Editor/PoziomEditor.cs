@@ -125,7 +125,7 @@ namespace Assets.Editor
             _dzialaniaNaMapie.UsunWezlyRogiIKomorki();
             _stanGeneratora.Etap = Etap.GenerowanieWezlow;
             StanGeneratora.UtworzoneWarstwy.Clear();
-            //StanGeneratora.UtworzoneWarstwy.Add();
+            StanGeneratora.NumerWybranejWarstwy = 0;
          }
          GUI.color = Color.white;
       }
@@ -192,7 +192,7 @@ namespace Assets.Editor
             = EditorGUILayout.IntField("Ziarno", StanGeneratora.ParametryPerlina.Ziarno);
 
          StanGeneratora.ParametryPerlina.IloscWarstw
-            = EditorGUILayout.IntSlider("IloscWarstw",
+            = EditorGUILayout.IntSlider("Iloœæ warstw",
                StanGeneratora.ParametryPerlina.IloscWarstw, Konf.Perlin.MinIloscWarstw, Konf.Perlin.MaksIloscWarstw);
 
          StanGeneratora.ParametryPerlina.Skala
@@ -200,15 +200,15 @@ namespace Assets.Editor
                StanGeneratora.ParametryPerlina.Skala, Konf.Perlin.MinSkala, Konf.Perlin.MaksSkala);
 
          StanGeneratora.ParametryPerlina.ZachowanieSkali
-            = EditorGUILayout.Slider("ZachowanieSkali",
+            = EditorGUILayout.Slider("Zachowanie skali",
                StanGeneratora.ParametryPerlina.ZachowanieSkali, Konf.Perlin.MinZachowanieSkali, Konf.Perlin.MaksZachowanieSkali);
 
          StanGeneratora.ParametryPerlina.SkokGestosci
-            = EditorGUILayout.Slider("SkokGestosci",
+            = EditorGUILayout.Slider("Skok gêstoœci",
                StanGeneratora.ParametryPerlina.SkokGestosci, Konf.Perlin.MinSkokGestosci, Konf.Perlin.MaksSkokGestosci);
 
          StanGeneratora.ParametryPerlina.Gestosc
-            = EditorGUILayout.Slider("Gestosc",
+            = EditorGUILayout.Slider("Gêstoœæ",
                StanGeneratora.ParametryPerlina.Gestosc, Konf.Perlin.MinGestosc, Konf.Perlin.MaksGestosc);
          if (GUILayout.Button("Generuj wysokoœci"))
          {
@@ -385,6 +385,8 @@ namespace Assets.Editor
 
       private void PokazPanelWarstw()
       {
+         if (!StanGeneratora.UtworzoneWarstwy.Any())
+            return;
          GUI.color = new Color(.8f, .8f, .1f);
          GUILayout.Label("Warstwa:");
          _stanGeneratora.NumerWybranejWarstwy = GUILayout.SelectionGrid(_stanGeneratora.NumerWybranejWarstwy,

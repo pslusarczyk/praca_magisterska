@@ -12,6 +12,7 @@ namespace LogikaGeneracji
       float Wysokosc { get; set; }
       IPunkt Nastepnik { get; set; }
       bool ZawieraRzeke { get; set; }
+      float WysFiz { get; set; }
    }
 
    public class Punkt : IPunkt
@@ -29,6 +30,7 @@ namespace LogikaGeneracji
       public float Wysokosc { get; set; }
       public IPunkt Nastepnik { get; set; }
       public bool ZawieraRzeke { get; set; }
+      public float WysFiz { get; set; }
    }
 
 

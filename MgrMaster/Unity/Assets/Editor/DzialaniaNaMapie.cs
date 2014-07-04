@@ -117,16 +117,19 @@ namespace Assets.Editor
          foreach (KomorkaUnity komorkaUnity in Poziom._komorkiUnity)
          {
             float wysokosc = komorkaUnity.Komorka.Punkt.Wysokosc + modyfikator;
+            float wysokoscFizyczna = .01f + wysokosc * mnoznikWysokosci * 2;
             if (komorkaUnity.Komorka.Dane.Podloze != Podloze.Woda)
             {
-               float wysokoscFizyczna = .01f + wysokosc*mnoznikWysokosci*2;
+               
                komorkaUnity.Komorka.Punkt.Pozycja = new Vector3(komorkaUnity.Komorka.Punkt.Pozycja.x, wysokoscFizyczna - .8f, komorkaUnity.Komorka.Punkt.Pozycja.z);
+               komorkaUnity.Komorka.Punkt.WysFiz = wysokoscFizyczna;
                komorkaUnity.transform.localScale = new Vector3(1f, wysokoscFizyczna, 1f);
                komorkaUnity.transform.localPosition = new Vector3(komorkaUnity.transform.localPosition.x, wysokosc * mnoznikWysokosci,
                   komorkaUnity.transform.localPosition.z);
             }
             else
             {
+               komorkaUnity.Komorka.Punkt.Pozycja = new Vector3(komorkaUnity.Komorka.Punkt.Pozycja.x, wysokoscFizyczna - .8f, komorkaUnity.Komorka.Punkt.Pozycja.z);
                komorkaUnity.transform.localScale = new Vector3(1f, .01f, 1f);
                komorkaUnity.transform.localPosition = new Vector3(komorkaUnity.transform.localPosition.x, 0f,
                   komorkaUnity.transform.localPosition.z);
@@ -309,7 +312,7 @@ namespace Assets.Editor
                return;
             }
             var komorkiKandydaci = Poziom._mapa.Komorki.Where(k => k.Dane.Podloze == Podloze.Ziemia
-               && k.Punkt.Wysokosc > Konf.MinimalnaWysokoscZrodlaRzeki).ToList(); 
+               && k.Punkt.Wysokosc > Konf.MinimalnaWysokoscZrodlaRzeki && k.Punkt.Wysokosc < .7f).ToList(); 
 
             int indeksKomorki = gen.Next(komorkiKandydaci.Count());
             IPunkt punktPoczatkowy = komorkiKandydaci.ElementAt(indeksKomorki).Punkt;
