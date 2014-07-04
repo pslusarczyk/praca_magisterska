@@ -312,7 +312,7 @@ namespace Assets.Editor
                return;
             }
             var komorkiKandydaci = Poziom._mapa.Komorki.Where(k => k.Dane.Podloze == Podloze.Ziemia
-               && k.Punkt.Wysokosc > Konf.MinimalnaWysokoscZrodlaRzeki && k.Punkt.Wysokosc < .7f).ToList(); 
+               && k.Punkt.Wysokosc > Konf.MinimalnaWysokoscZrodlaRzeki).ToList(); 
 
             int indeksKomorki = gen.Next(komorkiKandydaci.Count());
             IPunkt punktPoczatkowy = komorkiKandydaci.ElementAt(indeksKomorki).Punkt;

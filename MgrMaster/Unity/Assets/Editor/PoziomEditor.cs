@@ -90,6 +90,7 @@ namespace Assets.Editor
          EditorGUILayout.LabelField("Generator poziomu", Konf.StylNaglowkaInspektora);
 
          SekcjaResetowania();
+         EditorGUILayout.LabelField("Etap: " + _stanGeneratora.Etap, Konf.StylNaglowkaInspektora);
          if (_stanGeneratora.Etap == Etap.GenerowanieWezlow)
             SekcjaGenerowaniaWezlow();
          if ((_stanGeneratora.Etap == Etap.ZaburzanieWezlow || _stanGeneratora.Etap == Etap.TworzenieKomorekIRogow))
