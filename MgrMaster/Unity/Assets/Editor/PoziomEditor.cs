@@ -1,5 +1,9 @@
 using System;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
 using Assets.Editor.ExposeProperties;
 using Assets.Skrypty;
 using Assets.Skrypty.Generowanie;
@@ -16,6 +20,7 @@ namespace Assets.Editor
    public class PoziomEditor : UnityEditor.Editor
    {
       PropertyField[] m_fields;
+      [SerializeField]
       private Poziom _poziom;
       private Warstwa _poprzedniaWarstwa;
       
@@ -91,6 +96,7 @@ namespace Assets.Editor
 
          SekcjaResetowania();
          EditorGUILayout.LabelField("Etap: " + _stanGeneratora.Etap, Konf.StylNaglowkaInspektora);
+         EditorGUILayout.Space();
          if (_stanGeneratora.Etap == Etap.GenerowanieWezlow)
             SekcjaGenerowaniaWezlow();
          if ((_stanGeneratora.Etap == Etap.ZaburzanieWezlow || _stanGeneratora.Etap == Etap.TworzenieKomorekIRogow))
@@ -111,7 +117,7 @@ namespace Assets.Editor
             SekcjaWyznaczaniaWilgotnosci();
          if (_stanGeneratora.Etap == Etap.WyznaczanieTemperatury)
             SekcjaWyznaczaniaTemperatury();
-         if (_stanGeneratora.Etap >= Etap.WyznaczanieBiomow || (AktualnaWarstwa == Warstwa.Biomy))
+         if (_stanGeneratora.Etap == Etap.WyznaczanieBiomow || (AktualnaWarstwa == Warstwa.Biomy))
             SekcjaWyznaczaniaBiomow();
       }
       
@@ -366,10 +372,11 @@ namespace Assets.Editor
          foreach (KonfiguracjaBiomu konfiguracjaBiomu in StanGeneratora.KonfiguracjaBiomow.ParametryBiomow)
          {
             konfiguracjaBiomu.Temperatura =
-               EditorGUILayout.Slider(konfiguracjaBiomu.Biom.ToString()+" temp.", konfiguracjaBiomu.Temperatura, 0f, 1f);
-           konfiguracjaBiomu.Wilgotnosc =
-               EditorGUILayout.Slider(konfiguracjaBiomu.Biom.ToString()+" wilg.", konfiguracjaBiomu.Wilgotnosc, 0f, 1f);
-            }
+               EditorGUILayout.Slider(konfiguracjaBiomu.Biom.ToString() + " temp.", konfiguracjaBiomu.Temperatura, 0f,
+                  1f);
+            konfiguracjaBiomu.Wilgotnosc =
+               EditorGUILayout.Slider(konfiguracjaBiomu.Biom.ToString() + " wilg.", konfiguracjaBiomu.Wilgotnosc, 0f, 1f);
+         }
 
          if (GUILayout.Button("Utwórz mapê biomów"))
          {
@@ -380,8 +387,21 @@ namespace Assets.Editor
             AktualnaWarstwa = Warstwa.Biomy;
             _stanGeneratora.NumerWybranejWarstwy = StanGeneratora.UtworzoneWarstwy.IndexOf(AktualnaWarstwa);
             _dzialaniaNaMapie.PokazWarstweBiomow();
-            StanGeneratora.Etap = Etap.Koniec;
          }
+         if (StanGeneratora.UtworzoneWarstwy.Contains(Warstwa.Biomy) && GUILayout.Button("Zakoñcz"))
+         {
+            StanGeneratora.Etap = Etap.Koniec;
+
+            ZapiszPoziom();
+         }
+      }
+
+      private void ZapiszPoziom()
+      {
+         var serializer = new XmlSerializer(typeof(Poziom));
+         Stream stream = new FileStream("Poziom.xml", FileMode.Create, FileAccess.Write, FileShare.None);
+         serializer.Serialize(stream, Poziom);
+         stream.Close();
       }
 
       private void PokazPanelWarstw()

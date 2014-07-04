@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
+using System.Xml.Serialization;
 using Assets.Skrypty.Generowanie;
 using Assets.Skrypty.Narzedzia;
 using LogikaGeneracji;
@@ -32,6 +33,7 @@ namespace Assets.Skrypty
       public Wezel[,] _wezly;
       public IList<KomorkaUnity> _komorkiUnity;
       public IList<RogUnity> _rogiUnity;
+
       public IMapa _mapa;
       public static int Ziarno;
 
