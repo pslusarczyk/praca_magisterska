@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using LogikaGeneracji.PrzetwarzanieFortunea;
 using LogikaGeneracji.PrzetwarzanieMapy.Baza;
@@ -17,6 +18,7 @@ namespace LogikaGeneracji
       void DodajRogi(IRog pierwszy, IRog drugi);
    }
 
+   [Serializable]
    public class Komorka : IKomorka
    {
       public Komorka()

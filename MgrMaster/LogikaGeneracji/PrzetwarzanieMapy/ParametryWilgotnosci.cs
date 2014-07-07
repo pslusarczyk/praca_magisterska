@@ -1,5 +1,8 @@
+using System;
+
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {
+   [Serializable]
    public class ParametryWilgotnosci
    {
       public int GlebokoscPrzeszukiwania;

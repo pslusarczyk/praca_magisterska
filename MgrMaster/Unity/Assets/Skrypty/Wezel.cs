@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Skrypty
 {
+   [Serializable]
    public class Wezel : MonoBehaviour
    {
       public bool czySkrajny = false;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,23 +9,50 @@ using UnityEngine;
 
 namespace Assets.Skrypty.Generowanie
 {
+   [Serializable]
    public class StanGeneratora
    {
       public IList<Warstwa> UtworzoneWarstwy;
+      [SerializeField]
       private bool _pokazRogiPoprzedniaWartosc = true;
+      [SerializeField]
       private float _zasiegZaburzenia = Konf.PoczStopienZaburzeniaWezlow;
       public int RozmiarX = Konf.PoczRozmiarX;
       public int RozmiarZ = Konf.PoczRozmiarZ;
       public float Rozpietosc = Konf.PoczRozpietosc;
       private float _poziomMorza = Konf.PoczPoziomMorza;
+      [SerializeField]
       private Etap _etap = Etap.GenerowanieWezlow;
       public float MnoznikTemperatury = Konf.PoczMnoznikTemperatury;
       public int LiczbaJeziorDoWygenerowania;
       public int LiczbaRzekDoWygenerowania;
+      [SerializeField]
+      private int _numerWybranejWarstwy;
 
-      public ParametryPerlina ParametryPerlina { get; set; }
-      public ParametryWilgotnosci ParametryWilgotnosci { get; set; }
-      public KonfigAktualizatoraBiomow KonfiguracjaBiomow { get; set; }
+      [SerializeField]
+      private ParametryPerlina _parametryPerlina;
+      [SerializeField]
+      private ParametryWilgotnosci _parametryWilgotnosci;
+      [SerializeField]
+      private KonfigAktualizatoraBiomow _konfiguracjaBiomow;
+
+      public ParametryPerlina ParametryPerlina
+      {
+         get { return _parametryPerlina; }
+         set { _parametryPerlina = value; }
+      }
+
+      public ParametryWilgotnosci ParametryWilgotnosci
+      {
+         get { return _parametryWilgotnosci; }
+         set { _parametryWilgotnosci = value; }
+      }
+
+      public KonfigAktualizatoraBiomow KonfiguracjaBiomow
+      {
+         get { return _konfiguracjaBiomow; }
+         set { _konfiguracjaBiomow = value; }
+      }
 
       public StanGeneratora()
       {
@@ -71,7 +99,11 @@ namespace Assets.Skrypty.Generowanie
          get { return _poziomMorza; }
       }
 
-      public int NumerWybranejWarstwy { get; set; }
+      public int NumerWybranejWarstwy
+      {
+         get { return _numerWybranejWarstwy; }
+         set { _numerWybranejWarstwy = value; }
+      }
 
       public Etap Etap
       {

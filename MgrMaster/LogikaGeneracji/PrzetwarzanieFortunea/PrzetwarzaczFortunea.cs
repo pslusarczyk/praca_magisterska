@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ZewnetrzneBiblioteki.FortuneVoronoi;
@@ -106,7 +107,7 @@ namespace LogikaGeneracji.PrzetwarzanieFortunea
       }
    }
 
-
+   [Serializable]
    public class Dwukrawedz
    {
       public IKomorka Lewa { get; set; }

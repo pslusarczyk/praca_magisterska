@@ -19,8 +19,7 @@ namespace Assets.Skrypty
       // pokazywanie w inspektorze nieautomatycznej w³aœciwoœci: http://wiki.unity3d.com/index.php?title=Expose_properties_in_inspector
       // UWAGA! — taka w³aœciwoœæ musi posiadaæ funkcje get i set, nawet jeœli któraœ z nich ma nic nie robiæ
 
-      public Pojemnik KomponentPojemnika { get; set; }
-      public StanGeneratora StanGeneratora { get; set; }
+
 
       public HashSet<VoronoiEdge> _krawedzieWoronoja;
 
@@ -30,18 +29,33 @@ namespace Assets.Skrypty
       [HideInInspector]
       public Warstwa AktualnaWarstwa = Warstwa.Brak;
       
-      public Wezel[,] _wezly;
-      public IList<KomorkaUnity> _komorkiUnity;
-      public IList<RogUnity> _rogiUnity;
+      [SerializeField] public Wezel[,] _wezly;
+      [SerializeField] public IList<KomorkaUnity> _komorkiUnity;
+      [SerializeField] public IList<RogUnity> _rogiUnity;
 
-      public IMapa _mapa;
+      [SerializeField] public Mapa _mapa;
+
+      [SerializeField] private StanGeneratora _stanGeneratora;
+      [SerializeField] private Pojemnik _komponentPojemnika;
       public static int Ziarno;
 
       public Poziom()
       {
          _komorkiUnity = new List<KomorkaUnity>();
          _rogiUnity = new List<RogUnity>();
-         StanGeneratora = new StanGeneratora();
+         _stanGeneratora = new StanGeneratora();
+      }
+
+      public Pojemnik KomponentPojemnika
+      {
+         get { return _komponentPojemnika; }
+         set { _komponentPojemnika = value; }
+      }
+
+      public StanGeneratora StanGeneratora
+      {
+         get { return _stanGeneratora; }
+         set { _stanGeneratora = value; }
       }
 
       public void OnDrawGizmos()

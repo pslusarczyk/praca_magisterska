@@ -1,5 +1,8 @@
- namespace Assets.Skrypty.Narzedzia
+ using System;
+
+namespace Assets.Skrypty.Narzedzia
 {
+   [Serializable]
    public enum Etap
    {
       GenerowanieWezlow = 0,

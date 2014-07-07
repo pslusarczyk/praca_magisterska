@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Assets.Skrypty
 {
+   [Serializable]
    public class Pojemnik : MonoBehaviour
    {
 

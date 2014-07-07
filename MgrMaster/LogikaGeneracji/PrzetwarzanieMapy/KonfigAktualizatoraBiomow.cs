@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LogikaGeneracji.PrzetwarzanieMapy
 {
+   [Serializable]
    public class KonfigAktualizatoraBiomow
    {
       public List<KonfiguracjaBiomu> ParametryBiomow { get; set; }

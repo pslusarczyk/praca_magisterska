@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,6 +10,7 @@ namespace LogikaGeneracji
       int DlugoscDoPunktu(IPunkt prog);
    }
 
+   [Serializable]
    public class Rzeka : IRzeka
    {
       public IList<IOdcinekRzeki> Odcinki { get; set; }

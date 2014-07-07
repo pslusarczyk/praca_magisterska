@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using LogikaGeneracji.PrzetwarzanieFortunea;
 using LogikaGeneracji.PrzetwarzanieMapy.Baza;
@@ -15,6 +16,7 @@ namespace LogikaGeneracji
       void DodajKomorki(IKomorka lewa, IKomorka prawa);
    }
 
+   [Serializable]
    public class Rog : IRog
    {
       public Rog()

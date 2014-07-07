@@ -10,6 +10,7 @@ namespace Assets.Editor
 {
    public class DzialaniaNaWezlach // pilne Uniezale¿niæ od edytora poziomu (wzajemna zale¿noœæ)?
    {
+      [SerializeField]
       private readonly PoziomEditor _poziomEditor;
       private Random _random;
 
@@ -32,6 +33,7 @@ namespace Assets.Editor
 
       public void UkryjWezly()
       {
+         if (_poziomEditor.Poziom._wezly != null)
          foreach (Wezel wezel in _poziomEditor.Poziom._wezly)
          {
             wezel.renderer.enabled = false;
@@ -116,7 +118,7 @@ namespace Assets.Editor
          _poziomEditor.Poziom._krawedzieWoronoja = Fortune.ComputeVoronoiGraph(WezlyNaWektory()).Edges; // dla mapy 50x50: 0,7 sekundy
          var pf = new PrzetwarzaczFortunea();
          IMapa mapa = pf.Przetwarzaj(_poziomEditor.Poziom._krawedzieWoronoja);  // dla mapy 50x50: 7,1 sekundy
-         _poziomEditor.Poziom._mapa = mapa;
+         _poziomEditor.Poziom._mapa = (Mapa)mapa; // pilne czy to rzutowanie jest potrzebne?
 
          foreach (var komorka in mapa.Komorki) // dla mapy 50x50: 0,7 sekundy
          {

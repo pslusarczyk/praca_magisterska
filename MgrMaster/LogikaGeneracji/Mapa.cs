@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using LogikaGeneracji.PrzetwarzanieFortunea;
 using LogikaGeneracji.PrzetwarzanieMapy.Baza;
+using UnityEngine;
 
 namespace LogikaGeneracji
 {
+
    public interface IMapa
    {
       IEnumerable<IPunkt> Punkty { get; }
@@ -19,15 +22,58 @@ namespace LogikaGeneracji
       void UstawPunktomSasiedztwa();
    }
 
+   [Serializable]
    public class Mapa : IMapa
    {
+      [SerializeField]
+      private List<Dwukrawedz> _dwukrawedzie;
+      [SerializeField]
+      private HashSet<IKomorka> _komorki;
+      [SerializeField]
+      private HashSet<IRog> _rogi;
+      [SerializeField]
+      private List<IPrzetwarzaczMapy> _zastosowanePrzetwarzacze;
+      [SerializeField]
+      private IList<IRzeka> _rzeki;
+      [SerializeField]
+      private IList<IKomorka> _komorkiNiecki;
       public bool ZakonczonoTworzenie { get; set; }
-      public List<Dwukrawedz> Dwukrawedzie { get; set; }
-      public HashSet<IKomorka> Komorki { get; set; }
-      public HashSet<IRog> Rogi { get; set; }
-      public List<IPrzetwarzaczMapy> ZastosowanePrzetwarzacze { get; set; }
-      public IList<IRzeka> Rzeki { get; set; }
-      public IList<IKomorka> KomorkiNiecki { get; set; }
+
+      public List<Dwukrawedz> Dwukrawedzie
+      {
+         get { return _dwukrawedzie; }
+         set { _dwukrawedzie = value; }
+      }
+
+      public HashSet<IKomorka> Komorki
+      {
+         get { return _komorki; }
+         set { _komorki = value; }
+      }
+
+      public HashSet<IRog> Rogi
+      {
+         get { return _rogi; }
+         set { _rogi = value; }
+      }
+
+      public List<IPrzetwarzaczMapy> ZastosowanePrzetwarzacze
+      {
+         get { return _zastosowanePrzetwarzacze; }
+         set { _zastosowanePrzetwarzacze = value; }
+      }
+
+      public IList<IRzeka> Rzeki
+      {
+         get { return _rzeki; }
+         set { _rzeki = value; }
+      }
+
+      public IList<IKomorka> KomorkiNiecki
+      {
+         get { return _komorkiNiecki; }
+         set { _komorkiNiecki = value; }
+      }
 
       public void ZastosujPrzetwarzanie(IPrzetwarzaczMapy przetwarzacz)
       {

@@ -22,6 +22,7 @@ namespace Assets.Editor
       PropertyField[] m_fields;
       [SerializeField]
       private Poziom _poziom;
+      [SerializeField]
       private Warstwa _poprzedniaWarstwa;
       
       public bool PokazSciany
@@ -37,17 +38,18 @@ namespace Assets.Editor
          set { _poziom.AktualnaWarstwa = value; }
       }
 
+      [SerializeField]
       private readonly DzialaniaNaMapie _dzialaniaNaMapie;
 
+      [SerializeField]
       private readonly DzialaniaNaWezlach _dzialaniaNaWezlach;
 
-      private StanGeneratora _stanGeneratora;
-
       private float _poprzedniPoziomMorza = Konf.PoczPoziomMorza;
+      [SerializeField]
       private int _ziarnoGenerowaniaRzek;
 
       [ExposeProperty]
-      public string EtapTekst { get { return _stanGeneratora.Etap.ToString(); } set {} } // musi byæ set ¿eby siê wyœwietla³o
+      public string EtapTekst { get { return StanGeneratora.Etap.ToString(); } set {} } // musi byæ set ¿eby siê wyœwietla³o
 
       public Poziom Poziom
       {
@@ -63,7 +65,7 @@ namespace Assets.Editor
 
       public StanGeneratora StanGeneratora
       {
-         get { return _stanGeneratora; }
+         get { return Poziom.StanGeneratora; }
       }
 
       public PoziomEditor()
@@ -79,11 +81,12 @@ namespace Assets.Editor
       public void OnEnable()
       {
          _poziom = target as Poziom;
-         _stanGeneratora = _poziom.StanGeneratora ?? _stanGeneratora;
          _poprzedniaWarstwa = Warstwa.Brak;
          AktualnaWarstwa = _poprzedniaWarstwa;
          m_fields = ExposeProperties.ExposeProperties.GetProperties(_poziom);
       }
+
+      public int LiczbaJeziorDoWygenerowania;
 
       public override void OnInspectorGUI()
       {
@@ -95,29 +98,32 @@ namespace Assets.Editor
          EditorGUILayout.LabelField("Generator poziomu", Konf.StylNaglowkaInspektora);
 
          SekcjaResetowania();
-         EditorGUILayout.LabelField("Etap: " + _stanGeneratora.Etap, Konf.StylNaglowkaInspektora);
+         EditorGUILayout.LabelField("Etap: " + StanGeneratora.Etap, Konf.StylNaglowkaInspektora);
          EditorGUILayout.Space();
-         if (_stanGeneratora.Etap == Etap.GenerowanieWezlow)
+
+         // pilne usuñ jak bêdzie niepotrzebne LiczbaJeziorDoWygenerowania = EditorGUILayout.IntField("Jezior do wygenerowania", LiczbaJeziorDoWygenerowania);
+         /////
+         if (StanGeneratora.Etap == Etap.GenerowanieWezlow)
             SekcjaGenerowaniaWezlow();
-         if ((_stanGeneratora.Etap == Etap.ZaburzanieWezlow || _stanGeneratora.Etap == Etap.TworzenieKomorekIRogow))
+         if ((StanGeneratora.Etap == Etap.ZaburzanieWezlow || StanGeneratora.Etap == Etap.TworzenieKomorekIRogow))
             SekcjaZaburzaniaITworzeniaKomorekIRogow();
-         if (_stanGeneratora.Etap >= Etap.TworzenieMapyWysokosci)
+         if (StanGeneratora.Etap >= Etap.TworzenieMapyWysokosci)
             SekcjaPokazywaniaIUkrywaniaScianIrogow();
-         if (_stanGeneratora.Etap == Etap.TworzenieMapyWysokosci || _stanGeneratora.Etap == Etap.RozdzielanieZiemiIWody)
+         if (StanGeneratora.Etap == Etap.TworzenieMapyWysokosci || StanGeneratora.Etap == Etap.RozdzielanieZiemiIWody)
             SekcjaGenerowaniaMapyWysokosci();
-         if (_stanGeneratora.Etap == Etap.RozdzielanieZiemiIWody)
+         if (StanGeneratora.Etap == Etap.RozdzielanieZiemiIWody)
             SekcjaPoziomuMorza();
-         if (_stanGeneratora.Etap == Etap.WydzielanieMorza)
+         if (StanGeneratora.Etap == Etap.WydzielanieMorza)
             SekcjaWydzielaniaMorza();
-         if (_stanGeneratora.Etap == Etap.TworzenieJezior)
+         if (StanGeneratora.Etap == Etap.TworzenieJezior)
             SekcjaTworzeniaJezior();
-         if (_stanGeneratora.Etap == Etap.TworzenieRzek)
+         if (StanGeneratora.Etap == Etap.TworzenieRzek)
             SekcjaTworzeniaRzek();
-         if (_stanGeneratora.Etap == Etap.WyznaczanieWilgotnosci)
+         if (StanGeneratora.Etap == Etap.WyznaczanieWilgotnosci)
             SekcjaWyznaczaniaWilgotnosci();
-         if (_stanGeneratora.Etap == Etap.WyznaczanieTemperatury)
+         if (StanGeneratora.Etap == Etap.WyznaczanieTemperatury)
             SekcjaWyznaczaniaTemperatury();
-         if (_stanGeneratora.Etap == Etap.WyznaczanieBiomow || (AktualnaWarstwa == Warstwa.Biomy))
+         if (StanGeneratora.Etap == Etap.WyznaczanieBiomow || (AktualnaWarstwa == Warstwa.Biomy))
             SekcjaWyznaczaniaBiomow();
       }
       
@@ -130,7 +136,7 @@ namespace Assets.Editor
             StanGeneratora.PokazRogiPoprzedniaWartosc = true;
             PokazSciany = false;
             _dzialaniaNaMapie.UsunWezlyRogiIKomorki();
-            _stanGeneratora.Etap = Etap.GenerowanieWezlow;
+            StanGeneratora.Etap = Etap.GenerowanieWezlow;
             StanGeneratora.UtworzoneWarstwy.Clear();
             StanGeneratora.NumerWybranejWarstwy = 0;
          }
@@ -150,7 +156,7 @@ namespace Assets.Editor
          {
             _dzialaniaNaMapie.UsunWezlyRogiIKomorki();
             _dzialaniaNaWezlach.GenerujWezly();
-            _stanGeneratora.Etap = Etap.ZaburzanieWezlow;
+            StanGeneratora.Etap = Etap.ZaburzanieWezlow;
          }
       }
 
@@ -162,13 +168,13 @@ namespace Assets.Editor
          if (GUILayout.Button("Zaburz wêz³y"))
          {
             _dzialaniaNaWezlach.ZaburzWezly(StanGeneratora.ZasiegZaburzenia*StanGeneratora.Rozpietosc, true);
-            _stanGeneratora.Etap = Etap.TworzenieKomorekIRogow;
+            StanGeneratora.Etap = Etap.TworzenieKomorekIRogow;
          }
          if (GUILayout.Button("Utwórz komórki i rogi"))
          {
             _dzialaniaNaWezlach.UkryjWezly();
             _dzialaniaNaWezlach.GenerujKomorkiIRogi();
-            _stanGeneratora.Etap = Etap.TworzenieMapyWysokosci;
+            StanGeneratora.Etap = Etap.TworzenieMapyWysokosci;
          }
       }
 
@@ -228,7 +234,7 @@ namespace Assets.Editor
             AktualnaWarstwa = Warstwa.MapaFizyczna;
             _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
             OdswiezZaznaczenieWarstwy();
-            _stanGeneratora.Etap = Etap.RozdzielanieZiemiIWody;
+            StanGeneratora.Etap = Etap.RozdzielanieZiemiIWody;
          }
       }
 
@@ -247,8 +253,11 @@ namespace Assets.Editor
          }
          if (GUILayout.Button("Dalej"))
          {
+            Debug.Log("jest mapa: " +(Poziom._mapa != null).ToString());
+            Debug.Log("s¹ komórki: " +(Poziom._mapa.Komorki != null).ToString());
+            Debug.Log("s¹ rogi: " +(Poziom._mapa.Rogi != null).ToString());
             _dzialaniaNaMapie.ZatwierdzRozdzielenieZiemiIWody(StanGeneratora.PoziomMorza);
-            _stanGeneratora.Etap = Etap.WydzielanieMorza;
+            StanGeneratora.Etap = Etap.WydzielanieMorza;
             _dzialaniaNaMapie.UstawKomorkomWidocznoscPolaInicjatorPowodzi(true);
          }
       }
@@ -256,10 +265,10 @@ namespace Assets.Editor
       private void SekcjaWydzielaniaMorza()
       {
          EditorGUILayout.LabelField("Oznacz komórki inicjuj¹ce morza", Konf.StylNaglowkaInspektora);
-         _stanGeneratora.InicjatorzyZalewania = Poziom._komorkiUnity.Where(k => k.InicjatorPowodzi);
+         StanGeneratora.InicjatorzyZalewania = Poziom._komorkiUnity.Where(k => k.InicjatorPowodzi);
          if (GUILayout.Button("Rozdziel morza i jeziora"))
          {
-            _dzialaniaNaMapie.RozdzielMorzeIJeziora(_stanGeneratora.InicjatorzyZalewania);
+            _dzialaniaNaMapie.RozdzielMorzeIJeziora(StanGeneratora.InicjatorzyZalewania);
             _dzialaniaNaMapie.AktualizujBrzeznosci();
             _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
          }
@@ -270,7 +279,7 @@ namespace Assets.Editor
             _dzialaniaNaMapie.WyznaczKomorkiNiecki();
             _dzialaniaNaMapie.PokazWarstweWysokosciIWody();
             OdswiezZaznaczenieWarstwy();
-            _stanGeneratora.Etap = Etap.TworzenieJezior;
+            StanGeneratora.Etap = Etap.TworzenieJezior;
          }
       }
 
@@ -295,7 +304,7 @@ namespace Assets.Editor
 
          if (GUILayout.Button("Dalej"))
          {
-            _stanGeneratora.Etap = Etap.TworzenieRzek;
+            StanGeneratora.Etap = Etap.TworzenieRzek;
          }
       }
 
@@ -312,7 +321,7 @@ namespace Assets.Editor
          }
          if (GUILayout.Button("Dalej"))
          {
-            _stanGeneratora.Etap = Etap.WyznaczanieWilgotnosci;
+            StanGeneratora.Etap = Etap.WyznaczanieWilgotnosci;
          }
       }
 
@@ -336,7 +345,7 @@ namespace Assets.Editor
             if (!StanGeneratora.UtworzoneWarstwy.Contains(Warstwa.Wilgotnosc))
                StanGeneratora.UtworzoneWarstwy.Add(Warstwa.Wilgotnosc);
             AktualnaWarstwa = Warstwa.Wilgotnosc;
-            _stanGeneratora.NumerWybranejWarstwy = StanGeneratora.UtworzoneWarstwy.IndexOf(AktualnaWarstwa);
+            StanGeneratora.NumerWybranejWarstwy = StanGeneratora.UtworzoneWarstwy.IndexOf(AktualnaWarstwa);
             _dzialaniaNaMapie.PokazWarstweWilgotnosci();
          }
          if (StanGeneratora.UtworzoneWarstwy.Contains(Warstwa.Wilgotnosc))
@@ -357,7 +366,7 @@ namespace Assets.Editor
             if (!StanGeneratora.UtworzoneWarstwy.Contains(Warstwa.Temperatura))
                StanGeneratora.UtworzoneWarstwy.Add(Warstwa.Temperatura);
             AktualnaWarstwa = Warstwa.Temperatura;
-            _stanGeneratora.NumerWybranejWarstwy = StanGeneratora.UtworzoneWarstwy.IndexOf(AktualnaWarstwa);
+            StanGeneratora.NumerWybranejWarstwy = StanGeneratora.UtworzoneWarstwy.IndexOf(AktualnaWarstwa);
             _dzialaniaNaMapie.PokazWarstweTemperatury();
          }
          if (StanGeneratora.UtworzoneWarstwy.Contains(Warstwa.Temperatura))
@@ -385,7 +394,7 @@ namespace Assets.Editor
             if (!StanGeneratora.UtworzoneWarstwy.Contains(Warstwa.Biomy))
                StanGeneratora.UtworzoneWarstwy.Add(Warstwa.Biomy);
             AktualnaWarstwa = Warstwa.Biomy;
-            _stanGeneratora.NumerWybranejWarstwy = StanGeneratora.UtworzoneWarstwy.IndexOf(AktualnaWarstwa);
+            StanGeneratora.NumerWybranejWarstwy = StanGeneratora.UtworzoneWarstwy.IndexOf(AktualnaWarstwa);
             _dzialaniaNaMapie.PokazWarstweBiomow();
          }
          if (StanGeneratora.UtworzoneWarstwy.Contains(Warstwa.Biomy) && GUILayout.Button("Zakoñcz"))
@@ -410,13 +419,13 @@ namespace Assets.Editor
             return;
          GUI.color = new Color(.8f, .8f, .1f);
          GUILayout.Label("Warstwa:");
-         _stanGeneratora.NumerWybranejWarstwy = GUILayout.SelectionGrid(_stanGeneratora.NumerWybranejWarstwy,
+         StanGeneratora.NumerWybranejWarstwy = GUILayout.SelectionGrid(StanGeneratora.NumerWybranejWarstwy,
             StanGeneratora.UtworzoneWarstwy.ToList().Select(w => w.ToString()).ToArray(),
             1,GUILayout.Width(200));
          GUILayout.Space(20);
          GUI.color = Color.white;
 
-         AktualnaWarstwa = StanGeneratora.UtworzoneWarstwy[_stanGeneratora.NumerWybranejWarstwy];
+         AktualnaWarstwa = StanGeneratora.UtworzoneWarstwy[StanGeneratora.NumerWybranejWarstwy];
          OdswiezZaznaczenieWarstwy();
 
          if (Poziom.AktualnaWarstwa != PoprzedniaWarstwa)
@@ -447,9 +456,9 @@ namespace Assets.Editor
 
       public void OdswiezZaznaczenieWarstwy()
       {
-         _stanGeneratora.NumerWybranejWarstwy = StanGeneratora.UtworzoneWarstwy.IndexOf(AktualnaWarstwa);
-         if (_stanGeneratora.NumerWybranejWarstwy == -1)
-            _stanGeneratora.NumerWybranejWarstwy = 0;
+         StanGeneratora.NumerWybranejWarstwy = StanGeneratora.UtworzoneWarstwy.IndexOf(AktualnaWarstwa);
+         if (StanGeneratora.NumerWybranejWarstwy == -1)
+            StanGeneratora.NumerWybranejWarstwy = 0;
       }
    }
 }
