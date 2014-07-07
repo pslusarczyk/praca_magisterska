@@ -22,8 +22,8 @@ namespace Assets.Skrypty
 
       public Vector3 PozycjaPunktu
       {
-         get { return Komorka.Punkt.Pozycja; }
-         set { Komorka.Punkt.Pozycja = value; }
+         get { return Komorka.Punkt.Pozycja.NaVector3(); }
+         set { Komorka.Punkt.Pozycja = new MojVector3(value.x,value.y,value.z); }
       }
 
       public KomorkaUnity()
@@ -45,7 +45,7 @@ namespace Assets.Skrypty
 
          Gizmos.color = Color.white;
          if (Komorka != null && Komorka.Punkt.ZawieraRzeke && Komorka.Punkt.Nastepnik != null)
-            PomocePrzyRysowaniu.GrubaLinia(Komorka.Punkt.Pozycja + Vector3.up, Komorka.Punkt.Nastepnik.Pozycja + Vector3.up);
+            PomocePrzyRysowaniu.GrubaLinia(Komorka.Punkt.Pozycja.NaVector3() + Vector3.up, Komorka.Punkt.Nastepnik.Pozycja.NaVector3() + Vector3.up);
       }
    }
 }

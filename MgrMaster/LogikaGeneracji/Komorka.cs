@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using LogikaGeneracji.PrzetwarzanieFortunea;
 using LogikaGeneracji.PrzetwarzanieMapy.Baza;
 using UnityEngine;
@@ -19,12 +20,14 @@ namespace LogikaGeneracji
    }
 
    [Serializable]
+   [XmlRoot]
+   [XmlInclude(typeof(Punkt))]
    public class Komorka : IKomorka
    {
       public Komorka()
       {
          Id = new TworcaIdKomorek().UtworzId();
-         Punkt = new Punkt {Pozycja = new Vector3()};
+         Punkt = new Punkt {Pozycja = new MojVector3()};
          Rogi = new List<IRog>();
          PrzylegleKomorki = new List<IKomorka>();
          Dane = new DaneKomorki(); // todo jeœliby wprowadziæ etap wstêpny etap przetwarzania dzia³aj¹cy na tym polu, to mo¿naby wywaliæ tê inicjalizacjê ¿eby by³o wiadomo, czy okreœlono dane czy nie
@@ -32,17 +35,21 @@ namespace LogikaGeneracji
 
       public Komorka(Vector wektorFortunea) : this()
       {
-         Punkt.Pozycja = NarzedziaPrzetwarzaniaFortunea.VectorNaVector3(wektorFortunea);
+         Punkt.Pozycja = NarzedziaPrzetwarzaniaFortunea.VectorNaMojVector3(wektorFortunea);
       }
 
       public int Id { get; set; }
       public bool Skrajna { get; set; }
-      public IList<IKomorka> PrzylegleKomorki { get; set; }
+      [XmlIgnore]public IList<IKomorka> PrzylegleKomorki { get; set; }
+      [XmlIgnore]
       public HashSet<OdcinekRzeki> OdcinkiRzek { get; set; }
+      [XmlIgnore]
       public IPunkt NajnizszySasiad { get; set; }
+      [XmlIgnore]
       public DaneKomorki Dane { get; set; }
+      [XmlIgnore]
       public IPunkt Punkt { get; set; }
-      public IList<IRog> Rogi { get; set; }
+      [XmlIgnore]public IList<IRog> Rogi { get; set; }
 
       public void DodajRogi(IRog pierwszy, IRog drugi)
       {
@@ -59,6 +66,7 @@ namespace LogikaGeneracji
       }
    }
 
+   [XmlRoot]
    public class DaneKomorki
    {
       public Podloze? Podloze { get; set; }

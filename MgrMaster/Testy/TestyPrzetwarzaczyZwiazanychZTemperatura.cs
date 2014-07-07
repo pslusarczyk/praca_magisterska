@@ -99,11 +99,11 @@ namespace Testy
 
       private static IList<IPunkt> MockPunktow()
       {
-         var punktK1 = new Punkt { Pozycja = new Vector3(10f, 3f, 2f) };
-         var punktK2 = new Punkt { Pozycja = new Vector3(-4f, 1f, 3f) };
-         var punktK3 = new Punkt { Pozycja = new Vector3(-3f, 0f, 5f) };
-         var punktK4 = new Punkt { Pozycja = new Vector3(-1f, 4f, 1f) };
-         var punktK5 = new Punkt { Pozycja = new Vector3(-2f, 2f, 2f) };    
+         var punktK1 = new Punkt { Pozycja = new MojVector3(10f, 3f, 2f) };
+         var punktK2 = new Punkt { Pozycja = new MojVector3(-4f, 1f, 3f) };
+         var punktK3 = new Punkt { Pozycja = new MojVector3(-3f, 0f, 5f) };
+         var punktK4 = new Punkt { Pozycja = new MojVector3(-1f, 4f, 1f) };
+         var punktK5 = new Punkt { Pozycja = new MojVector3(-2f, 2f, 2f) };    
          return new List<IPunkt> { punktK1, punktK2, punktK3, punktK4, punktK5 };
       }
 

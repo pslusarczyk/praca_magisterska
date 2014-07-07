@@ -19,8 +19,6 @@ namespace Assets.Skrypty
       // pokazywanie w inspektorze nieautomatycznej w³aœciwoœci: http://wiki.unity3d.com/index.php?title=Expose_properties_in_inspector
       // UWAGA! — taka w³aœciwoœæ musi posiadaæ funkcje get i set, nawet jeœli któraœ z nich ma nic nie robiæ
 
-
-
       public HashSet<VoronoiEdge> _krawedzieWoronoja;
 
       [HideInInspector]
@@ -65,7 +63,7 @@ namespace Assets.Skrypty
             if (_wezly != null && _mapa != null && _mapa.Rogi.Any())
                foreach (IRog r in _mapa.Rogi)
                {
-                  r.BliskieRogi.ToList().ForEach(s => Gizmos.DrawLine(r.Punkt.Pozycja, s.Punkt.Pozycja));
+                  r.BliskieRogi.ToList().ForEach(s => Gizmos.DrawLine(r.Punkt.Pozycja.NaVector3(), s.Punkt.Pozycja.NaVector3()));
                }
       }
 

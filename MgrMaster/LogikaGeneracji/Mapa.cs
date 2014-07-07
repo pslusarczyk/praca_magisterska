@@ -29,7 +29,7 @@ namespace LogikaGeneracji
       private List<Dwukrawedz> _dwukrawedzie;
       [SerializeField]
       private HashSet<IKomorka> _komorki;
-      [SerializeField]
+      [SerializeField] // pilne HashSet nie jest serializowany przez Unity! w tym celu trzeba go podszyæ list¹
       private HashSet<IRog> _rogi;
       [SerializeField]
       private List<IPrzetwarzaczMapy> _zastosowanePrzetwarzacze;

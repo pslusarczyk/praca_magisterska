@@ -121,7 +121,7 @@ namespace Assets.Editor
             if (komorkaUnity.Komorka.Dane.Podloze != Podloze.Woda)
             {
                
-               komorkaUnity.Komorka.Punkt.Pozycja = new Vector3(komorkaUnity.Komorka.Punkt.Pozycja.x, wysokoscFizyczna - .8f, komorkaUnity.Komorka.Punkt.Pozycja.z);
+               komorkaUnity.Komorka.Punkt.Pozycja = new MojVector3(komorkaUnity.Komorka.Punkt.Pozycja.x, wysokoscFizyczna - .8f, komorkaUnity.Komorka.Punkt.Pozycja.z);
                komorkaUnity.Komorka.Punkt.WysFiz = wysokoscFizyczna;
                komorkaUnity.transform.localScale = new Vector3(1f, wysokoscFizyczna, 1f);
                komorkaUnity.transform.localPosition = new Vector3(komorkaUnity.transform.localPosition.x, wysokosc * mnoznikWysokosci,
@@ -129,7 +129,7 @@ namespace Assets.Editor
             }
             else
             {
-               komorkaUnity.Komorka.Punkt.Pozycja = new Vector3(komorkaUnity.Komorka.Punkt.Pozycja.x, wysokoscFizyczna - .8f, komorkaUnity.Komorka.Punkt.Pozycja.z);
+               komorkaUnity.Komorka.Punkt.Pozycja = new MojVector3(komorkaUnity.Komorka.Punkt.Pozycja.x, wysokoscFizyczna - .8f, komorkaUnity.Komorka.Punkt.Pozycja.z);
                komorkaUnity.transform.localScale = new Vector3(1f, .01f, 1f);
                komorkaUnity.transform.localPosition = new Vector3(komorkaUnity.transform.localPosition.x, 0f,
                   komorkaUnity.transform.localPosition.z);
@@ -159,7 +159,7 @@ namespace Assets.Editor
             if (rogUnity.Rog.Dane.Brzeznosc != BrzeznoscRogu.OtwarteMorze)
             {
                float wysokoscFizyczna = .01f + wysokosc * mnoznikWysokosci * 2;
-               rogUnity.Rog.Punkt.Pozycja = new Vector3(rogUnity.Rog.Punkt.Pozycja.x, wysokoscFizyczna-.8f, rogUnity.Rog.Punkt.Pozycja.z);
+               rogUnity.Rog.Punkt.Pozycja = new MojVector3(rogUnity.Rog.Punkt.Pozycja.x, wysokoscFizyczna-.8f, rogUnity.Rog.Punkt.Pozycja.z);
                rogUnity.transform.localScale = new Vector3(rogUnity.transform.localScale.x, wysokoscFizyczna, rogUnity.transform.localScale.z);
                rogUnity.transform.localPosition = new Vector3(rogUnity.transform.localPosition.x, wysokosc * mnoznikWysokosci,
                   rogUnity.transform.localPosition.z);

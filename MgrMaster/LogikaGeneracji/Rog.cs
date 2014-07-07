@@ -29,7 +29,7 @@ namespace LogikaGeneracji
 
       public Rog(Vector wektorFortunea) : this()
       {
-         Punkt = new Punkt { Pozycja = NarzedziaPrzetwarzaniaFortunea.VectorNaVector3(wektorFortunea) };
+         Punkt = new Punkt { Pozycja = NarzedziaPrzetwarzaniaFortunea.VectorNaMojVector3(wektorFortunea) };
       }
 
       public int Id { get; set; }

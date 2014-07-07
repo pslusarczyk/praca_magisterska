@@ -123,7 +123,7 @@ namespace Assets.Editor
          foreach (var komorka in mapa.Komorki) // dla mapy 50x50: 0,7 sekundy
          {
             var nowa = (GameObject)Object.Instantiate(Resources.Load("KomorkaUnity"),
-               komorka.Punkt.Pozycja, Quaternion.identity);
+               komorka.Punkt.Pozycja.NaVector3(), Quaternion.identity);
             nowa.transform.parent = _poziomEditor.Poziom.KomponentPojemnika.Komorki.transform;
             nowa.GetComponent<KomorkaUnity>().Komorka = komorka;
             _poziomEditor.Poziom._komorkiUnity.Add(nowa.GetComponent<KomorkaUnity>());
@@ -136,7 +136,7 @@ namespace Assets.Editor
 
                
             var nowy = (GameObject)Object.Instantiate(Resources.Load("RogUnity"),
-               rog.Punkt.Pozycja, Quaternion.identity);
+               rog.Punkt.Pozycja.NaVector3(), Quaternion.identity);
 
             nowy.transform.parent = _poziomEditor.Poziom.KomponentPojemnika.Rogi.transform;
             

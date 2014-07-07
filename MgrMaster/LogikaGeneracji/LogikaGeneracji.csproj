@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Biom.cs" />
+    <Compile Include="MojVector3.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorBiomow.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorWilgotnosci.cs" />
     <Compile Include="PrzetwarzanieMapy\Baza\BazaPrzetwarzacza.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="PrzetwarzanieMapy\RozdzielaczWodyIZiemi.cs" />
     <Compile Include="PrzetwarzanieMapy\WydzielaczKomorekNiecek.cs" />
     <Compile Include="PrzetwarzanieMapy\WyrownywaczTerenuWody.cs" />
+    <Compile Include="RozszerzeniaMojegoVectora3.cs" />
     <Compile Include="Rzeka.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorBrzeznosciKomorek.cs" />
     <Compile Include="PrzetwarzanieMapy\AktualizatorBrzeznosciRogow.cs" />

@@ -407,9 +407,12 @@ namespace Assets.Editor
 
       private void ZapiszPoziom()
       {
-         var serializer = new XmlSerializer(typeof(Poziom));
+         var serializer = new XmlSerializer(typeof(Komorka), new[] { typeof(DaneKomorki), typeof(Punkt) });
          Stream stream = new FileStream("Poziom.xml", FileMode.Create, FileAccess.Write, FileShare.None);
-         serializer.Serialize(stream, Poziom);
+         foreach (Komorka kom in Poziom._mapa.Komorki)
+         {
+            serializer.Serialize(stream, kom);
+         }
          stream.Close();
       }
 

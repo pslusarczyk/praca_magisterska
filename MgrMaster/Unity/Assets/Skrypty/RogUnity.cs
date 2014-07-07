@@ -20,7 +20,7 @@ namespace Assets.Skrypty
 
          Gizmos.color = Color.white;
          if (Rog!= null && Rog.Punkt.ZawieraRzeke && Rog.Punkt.Nastepnik != null)
-            PomocePrzyRysowaniu.GrubaLinia(Rog.Punkt.Pozycja + Vector3.up, Rog.Punkt.Nastepnik.Pozycja + Vector3.up);
+            PomocePrzyRysowaniu.GrubaLinia(Rog.Punkt.Pozycja.NaVector3() + Vector3.up, Rog.Punkt.Nastepnik.Pozycja.NaVector3() + Vector3.up);
       
 
       }

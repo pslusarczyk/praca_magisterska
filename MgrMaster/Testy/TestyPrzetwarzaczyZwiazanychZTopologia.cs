@@ -240,9 +240,9 @@ namespace Testy
 
       private static IEnumerable<IPunkt> MockPunktow()
       {
-         var punkt1 = new Punkt { Pozycja = new Vector3(10f, 3f, 2f) };
-         var punkt2 = new Punkt { Pozycja = new Vector3(-4f, 1f, 3f) };
-         var punkt3 = new Punkt { Pozycja = new Vector3(-3f, 0f, 5f) };
+         var punkt1 = new Punkt { Pozycja = new MojVector3(10f, 3f, 2f) };
+         var punkt2 = new Punkt { Pozycja = new MojVector3(-4f, 1f, 3f) };
+         var punkt3 = new Punkt { Pozycja = new MojVector3(-3f, 0f, 5f) };
          punkt1.Sasiedzi = new List<IPunkt> { punkt2 };
          punkt2.Sasiedzi = new List<IPunkt> { punkt1, punkt3 };
          punkt3.Sasiedzi = new List<IPunkt> { punkt2 };

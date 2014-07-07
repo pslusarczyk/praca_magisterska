@@ -5,9 +5,9 @@ namespace LogikaGeneracji.PrzetwarzanieFortunea
 {
     static internal class NarzedziaPrzetwarzaniaFortunea
     {
-        public static Vector3 VectorNaVector3(Vector w)
+       public static MojVector3 VectorNaMojVector3(Vector w)
         {
-            return new Vector3((float)w[0], 0f, (float)w[1]);
+            return new MojVector3((float)w[0], 0f, (float)w[1]);
         }
     }
 }
